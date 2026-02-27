@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>碳桥 CarbonBridge — 2026 CBAM 免费估算器</title>
+<meta name="description" content="免费估算您的CBAM碳关税成本。碳桥帮助中国出口工厂合规欧盟碳边境调节机制。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&family=Noto+Sans+SC:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#060a08;--bg2:#0a0f0d;--bgc:#0f1612;--bgch:#141d18;--bgi:#0b120e;--bge:#172019;--bd:#1a2b22;--bds:#152118;--ac:#34d399;--acd:#10b981;--acdk:#059669;--acg:rgba(52,211,153,.12);--acgs:rgba(52,211,153,.25);--t1:#e8efe9;--t2:#8fa898;--tm:#5a7563;--td:#3d5245;--red:#f87171;--warn:#fbbf24;--blue:#60a5fa;--r:12px}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans SC','DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.6}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(800px 500px at 15% 15%,rgba(16,185,129,.05),transparent),radial-gradient(600px at 85% 80%,rgba(52,211,153,.03),transparent);pointer-events:none;z-index:0}
+.ctn{max-width:1100px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+.ctn-n{max-width:820px;margin:0 auto;padding:0 20px;position:relative;z-index:1}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes grad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes countUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(30px);transition:all .7s ease}.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(6,10,8,.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--bds);transition:.3s}
+.nav.scrolled{background:rgba(6,10,8,.95);box-shadow:0 4px 24px rgba(0,0,0,.3)}
+.nav-in{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px 24px}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.nav-logo{width:38px;height:38px;background:linear-gradient(135deg,var(--acd),var(--acdk));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 20px rgba(16,185,129,.2)}
+.nav-brand span{font-family:'DM Sans';font-size:18px;font-weight:700;color:var(--t1)}
+.nav-links{display:flex;align-items:center;gap:6px}
+.nav-link{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;color:var(--tm);text-decoration:none;transition:.2s;cursor:pointer}
+.nav-link:hover{color:var(--t1);background:var(--bgc)}
+.nav-cta{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;background:var(--ac);color:#060a08;border:none;font-family:inherit;box-shadow:0 4px 20px rgba(16,185,129,.2);transition:.2s}
+.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(16,185,129,.35)}
+.nav-lang{display:flex;gap:2px;background:var(--bgc);border-radius:6px;padding:2px;border:1px solid var(--bds);margin-left:8px}
+.nav-lang button{padding:5px 12px;border:none;border-radius:5px;font-size:12px;cursor:pointer;font-weight:600;background:transparent;color:var(--tm);font-family:'DM Sans';transition:.2s}
+.nav-lang button.active{background:var(--ac);color:#060a08}
+.nav-mob{display:none;background:none;border:none;color:var(--t2);font-size:28px;cursor:pointer}
+.mob-menu{display:none;position:fixed;top:66px;left:0;right:0;background:rgba(6,10,8,.97);backdrop-filter:blur(20px);padding:20px 24px;border-bottom:1px solid var(--bd);z-index:999;flex-direction:column;gap:8px}
+.mob-menu.open{display:flex}
+.mob-menu a,.mob-menu button{display:block;padding:12px 16px;border-radius:8px;font-size:14px;font-weight:500;color:var(--t2);text-decoration:none;background:transparent;border:none;text-align:left;cursor:pointer;font-family:inherit;transition:.2s}
+.mob-menu a:hover{background:var(--bgc);color:var(--t1)}
+
+/* HERO */
+.hero{padding:140px 0 80px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(50% 60% at 50% 30%,rgba(52,211,153,.06),transparent);pointer-events:none}
+.hero-g{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-content{animation:fadeUp .8s ease both}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.2);font-size:12px;font-weight:600;color:var(--ac);margin-bottom:24px;font-family:'DM Sans'}
+.hero-badge .dot{width:8px;height:8px;border-radius:50%;background:var(--ac);animation:pulse 2s infinite}
+.hero-title{font-size:44px;font-weight:800;line-height:1.15;letter-spacing:-1.5px;margin-bottom:20px}
+.hero-title .gr{background:linear-gradient(135deg,var(--ac),#6ee7b7,var(--acd));background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:grad 4s ease infinite}
+.hero-sub{font-size:17px;color:var(--t2);line-height:1.7;margin-bottom:32px;max-width:480px}
+.hero-acts{display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.btn-p{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border-radius:var(--r);background:var(--ac);color:#060a08;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;box-shadow:0 4px 24px rgba(16,185,129,.3);transition:.25s}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(16,185,129,.4)}
+.btn-s{display:inline-flex;align-items:center;gap:8px;padding:14px 24px;border-radius:var(--r);background:transparent;color:var(--t2);font-size:14px;font-weight:600;cursor:pointer;border:1px solid var(--bd);font-family:inherit;transition:.2s}
+.btn-s:hover{border-color:var(--ac);color:var(--t1)}
+.hero-vis{animation:fadeUp .8s ease .2s both;position:relative}
+.hero-card{background:var(--bgc);border:1px solid var(--bd);border-radius:20px;padding:28px;box-shadow:0 8px 40px rgba(0,0,0,.4);position:relative;overflow:hidden}
+.hero-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--ac),#6ee7b7,var(--acd))}
+.prev-h{font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;font-weight:600}
+.prev-g{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
+.prev-s{background:var(--bg2);border-radius:var(--r);padding:16px;border:1px solid var(--bds)}
+.prev-sl{font-size:10px;color:var(--tm);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.prev-sv{font-size:22px;font-weight:700;font-family:'DM Sans'}
+.prev-sv.red{color:var(--red)}.prev-sv.green{color:var(--ac)}
+.prev-bar{height:8px;border-radius:4px;overflow:hidden;display:flex;background:var(--bg2);margin-top:16px}
+.prev-bar .s1{width:75%;background:linear-gradient(90deg,var(--acdk),var(--acd))}
+.prev-bar .s2{width:25%;background:linear-gradient(90deg,#d97706,#fbbf24)}
+.prev-lr{display:flex;justify-content:space-between;margin-top:6px;font-size:10px;color:var(--tm)}
+.prev-cta{margin-top:20px;padding-top:16px;border-top:1px solid var(--bds);text-align:center;font-size:12px;color:var(--ac);font-weight:600}
+.hero-fb{position:absolute;padding:10px 16px;background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);font-size:12px;box-shadow:0 4px 24px rgba(0,0,0,.3);animation:float 4s ease-in-out infinite;display:flex;align-items:center;gap:8px}
+.hero-fb.b1{top:-10px;right:-20px}.hero-fb.b2{bottom:20px;left:-30px;animation-delay:1.5s}
+
+/* TRUST */
+.trust{padding:40px 0;border-top:1px solid var(--bds);border-bottom:1px solid var(--bds)}
+.trust-in{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
+.trust-l{font-size:11px;color:var(--tm);text-transform:uppercase;letter-spacing:1.5px;font-weight:600;white-space:nowrap}
+.trust-logos{display:flex;align-items:center;gap:24px;flex-wrap:wrap;justify-content:center;font-size:12px;color:var(--td);font-weight:600;font-family:'DM Sans';letter-spacing:.5px}
+.trust-logos span{opacity:.5;transition:.3s}.trust-logos span:hover{opacity:.8}
+.trust-d{width:1px;height:24px;background:var(--bd)}
+
+/* SECTIONS */
+.sec{padding:80px 0}
+.sec-h{text-align:center;margin-bottom:56px}
+.sec-over{font-size:11px;color:var(--ac);text-transform:uppercase;letter-spacing:2px;font-weight:700;margin-bottom:12px;font-family:'DM Sans'}
+.sec-title{font-size:34px;font-weight:800;letter-spacing:-1px;line-height:1.2;margin-bottom:16px}
+.sec-desc{font-size:15px;color:var(--t2);max-width:560px;margin:0 auto;line-height:1.7}
+.card{background:var(--bgc);border:1px solid var(--bd);border-radius:16px;padding:28px 24px;transition:.3s}
+.card:hover{border-color:rgba(52,211,153,.25);transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.2)}
+
+/* STATS */
+.stats-g{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.stat-card{text-align:center}
+.stat-icon{font-size:28px;margin-bottom:12px}
+.stat-num{font-size:36px;font-weight:800;font-family:'DM Sans';letter-spacing:-1px;margin-bottom:4px;background:linear-gradient(135deg,var(--ac),#6ee7b7);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-lab{font-size:13px;color:var(--tm)}
+
+/* ABOUT */
+.about-g{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.about-text h3{font-size:28px;font-weight:800;margin-bottom:16px;letter-spacing:-.5px}
+.about-text p{font-size:14px;color:var(--t2);line-height:1.8;margin-bottom:16px}
+.about-vals{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}
+.about-val{background:var(--bg2);border:1px solid var(--bds);border-radius:var(--r);padding:16px;text-align:center}
+.about-val .num{font-size:24px;font-weight:800;color:var(--ac);font-family:'DM Sans'}
+.about-val .lab{font-size:11px;color:var(--tm);margin-top:4px}
+.team-g{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.team-card{text-align:center;padding:24px 16px}
+.team-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--acd),var(--acdk));margin:0 auto 14px;display:flex;align-items:center;justify-content:center;font-size:28px;box-shadow:0 4px 20px rgba(16,185,129,.2)}
+.team-name{font-size:15px;font-weight:700;margin-bottom:2px}
+.team-role{font-size:12px;color:var(--ac);font-weight:600;margin-bottom:6px}
+.team-bio{font-size:11px;color:var(--tm);line-height:1.5}
+
+/* HOW */
+.how-g{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.how-num{width:40px;height:40px;border-radius:12px;background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:var(--ac);font-family:'DM Sans';margin-bottom:18px}
+.how-title{font-size:17px;font-weight:700;margin-bottom:10px}
+.how-desc{font-size:13px;color:var(--t2);line-height:1.7}
+.how-time{display:inline-flex;align-items:center;gap:4px;margin-top:14px;font-size:11px;color:var(--ac);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+/* SERVICES */
+.svc-bg{background:linear-gradient(180deg,transparent,rgba(52,211,153,.02),transparent)}
+.svc-g{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.svc-icon{font-size:28px;margin-bottom:14px}
+.svc-card h4{font-size:16px;font-weight:700;margin-bottom:8px}
+.svc-card p{font-size:13px;color:var(--t2);line-height:1.6}
+.svc-price{display:inline-block;margin-top:14px;padding:4px 12px;background:rgba(52,211,153,.08);border-radius:6px;font-size:12px;font-weight:700;color:var(--ac)}
+
+/* TIMELINE */
+.tl-wrap{position:relative;max-width:700px;margin:0 auto}
+.tl-line{position:absolute;left:20px;top:0;bottom:0;width:2px;background:var(--bd)}
+.tl-item{display:flex;gap:24px;margin-bottom:32px;position:relative}
+.tl-dot{width:40px;height:40px;border-radius:50%;background:var(--bgc);border:2px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:var(--ac);font-family:'DM Sans';flex-shrink:0;z-index:1}
+.tl-item.active .tl-dot{background:var(--ac);color:#060a08;border-color:var(--ac);box-shadow:0 0 20px var(--acg)}
+.tl-item.past .tl-dot{background:rgba(52,211,153,.15);border-color:rgba(52,211,153,.3)}
+.tl-content{flex:1}
+.tl-date{font-size:12px;font-weight:700;color:var(--ac);margin-bottom:4px;font-family:'DM Sans'}
+.tl-title{font-size:15px;font-weight:700;margin-bottom:4px}
+.tl-desc{font-size:12px;color:var(--t2);line-height:1.6}
+.tl-tag{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;margin-top:6px}
+.tl-tag.live{background:rgba(52,211,153,.15);color:var(--ac)}
+.tl-tag.soon{background:rgba(251,191,36,.15);color:var(--warn)}
+.tl-tag.done{background:rgba(96,165,250,.1);color:var(--blue)}
+
+/* TESTIMONIALS */
+.test-wrap{position:relative;overflow:hidden}
+.test-track{display:flex;transition:.5s ease}
+.test-card{min-width:100%;padding:0 20px;box-sizing:border-box}
+.test-inner{background:var(--bgc);border:1px solid var(--bd);border-radius:20px;padding:32px;max-width:600px;margin:0 auto;text-align:center}
+.test-quote{font-size:16px;line-height:1.8;margin-bottom:20px;color:var(--t2);font-style:italic}
+.test-quote::before{content:'"';font-size:48px;color:var(--ac);line-height:0;vertical-align:middle;margin-right:4px}
+.test-author{font-size:14px;font-weight:700;margin-bottom:2px}
+.test-co{font-size:12px;color:var(--tm)}
+.test-dots{display:flex;justify-content:center;gap:8px;margin-top:20px}
+.test-dot{width:10px;height:10px;border-radius:50%;background:var(--bd);cursor:pointer;transition:.2s;border:none}
+.test-dot.active{background:var(--ac);box-shadow:0 0 12px var(--acg)}
+.test-nav{position:absolute;top:50%;transform:translateY(-50%);background:var(--bgc);border:1px solid var(--bd);border-radius:50%;width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--t2);font-size:18px;transition:.2s;z-index:2}
+.test-nav:hover{border-color:var(--ac);color:var(--ac)}
+.test-nav.prev{left:10px}.test-nav.next{right:10px}
+
+/* REPORT */
+.rpt-g{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.rpt-pages{display:flex;gap:12px;perspective:800px}
+.rpt-page{width:180px;background:#f5f5f0;border-radius:6px;padding:16px;box-shadow:0 8px 40px rgba(0,0,0,.4);transform:rotateY(-5deg);transition:.4s}
+.rpt-page:hover{transform:rotateY(0deg) translateY(-4px)}
+.rpt-page:nth-child(2){transform:rotateY(-3deg) translateY(8px)}
+.rpt-page:nth-child(3){transform:rotateY(-1deg) translateY(16px)}
+.rp-h{height:4px;background:var(--acd);border-radius:2px;margin-bottom:10px}
+.rp-t{font-size:7px;color:#333;font-weight:700;margin-bottom:6px}
+.rp-l{height:3px;background:#ddd;border-radius:2px;margin-bottom:4px}.rp-l.sh{width:60%}
+.rp-tbl{display:grid;grid-template-columns:1fr 1fr;gap:2px;margin-top:8px}
+.rp-c{height:8px;background:#e8e8e4;border-radius:1px}.rp-c.hd{background:rgba(16,185,129,.2)}
+.rp-ch{height:40px;background:linear-gradient(to right,rgba(16,185,129,.15),rgba(251,191,36,.15));border-radius:3px;margin-top:8px}
+.rpt-text h3{font-size:28px;font-weight:800;margin-bottom:16px;letter-spacing:-.5px}
+.rpt-text p{font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:20px}
+.rpt-feat{display:flex;flex-direction:column;gap:12px}
+.rpt-fi{display:flex;align-items:flex-start;gap:12px;font-size:13px;color:var(--t2)}
+.rpt-fi .ck{width:20px;height:20px;border-radius:6px;background:rgba(52,211,153,.1);color:var(--ac);display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;margin-top:2px}
+
+/* ESTIMATOR */
+.est-sec{padding:80px 0;background:var(--bg2)}
+.est-wrap{background:var(--bgc);border:1px solid var(--bd);border-radius:20px;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.4)}
+.est-body{padding:32px}
+.steps-bar{display:flex;justify-content:center;gap:8px;margin-bottom:36px;flex-wrap:wrap}
+.step-pill{display:flex;align-items:center;gap:8px;padding:8px 18px;border-radius:20px;font-size:13px;font-weight:500;color:var(--tm);background:var(--bg2);border:1px solid var(--bd);transition:.3s}
+.step-pill.active{color:#060a08;background:var(--ac);border-color:var(--ac);box-shadow:0 0 20px var(--acg)}
+.step-pill.done{color:var(--ac);border-color:rgba(52,211,153,.3);background:rgba(52,211,153,.08)}
+.step-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;background:rgba(255,255,255,.1)}
+.step-pill.active .step-num{background:rgba(0,0,0,.2)}.step-pill.done .step-num{background:rgba(52,211,153,.2)}
+.step-conn{width:32px;height:2px;background:var(--bd);align-self:center}
+.est-step{display:none;animation:fadeIn .4s ease}.est-step.active{display:block}
+.est-title{font-size:24px;font-weight:700;margin-bottom:8px;letter-spacing:-.5px}
+.est-sub{font-size:14px;color:var(--t2);margin-bottom:28px;line-height:1.6}
+.prod-g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:28px}
+.prod-c{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:22px 14px;text-align:center;cursor:pointer;transition:.25s}
+.prod-c:hover{background:var(--bgch);border-color:rgba(52,211,153,.3);transform:translateY(-2px)}
+.prod-c.sel{border-color:var(--ac);background:rgba(52,211,153,.08);box-shadow:0 0 30px var(--acg)}
+.prod-c .icon{font-size:32px;margin-bottom:10px}
+.prod-c .name{font-size:14px;font-weight:600;margin-bottom:2px}
+.prod-c .sub{font-size:11px;color:var(--tm)}
+.form-g{display:flex;flex-direction:column;gap:18px}
+.f-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f-grp{display:flex;flex-direction:column;gap:6px}
+.f-lab{font-size:13px;font-weight:500;color:var(--t2);display:flex;align-items:center;gap:6px}
+.f-lab .tip{width:16px;height:16px;border-radius:50%;background:rgba(52,211,153,.12);color:var(--ac);font-size:10px;display:inline-flex;align-items:center;justify-content:center;cursor:help;position:relative}
+.f-lab .tip:hover::after{content:attr(data-tip);position:absolute;bottom:120%;left:50%;transform:translateX(-50%);background:var(--bge);color:var(--t1);padding:10px 14px;border-radius:8px;font-size:12px;white-space:normal;z-index:10;font-weight:400;border:1px solid var(--bd);box-shadow:0 4px 24px rgba(0,0,0,.3);max-width:260px;width:max-content}
+.f-input,.f-sel{background:var(--bgi);border:1px solid var(--bd);border-radius:10px;padding:12px 14px;color:var(--t1);font-size:14px;font-family:inherit;width:100%;transition:.2s}
+.f-input:focus,.f-sel:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px var(--acg)}
+.f-input::placeholder{color:var(--tm)}
+.f-hint{font-size:11px;color:var(--tm);margin-top:2px}
+.f-unit{font-size:12px;color:var(--tm);position:absolute;right:14px;top:50%;transform:translateY(-50%)}
+.iw-unit{position:relative}.iw-unit .f-input{padding-right:70px}
+.f-sec-lab{font-size:11px;font-weight:700;color:var(--ac);text-transform:uppercase;letter-spacing:1.5px;padding-bottom:8px;margin-top:8px;border-bottom:1px solid rgba(52,211,153,.12);font-family:'DM Sans'}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);padding:14px 18px}
+.toggle-lab{font-size:13px;color:var(--t2)}
+.toggle-sw{width:44px;height:24px;border-radius:12px;background:var(--bd);position:relative;cursor:pointer;transition:.2s}
+.toggle-sw.on{background:var(--ac)}
+.toggle-sw::after{content:'';width:18px;height:18px;border-radius:50%;background:#fff;position:absolute;top:3px;left:3px;transition:.2s}
+.toggle-sw.on::after{transform:translateX(20px)}
+.btn-row{display:flex;gap:12px;margin-top:28px;justify-content:flex-end;flex-wrap:wrap}
+.btn{padding:12px 28px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:.2s}
+.btn-pri{background:var(--ac);color:#060a08;box-shadow:0 4px 20px rgba(16,185,129,.2)}
+.btn-pri:hover{transform:translateY(-1px);box-shadow:0 6px 30px rgba(16,185,129,.4)}
+.btn-pri:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-sec{background:var(--bg2);color:var(--t2);border:1px solid var(--bd)}
+.btn-sec:hover{border-color:rgba(52,211,153,.3);color:var(--t1)}
+
+/* ACCESS GATE */
+.gate{text-align:center;padding:48px 24px}
+.gate .gi{font-size:48px;margin-bottom:20px}
+.gate h3{font-size:22px;font-weight:700;margin-bottom:8px}
+.gate .gd{font-size:14px;color:var(--t2);margin-bottom:28px;line-height:1.7;max-width:420px;margin-left:auto;margin-right:auto}
+.gate .g-row{display:flex;gap:10px;max-width:340px;margin:0 auto 12px}
+.gate .g-in{flex:1;background:var(--bgi);border:1px solid var(--bd);border-radius:10px;padding:14px 16px;color:var(--t1);font-size:18px;font-family:'Space Mono',monospace;text-align:center;letter-spacing:4px;transition:.2s}
+.gate .g-in:focus{outline:none;border-color:var(--ac);box-shadow:0 0 0 3px var(--acg)}
+.gate .g-in::placeholder{letter-spacing:1px;font-size:14px}
+.gate .g-btn{padding:14px 28px;border-radius:10px;background:var(--ac);color:#060a08;font-size:15px;font-weight:700;border:none;cursor:pointer;font-family:inherit;transition:.2s}
+.gate .g-btn:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(16,185,129,.3)}
+.gate .g-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.gate .g-err{color:var(--red);font-size:13px;display:none;margin-bottom:12px}
+.gate .g-contact{margin-top:24px;padding-top:20px;border-top:1px solid var(--bds)}
+.gate .g-contact p{font-size:13px;color:var(--tm);margin-bottom:12px}
+.gate .g-contact button{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:transparent;border:1px solid var(--bd);border-radius:8px;color:var(--ac);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}
+.gate .g-contact button:hover{border-color:var(--ac);background:rgba(52,211,153,.06)}
+
+/* RESULTS */
+.res-h{text-align:center;margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--bd)}
+.res-h h2{font-size:26px;margin-bottom:4px;font-weight:700}
+.res-h .fl{font-size:15px;color:var(--ac);font-weight:600}
+.res-h .pl{font-size:13px;color:var(--t2);margin-top:4px}
+.r-tabs{display:flex;gap:4px;margin-bottom:24px;background:var(--bg2);border-radius:var(--r);padding:4px;border:1px solid var(--bd);overflow-x:auto}
+.r-tab{flex:1;padding:10px 14px;border:none;border-radius:8px;font-size:12px;font-weight:600;cursor:pointer;background:transparent;color:var(--tm);font-family:inherit;transition:.2s;white-space:nowrap}
+.r-tab.active{background:var(--ac);color:#060a08}
+.r-panel{display:none;animation:fadeIn .3s ease}.r-panel.active{display:block}
+.kpi-g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+.kpi{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:18px}
+.kpi-l{font-size:10px;color:var(--tm);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.kpi-v{font-size:22px;font-weight:700;font-family:'DM Sans'}
+.kpi-v.red{color:var(--red)}.kpi-v.green{color:var(--ac)}.kpi-v.warn{color:var(--warn)}
+.kpi-s{font-size:11px;color:var(--tm);margin-top:4px}
+.em-bar-c{margin-bottom:24px}
+.em-bar-l{display:flex;justify-content:space-between;font-size:12px;margin-bottom:8px;color:var(--t2)}
+.em-bar{height:32px;border-radius:8px;overflow:hidden;display:flex}
+.em-bar .direct{background:linear-gradient(90deg,#059669,#10b981);transition:.6s}
+.em-bar .indirect{background:linear-gradient(90deg,#d97706,#fbbf24);transition:.6s}
+.legend{display:flex;gap:20px;margin-top:10px;font-size:12px;color:var(--t2)}
+.legend-dot{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:6px}
+.dt{width:100%;border-collapse:collapse;margin-bottom:20px;font-size:13px}
+.dt th{background:rgba(52,211,153,.06);color:var(--ac);padding:10px 14px;text-align:left;font-weight:600;border-bottom:2px solid rgba(52,211,153,.15);font-size:10px;text-transform:uppercase;letter-spacing:.5px}
+.dt td{padding:10px 14px;border-bottom:1px solid var(--bds);color:var(--t2)}
+.dt tr:hover td{background:rgba(52,211,153,.02)}
+.dt .hl td{color:var(--ac);font-weight:600}
+.dt .dr td{color:var(--red);font-weight:600}
+.dt .vc{text-align:right;font-family:'DM Sans',monospace;font-weight:600}
+.dt .sc td{background:rgba(52,211,153,.06)!important;font-weight:600}
+.scn-g{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.scn{background:var(--bg2);border:1px solid var(--bd);border-radius:14px;padding:18px}
+.scn.best{border-color:var(--ac);background:rgba(52,211,153,.04)}
+.scn-n{font-size:11px;color:var(--tm);margin-bottom:8px;font-weight:700;text-transform:uppercase;letter-spacing:.5px}
+.scn-c{font-size:20px;font-weight:700;font-family:'DM Sans';margin-bottom:4px}
+.scn-s{font-size:12px;color:var(--ac);font-weight:600}
+.scn-tag{display:inline-block;font-size:10px;padding:3px 8px;border-radius:4px;margin-top:8px;font-weight:700;background:rgba(52,211,153,.12);color:var(--ac)}
+.rd-big{text-align:center;padding:20px;background:var(--bg2);border:1px solid var(--bd);border-radius:14px;margin-bottom:16px}
+.rd-big .score{font-size:48px;font-weight:700;font-family:'DM Sans'}
+.rd-big .oo{font-size:18px;color:var(--tm)}
+.rd-g{display:flex;flex-direction:column;gap:8px;margin-bottom:24px}
+.rd-item{display:flex;align-items:center;gap:14px;background:var(--bg2);border:1px solid var(--bd);border-radius:10px;padding:14px 16px}
+.rd-lab{flex:1;font-size:13px;color:var(--t2)}
+.rd-dots{display:flex;gap:4px}
+.rd-dot{width:14px;height:14px;border-radius:50%;background:var(--bd)}.rd-dot.f{background:var(--ac)}
+.proj-tot{background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.15);border-radius:var(--r);padding:18px;text-align:center;margin-top:16px}
+.proj-tot .tl{font-size:12px;color:var(--tm);margin-bottom:4px}
+.proj-tot .tv{font-size:28px;font-weight:700;color:var(--red);font-family:'DM Sans'}
+.proj-tot .ts{font-size:12px;color:var(--ac);margin-top:6px}
+.cmp-t{width:100%;border-collapse:collapse;margin:20px 0;font-size:13px}
+.cmp-t th{padding:12px 14px;text-align:left;background:var(--bg2);color:var(--t2);border-bottom:2px solid var(--bd);font-weight:600}
+.cmp-t td{padding:10px 14px;border-bottom:1px solid var(--bds)}
+.cmp-t .rh{background:rgba(52,211,153,.04)}.cmp-t .rh td{color:var(--ac);font-weight:600}
+.ck-c{color:var(--ac)}.cr-c{color:var(--red)}
+.cta-box{background:linear-gradient(135deg,rgba(52,211,153,.06),rgba(16,185,129,.03));border:1px solid rgba(52,211,153,.15);border-radius:20px;padding:32px;margin-top:36px;text-align:center}
+.cta-box h3{font-size:22px;margin-bottom:12px;font-weight:700}
+.cta-box p{font-size:14px;color:var(--t2);margin-bottom:24px;line-height:1.6}
+.cta-feats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;text-align:left;margin-bottom:24px}
+.cta-fi{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--t2)}
+.cta-fi .ic{color:var(--ac);flex-shrink:0;font-size:16px}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;background:var(--ac);color:#060a08;border:none;border-radius:var(--r);font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;box-shadow:0 4px 24px rgba(16,185,129,.3);transition:.2s}
+.cta-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(16,185,129,.4)}
+.disc{margin-top:32px;padding:18px;background:var(--bg2);border:1px solid var(--bd);border-radius:var(--r);font-size:11px;color:var(--tm);line-height:1.6}
+.disc strong{color:var(--t2)}
+
+/* CHARTS */
+.ch-c{margin:20px 0}
+.ch-t{font-size:12px;color:var(--tm);margin-bottom:12px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.bar-ch{display:flex;flex-direction:column;gap:8px}
+.bar-r{display:flex;align-items:center;gap:10px}
+.bar-l{width:80px;flex-shrink:0;font-size:11px;color:var(--t2);text-align:right;font-weight:500}
+.bar-tk{flex:1;height:28px;background:var(--bg2);border-radius:6px;overflow:hidden;position:relative}
+.bar-f{height:100%;border-radius:6px;display:flex;align-items:center;padding-left:10px;font-size:11px;font-weight:700;font-family:'DM Sans';transition:.8s;min-width:0}
+.bar-f.gr{background:linear-gradient(90deg,#059669,#34d399);color:#060a08}
+.bar-f.rd{background:linear-gradient(90deg,#dc2626,#f87171);color:#fff}
+.bar-f.am{background:linear-gradient(90deg,#d97706,#fbbf24);color:#060a08}
+.bar-f.bl{background:linear-gradient(90deg,#2563eb,#60a5fa);color:#fff}
+.bar-f.em{background:linear-gradient(90deg,#047857,#10b981);color:#fff}
+.bar-f.cur{box-shadow:0 0 12px rgba(52,211,153,.4);border:2px solid var(--ac)}
+.bar-v{margin-left:auto;padding-right:10px;font-size:11px;white-space:nowrap}
+.bar-vo{font-size:11px;font-weight:600;color:var(--t2);margin-left:8px;white-space:nowrap;font-family:'DM Sans'}
+.proj-bars{display:flex;align-items:flex-end;gap:6px;height:160px;padding:8px 0}
+.proj-col{flex:1;display:flex;flex-direction:column;align-items:center;height:100%;justify-content:flex-end}
+.proj-b{width:100%;border-radius:6px 6px 0 0;transition:.8s;min-height:4px}
+.proj-b.y1{background:linear-gradient(180deg,#34d399,#059669)}
+.proj-b.y2{background:linear-gradient(180deg,#2dd4bf,#0d9488)}
+.proj-b.y3{background:linear-gradient(180deg,#fbbf24,#d97706)}
+.proj-b.y4{background:linear-gradient(180deg,#fb923c,#ea580c)}
+.proj-b.y5{background:linear-gradient(180deg,#f87171,#dc2626)}
+.proj-bv{font-size:10px;font-weight:700;font-family:'DM Sans';color:var(--t2);margin-top:4px;text-align:center}
+.proj-by{font-size:11px;color:var(--tm);margin-top:2px}
+.donut-w{display:flex;align-items:center;gap:24px;margin:16px 0}
+.donut-svg{width:120px;height:120px;flex-shrink:0}
+.donut-lg{display:flex;flex-direction:column;gap:8px}
+.donut-li{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--t2)}
+.donut-ld{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+
+/* FAQ */
+.faq-g{max-width:700px;margin:0 auto;display:flex;flex-direction:column;gap:8px}
+.faq-i{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden;transition:.3s}
+.faq-i.open{border-color:rgba(52,211,153,.3)}
+.faq-q{padding:18px 20px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:600;transition:.2s}
+.faq-q:hover{color:var(--ac)}
+.faq-arr{font-size:12px;color:var(--tm);transition:.3s}
+.faq-i.open .faq-arr{transform:rotate(180deg);color:var(--ac)}
+.faq-a{max-height:0;overflow:hidden;transition:.3s;padding:0 20px}
+.faq-i.open .faq-a{max-height:300px;padding:0 20px 18px}
+.faq-a p{font-size:13px;color:var(--t2);line-height:1.7}
+
+/* FINAL CTA */
+.fcta{padding:100px 0 80px;text-align:center;position:relative}
+.fcta::before{content:'';position:absolute;inset:0;background:radial-gradient(60% 50% at 50% 50%,rgba(52,211,153,.06),transparent);pointer-events:none}
+.fcta h2{font-size:36px;font-weight:800;letter-spacing:-1px;margin-bottom:16px;position:relative}
+.fcta p{font-size:15px;color:var(--t2);margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto;position:relative}
+
+/* FOOTER */
+.foot{padding:48px 0 32px;border-top:1px solid var(--bds)}
+.foot-g{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+.foot-brand{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.foot-brand .ic{width:32px;height:32px;background:linear-gradient(135deg,var(--acd),var(--acdk));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.foot-brand .nm{font-family:'DM Sans';font-weight:700;font-size:16px}
+.foot-desc{font-size:12px;color:var(--tm);line-height:1.6;max-width:280px}
+.foot-col h5{font-size:12px;color:var(--t2);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.foot-col a{display:block;font-size:13px;color:var(--tm);text-decoration:none;padding:4px 0;transition:.2s}
+.foot-col a:hover{color:var(--ac)}
+.foot-bot{display:flex;justify-content:space-between;align-items:center;padding-top:24px;border-top:1px solid var(--bds);font-size:11px;color:var(--td);flex-wrap:wrap;gap:8px}
+
+/* COOKIE */
+.cookie{position:fixed;bottom:0;left:0;right:0;background:rgba(15,22,18,.97);backdrop-filter:blur(12px);border-top:1px solid var(--bd);padding:16px 24px;z-index:2000;display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;animation:fadeUp .5s ease}
+.cookie p{font-size:13px;color:var(--t2);max-width:500px}
+.cookie button{padding:8px 20px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:.2s}
+.cookie .acc{background:var(--ac);color:#060a08}
+.cookie .dec{background:transparent;color:var(--tm);border:1px solid var(--bd)}
+
+/* LOADING */
+.loading{display:none;position:fixed;inset:0;z-index:2000;background:rgba(6,10,8,.92);flex-direction:column;align-items:center;justify-content:center;gap:20px}
+.loading.active{display:flex}
+.spinner{width:48px;height:48px;border:3px solid var(--bd);border-top-color:var(--ac);border-radius:50%;animation:spin .8s linear infinite}
+.loading-t{color:var(--t2);font-size:14px}
+
+/* MODAL */
+.modal-ov{display:none;position:fixed;inset:0;z-index:3000;background:rgba(6,10,8,.88);backdrop-filter:blur(12px);align-items:center;justify-content:center}
+.modal-ov.active{display:flex}
+.modal{background:var(--bgc);border:1px solid var(--bd);border-radius:20px;padding:32px;max-width:380px;width:90%;text-align:center;position:relative;box-shadow:0 24px 80px rgba(0,0,0,.5);animation:fadeUp .3s ease}
+.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;color:var(--tm);font-size:24px;cursor:pointer;transition:.2s}
+.modal-close:hover{color:var(--t1)}
+.modal h3{font-size:18px;font-weight:700;margin-bottom:4px}
+.modal .m-sub{font-size:13px;color:var(--t2);margin-bottom:20px}
+.modal .m-qr{width:200px;height:200px;border-radius:var(--r);margin:0 auto 16px;background:var(--bg2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--tm);flex-direction:column;gap:8px}
+.modal .m-id{font-size:12px;color:var(--tm);font-family:'Space Mono',monospace;margin-bottom:16px}
+.modal .m-email{display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:var(--bg2);border:1px solid var(--bd);border-radius:8px;font-size:13px;color:var(--ac);text-decoration:none;transition:.2s}
+.modal .m-email:hover{border-color:var(--ac);background:rgba(52,211,153,.06)}
+
+/* RESPONSIVE */
+@media(max-width:900px){.hero-g,.about-g,.rpt-g{grid-template-columns:1fr;gap:40px}.hero-vis{order:-1}.hero-title{font-size:34px}.stats-g{grid-template-columns:repeat(2,1fr)}.how-g,.svc-g,.team-g{grid-template-columns:1fr}.foot-g{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){.nav-in{padding:12px 16px}.nav-links{display:none}.nav-mob{display:block}.hero{padding:120px 0 60px}.hero-title{font-size:28px}.hero-acts{flex-direction:column}.hero-fb{display:none}.stats-g{grid-template-columns:1fr}.prod-g{grid-template-columns:repeat(2,1fr)}.f-row{grid-template-columns:1fr}.kpi-g{grid-template-columns:1fr}.scn-g{grid-template-columns:1fr}.cta-feats{grid-template-columns:1fr}.r-tabs{flex-wrap:wrap}.foot-g{grid-template-columns:1fr}.step-pill span:not(.step-num){display:none}.rpt-pages{justify-content:center}.about-vals{grid-template-columns:1fr}.test-nav{display:none}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="navbar">
+<div class="nav-in">
+<a href="#" class="nav-brand"><div class="nav-logo">🌿</div><span>CarbonBridge</span></a>
+<div class="nav-links">
+<a href="#about" class="nav-link" data-zh="关于我们" data-en="About">关于我们</a>
+<a href="#how" class="nav-link" data-zh="工作流程" data-en="How it works">工作流程</a>
+<a href="#services" class="nav-link" data-zh="服务" data-en="Services">服务</a>
+<a href="#estimator" class="nav-link" data-zh="估算器" data-en="Estimator">估算器</a>
+<a href="#faq" class="nav-link" data-zh="常见问题" data-en="FAQ">常见问题</a>
+<div class="nav-lang"><button class="active" onclick="setLang('zh')">中文</button><button onclick="setLang('en')">EN</button></div>
+<button class="nav-cta" onclick="scrollTo('#estimator')" data-zh="免费估算" data-en="Free Estimate">免费估算</button>
+</div>
+<button class="nav-mob" onclick="toggleMob()">☰</button>
+</div>
+</nav>
+<div class="mob-menu" id="mobMenu">
+<a href="#about" onclick="closeMob()" data-zh="关于我们" data-en="About">关于我们</a>
+<a href="#how" onclick="closeMob()" data-zh="工作流程" data-en="How it works">工作流程</a>
+<a href="#services" onclick="closeMob()" data-zh="服务" data-en="Services">服务</a>
+<a href="#estimator" onclick="closeMob()" data-zh="估算器" data-en="Estimator">估算器</a>
+<a href="#faq" onclick="closeMob()" data-zh="常见问题" data-en="FAQ">常见问题</a>
+<button onclick="closeMob();scrollTo('#estimator')" style="background:var(--ac);color:#060a08;font-weight:700;border-radius:10px" data-zh="免费估算 →" data-en="Free Estimate →">免费估算 →</button>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top"><div class="ctn"><div class="hero-g">
+<div class="hero-content">
+<div class="hero-badge"><div class="dot"></div><span data-zh="2026年1月起CBAM正式实施" data-en="CBAM enforced from January 2026">2026年1月起CBAM正式实施</span></div>
+<h1 class="hero-title"><span data-zh="您的欧盟出口" data-en="Your EU exports">您的欧盟出口</span><br><span data-zh="将面临多少" data-en="face a new">将面临多少</span> <span class="gr" data-zh="碳关税？" data-en="carbon cost?">碳关税？</span></h1>
+<p class="hero-sub" data-zh="欧盟碳边境调节机制（CBAM）已于2026年正式实施。每一吨出口到欧洲的钢铁、铝、水泥都需要购买碳证书。碳桥帮您算清楚成本，找到最优解。" data-en="The EU CBAM is now in force from January 2026. Every tonne of steel, aluminium, and cement exported to Europe requires carbon certificates. CarbonBridge helps you understand costs and find the optimal path.">欧盟碳边境调节机制（CBAM）已于2026年正式实施。每一吨出口到欧洲的钢铁、铝、水泥都需要购买碳证书。碳桥帮您算清楚成本，找到最优解。</p>
+<div class="hero-acts">
+<button class="btn-p" onclick="scrollTo('#estimator')" data-zh="免费估算CBAM成本 →" data-en="Free CBAM Cost Estimate →">免费估算CBAM成本 →</button>
+<button class="btn-s" onclick="scrollTo('#services')" data-zh="了解服务" data-en="Our Services">了解服务</button>
+</div></div>
+<div class="hero-vis">
+<div class="hero-card">
+<div class="prev-h" data-zh="CBAM 成本预览 — 示例" data-en="CBAM COST PREVIEW — EXAMPLE">CBAM 成本预览 — 示例</div>
+<div class="prev-g">
+<div class="prev-s"><div class="prev-sl" data-zh="年CBAM成本" data-en="Annual CBAM cost">年CBAM成本</div><div class="prev-sv red">€1.75M</div></div>
+<div class="prev-s"><div class="prev-sl" data-zh="节省潜力" data-en="Savings potential">节省潜力</div><div class="prev-sv green">€1.43M</div></div>
+<div class="prev-s"><div class="prev-sl" data-zh="碳排放强度" data-en="Emission intensity">碳排放强度</div><div class="prev-sv">2.10</div></div>
+<div class="prev-s"><div class="prev-sl" data-zh="每吨附加成本" data-en="Cost per tonne">每吨附加成本</div><div class="prev-sv red">€200</div></div>
+</div>
+<div class="prev-bar"><div class="s1"></div><div class="s2"></div></div>
+<div class="prev-lr"><span data-zh="直接排放 75%" data-en="Direct 75%">直接排放 75%</span><span data-zh="间接排放 25%" data-en="Indirect 25%">间接排放 25%</span></div>
+<div class="prev-cta" data-zh="↓ 输入您的数据获取定制结果" data-en="↓ Enter your data for custom results">↓ 输入您的数据获取定制结果</div>
+</div>
+<div class="hero-fb b1"><span>📊</span><span style="font-size:12px;font-weight:600" data-zh="6种产品类别" data-en="6 categories">6种产品类别</span></div>
+<div class="hero-fb b2"><span>⚡</span><span style="font-size:12px;font-weight:600" data-zh="30秒出结果" data-en="30s results">30秒出结果</span></div>
+</div></div></div></section>
+
+<!-- TRUST -->
+<div class="trust"><div class="ctn"><div class="trust-in">
+<span class="trust-l" data-zh="基于以下法规框架" data-en="BASED ON">基于以下法规框架</span>
+<div class="trust-logos">
+<span>EU CBAM Reg. 2023/956</span><div class="trust-d"></div>
+<span>EU ETS Directive</span><div class="trust-d"></div>
+<span>Impl. Reg. 2023/1773</span><div class="trust-d"></div>
+<span>China MEE Grid Factor</span>
+</div></div></div></div>
+
+<!-- STATS -->
+<section class="sec reveal"><div class="ctn"><div class="stats-g">
+<div class="card stat-card"><div class="stat-icon">💰</div><div class="stat-num" data-count="95">0</div><div class="stat-lab" data-zh="当前EU ETS碳价(€/吨)" data-en="Current EU ETS price (€/tonne)">当前EU ETS碳价(€/吨)</div></div>
+<div class="card stat-card"><div class="stat-icon">📦</div><div class="stat-num" data-count="6">0</div><div class="stat-lab" data-zh="CBAM覆盖产品类别" data-en="Product categories covered">CBAM覆盖产品类别</div></div>
+<div class="card stat-card"><div class="stat-icon">📈</div><div class="stat-num" data-count="30" data-suffix="%">0</div><div class="stat-lab" data-zh="平均可优化的CBAM成本" data-en="Average optimizable cost">平均可优化的CBAM成本</div></div>
+<div class="card stat-card"><div class="stat-icon">⏰</div><div class="stat-num" data-count="7" data-prefix="" data-suffix=" days">0</div><div class="stat-lab" data-zh="碳桥报告交付时间" data-en="Report delivery time">碳桥报告交付时间</div></div>
+</div></div></section>
+
+<!-- ABOUT -->
+<section class="sec reveal" id="about"><div class="ctn">
+<div class="sec-h">
+<div class="sec-over" data-zh="关于碳桥" data-en="About CarbonBridge">关于碳桥</div>
+<h2 class="sec-title" data-zh="连接中国工厂与欧盟合规" data-en="Bridging Chinese Factories to EU Compliance">连接中国工厂与欧盟合规</h2>
+</div>
+<div class="about-g">
+<div class="about-text">
+<h3 data-zh="您的CBAM合规伙伴" data-en="Your CBAM Compliance Partner">您的CBAM合规伙伴</h3>
+<p data-zh="碳桥(CarbonBridge)是专注于欧盟碳边境调节机制(CBAM)的专业咨询公司，总部位于上海，在布鲁塞尔和深圳设有办事处。我们的团队由碳交易专家、工业工程师和欧盟法规顾问组成，深耕中国制造业碳合规领域。" data-en="CarbonBridge is a professional consultancy specializing in EU Carbon Border Adjustment Mechanism (CBAM) compliance, headquartered in Shanghai with offices in Brussels and Shenzhen. Our team combines carbon market experts, industrial engineers, and EU regulatory advisors with deep roots in Chinese manufacturing.">碳桥(CarbonBridge)是专注于欧盟碳边境调节机制(CBAM)的专业咨询公司，总部位于上海，在布鲁塞尔和深圳设有办事处。我们的团队由碳交易专家、工业工程师和欧盟法规顾问组成，深耕中国制造业碳合规领域。</p>
+<p data-zh="我们不只做报告——我们提供从排放核算、数据准备到绿电采购、欧盟买家对接的全链条服务，帮助工厂将CBAM从成本压力转化为竞争优势。" data-en="We don't just write reports — we provide end-to-end services from emissions accounting and data preparation to green electricity procurement and EU buyer matchmaking, helping factories turn CBAM from cost pressure into competitive advantage.">我们不只做报告——我们提供从排放核算、数据准备到绿电采购、欧盟买家对接的全链条服务，帮助工厂将CBAM从成本压力转化为竞争优势。</p>
+<div class="about-vals">
+<div class="about-val"><div class="num">3</div><div class="lab" data-zh="全球办事处" data-en="Global offices">全球办事处</div></div>
+<div class="about-val"><div class="num">50+</div><div class="lab" data-zh="服务工厂" data-en="Factories served">服务工厂</div></div>
+<div class="about-val"><div class="num">6</div><div class="lab" data-zh="CBAM行业覆盖" data-en="CBAM sectors">CBAM行业覆盖</div></div>
+<div class="about-val"><div class="num">15+</div><div class="lab" data-zh="行业专家" data-en="Industry experts">行业专家</div></div>
+</div>
+</div>
+<div>
+<div class="team-g">
+<div class="card team-card"><div class="team-avatar">👤</div><div class="team-name">David Chen</div><div class="team-role" data-zh="创始人 & CEO" data-en="Founder & CEO">创始人 & CEO</div><div class="team-bio" data-zh="前欧盟碳交易资深分析师，10年碳市场经验" data-en="Former senior EU carbon market analyst, 10 years experience">前欧盟碳交易资深分析师，10年碳市场经验</div></div>
+<div class="card team-card"><div class="team-avatar">👤</div><div class="team-name">Sophie Weber</div><div class="team-role" data-zh="欧盟法规总监" data-en="EU Regulatory Director">欧盟法规总监</div><div class="team-bio" data-zh="布鲁塞尔办事处负责人，前欧盟委员会顾问" data-en="Brussels office lead, former European Commission advisor">布鲁塞尔办事处负责人，前欧盟委员会顾问</div></div>
+<div class="card team-card"><div class="team-avatar">👤</div><div class="team-name" data-zh="李明" data-en="Ming Li">李明</div><div class="team-role" data-zh="工业工程总监" data-en="Industrial Engineering Director">工业工程总监</div><div class="team-bio" data-zh="深圳办事处负责人，专注钢铁和铝行业减排" data-en="Shenzhen office lead, specializing in steel & aluminium decarbonization">深圳办事处负责人，专注钢铁和铝行业减排</div></div>
+</div>
+</div></div>
+</div></section>
+
+<!-- HOW -->
+<section class="sec reveal" id="how"><div class="ctn">
+<div class="sec-h">
+<div class="sec-over" data-zh="工作流程" data-en="How it works">工作流程</div>
+<h2 class="sec-title" data-zh="三步了解您的CBAM成本" data-en="Understand your CBAM cost in 3 steps">三步了解您的CBAM成本</h2>
+<p class="sec-desc" data-zh="从免费估算到完整专业报告，碳桥为您提供一站式CBAM合规路径" data-en="From free estimation to full professional report — your complete CBAM compliance pathway">从免费估算到完整专业报告，碳桥为您提供一站式CBAM合规路径</p>
+</div>
+<div class="how-g">
+<div class="card"><div class="how-num">1</div><h4 class="how-title" data-zh="免费在线估算" data-en="Free Online Estimate">免费在线估算</h4><p class="how-desc" data-zh="输入基本生产数据，30秒获得CBAM成本估算、敏感性分析和5年预测。" data-en="Enter basic data, get cost estimate, sensitivity analysis and 5-year projection in 30 seconds.">输入基本生产数据，30秒获得CBAM成本估算、敏感性分析和5年预测。</p><div class="how-time">⚡ <span data-zh="30秒 · 完全免费" data-en="30s · Completely free">30秒 · 完全免费</span></div></div>
+<div class="card"><div class="how-num">2</div><h4 class="how-title" data-zh="工厂现场核查" data-en="On-Site Verification">工厂现场核查</h4><p class="how-desc" data-zh="碳桥顾问亲赴工厂，核实电表、产量记录、生产设备，拍照存档。收集完整数据用于精准计算。" data-en="Our consultants visit your factory to verify meters, records, equipment. Complete data collection for precise calculations.">碳桥顾问亲赴工厂，核实电表、产量记录、生产设备，拍照存档。收集完整数据用于精准计算。</p><div class="how-time">🏭 <span data-zh="1-2天现场" data-en="1-2 days on-site">1-2天现场</span></div></div>
+<div class="card"><div class="how-num">3</div><h4 class="how-title" data-zh="专业报告交付" data-en="Professional Report">专业报告交付</h4><p class="how-desc" data-zh="20-25页品牌化PDF报告，含排放计算明细、成本分析、脱碳路线图、买家准备度评估。" data-en="20-25 page branded PDF with emission calculations, cost analysis, decarbonization roadmap, buyer readiness assessment.">20-25页品牌化PDF报告，含排放计算明细、成本分析、脱碳路线图、买家准备度评估。</p><div class="how-time">📋 <span data-zh="5-7工作日交付" data-en="5-7 business days">5-7工作日交付</span></div></div>
+</div></div></section>
+
+<!-- SERVICES -->
+<section class="sec svc-bg reveal" id="services"><div class="ctn">
+<div class="sec-h">
+<div class="sec-over" data-zh="服务项目" data-en="Our services">服务项目</div>
+<h2 class="sec-title" data-zh="不只是报告，而是完整解决方案" data-en="Not just a report — a complete solution">不只是报告，而是完整解决方案</h2>
+</div>
+<div class="svc-g">
+<div class="card svc-card"><div class="svc-icon">📊</div><h4 data-zh="CBAM准备性报告" data-en="CBAM Preparatory Report">CBAM准备性报告</h4><p data-zh="20-25页专业PDF：排放计算、碳价敏感性分析、5年预测、脱碳路线图、买家准备度评分。含现场核查。" data-en="20-25p professional PDF: emission calculations, sensitivity analysis, 5-year projections, decarbonization roadmap, buyer readiness scoring. Includes on-site visit.">20-25页专业PDF：排放计算、碳价敏感性分析、5年预测、脱碳路线图、买家准备度评分。含现场核查。</p><div class="svc-price" data-zh="¥55,000 起" data-en="From ¥55,000">¥55,000 起</div></div>
+<div class="card svc-card"><div class="svc-icon">🌱</div><h4 data-zh="绿电PPA采购协助" data-en="Green PPA Facilitation">绿电PPA采购协助</h4><p data-zh="对接优质太阳能/风电直供商，协助签署绿电购买协议。可立即降低CBAM成本35-55%。" data-en="Connect with solar/wind providers. Green PPA can immediately reduce CBAM costs by 35-55%.">对接优质太阳能/风电直供商，协助签署绿电购买协议。可立即降低CBAM成本35-55%。</p><div class="svc-price" data-zh="含于报告服务" data-en="Included">含于报告服务</div></div>
+<div class="card svc-card"><div class="svc-icon">🤝</div><h4 data-zh="欧盟买家对接" data-en="EU Buyer Matching">欧盟买家对接</h4><p data-zh="基于EU进口数据和碳桥买家网络，匹配CBAM合规需求欧盟采购商。" data-en="Match you with EU importers who need CBAM-compliant suppliers.">基于EU进口数据和碳桥买家网络，匹配CBAM合规需求欧盟采购商。</p><div class="svc-price" data-zh="含于报告服务" data-en="Included">含于报告服务</div></div>
+<div class="card svc-card"><div class="svc-icon">📈</div><h4 data-zh="月度更新订阅" data-en="Monthly Updates">月度更新订阅</h4><p data-zh="碳价变动、政策更新、成本重新计算。每月一份更新报告。" data-en="Carbon price updates, policy changes, cost recalculations. Monthly report updates.">碳价变动、政策更新、成本重新计算。每月一份更新报告。</p><div class="svc-price" data-zh="¥5,000/月" data-en="¥5,000/mo">¥5,000/月</div></div>
+<div class="card svc-card"><div class="svc-icon">🔍</div><h4 data-zh="正式认证衔接" data-en="Official Cert. Bridge">正式认证衔接</h4><p data-zh="对接TÜV、SGS、DNV等认证机构。碳桥前期工作可节省正式审计50-70%时间和成本。" data-en="Connect with TÜV, SGS, DNV. Our prep saves 50-70% of official audit time and cost.">对接TÜV、SGS、DNV等认证机构。碳桥前期工作可节省正式审计50-70%时间和成本。</p><div class="svc-price" data-zh="单独报价" data-en="Custom pricing">单独报价</div></div>
+<div class="card svc-card"><div class="svc-icon">🎓</div><h4 data-zh="CBAM培训工作坊" data-en="CBAM Training Workshop">CBAM培训工作坊</h4><p data-zh="为工厂管理层和合规团队提供定制化CBAM培训，涵盖法规解读、数据收集和合规流程。" data-en="Customized CBAM training for factory management and compliance teams covering regulations, data collection and processes.">为工厂管理层和合规团队提供定制化CBAM培训，涵盖法规解读、数据收集和合规流程。</p><div class="svc-price" data-zh="¥15,000/场" data-en="¥15,000/session">¥15,000/场</div></div>
+</div></div></section>
+
+<!-- TIMELINE -->
+<section class="sec reveal" id="timeline"><div class="ctn">
+<div class="sec-h">
+<div class="sec-over" data-zh="CBAM时间线" data-en="CBAM Timeline">CBAM时间线</div>
+<h2 class="sec-title" data-zh="欧盟CBAM关键里程碑" data-en="Key EU CBAM Milestones">欧盟CBAM关键里程碑</h2>
+</div>
+<div class="tl-wrap">
+<div class="tl-line"></div>
+<div class="tl-item past"><div class="tl-dot">✓</div><div class="tl-content"><div class="tl-date">2023.10 — 2025.12</div><div class="tl-title" data-zh="过渡期：仅申报义务" data-en="Transitional Period: Reporting Only">过渡期：仅申报义务</div><div class="tl-desc" data-zh="进口商须提交CBAM报告，无需购买碳证书。可使用默认排放值。" data-en="Importers must submit CBAM reports, no certificate purchase required. Default emission values allowed.">进口商须提交CBAM报告，无需购买碳证书。可使用默认排放值。</div><span class="tl-tag done" data-zh="已完成" data-en="Completed">已完成</span></div></div>
+<div class="tl-item active"><div class="tl-dot">!</div><div class="tl-content"><div class="tl-date">2026.01</div><div class="tl-title" data-zh="正式实施：开始购买CBAM证书" data-en="Full Implementation: Certificate Purchase Begins">正式实施：开始购买CBAM证书</div><div class="tl-desc" data-zh="进口商须以EU ETS价格购买CBAM证书。必须使用实际排放数据或面临更高默认值。" data-en="Importers must purchase CBAM certificates at EU ETS prices. Must use actual emission data or face higher default values.">进口商须以EU ETS价格购买CBAM证书。必须使用实际排放数据或面临更高默认值。</div><span class="tl-tag live" data-zh="🔴 当前阶段" data-en="🔴 Current Phase">🔴 当前阶段</span></div></div>
+<div class="tl-item"><div class="tl-dot">→</div><div class="tl-content"><div class="tl-date">2026 — 2034</div><div class="tl-title" data-zh="免费配额递减期" data-en="Free Allocation Phase-Down">免费配额递减期</div><div class="tl-desc" data-zh="EU ETS免费配额逐年递减：2026年仍有97.5%免费配额，到2034年完全取消。CBAM成本逐年上升。" data-en="EU ETS free allocation decreases annually: 97.5% in 2026, fully eliminated by 2034. CBAM costs rise year-on-year.">EU ETS免费配额逐年递减：2026年仍有97.5%免费配额，到2034年完全取消。CBAM成本逐年上升。</div><span class="tl-tag soon" data-zh="进行中" data-en="Ongoing">进行中</span></div></div>
+<div class="tl-item"><div class="tl-dot">+</div><div class="tl-content"><div class="tl-date">2028+</div><div class="tl-title" data-zh="CBAM范围扩展" data-en="CBAM Scope Expansion">CBAM范围扩展</div><div class="tl-desc" data-zh="预计扩展至有机化学品、聚合物、玻璃等更多产品。影响范围将大幅增加。" data-en="Expected expansion to organic chemicals, polymers, glass and more. Impact scope will increase significantly.">预计扩展至有机化学品、聚合物、玻璃等更多产品。影响范围将大幅增加。</div><span class="tl-tag soon" data-zh="即将到来" data-en="Upcoming">即将到来</span></div></div>
+</div></div></section>
+
+<!-- TESTIMONIALS -->
+<section class="sec reveal" id="testimonials"><div class="ctn">
+<div class="sec-h">
+<div class="sec-over" data-zh="客户反馈" data-en="Client Testimonials">客户反馈</div>
+<h2 class="sec-title" data-zh="他们怎么说" data-en="What Our Clients Say">他们怎么说</h2>
+</div>
+<div class="test-wrap">
+<button class="test-nav prev" onclick="moveTest(-1)">‹</button>
+<button class="test-nav next" onclick="moveTest(1)">›</button>
+<div class="test-track" id="testTrack">
+<div class="test-card"><div class="test-inner"><p class="test-quote" data-zh="碳桥帮我们在3周内完成了CBAM准备报告，比预期快很多。更重要的是，他们发现我们可以通过绿电PPA节省42%的CBAM成本。" data-en="CarbonBridge completed our CBAM preparatory report in 3 weeks, much faster than expected. More importantly, they identified a 42% CBAM cost saving through a green electricity PPA.">碳桥帮我们在3周内完成了CBAM准备报告，比预期快很多。更重要的是，他们发现我们可以通过绿电PPA节省42%的CBAM成本。</p><div class="test-author" data-zh="王总经理" data-en="General Manager Wang">王总经理</div><div class="test-co" data-zh="山东某钢铁企业" data-en="Shandong Steel Enterprise">山东某钢铁企业</div></div></div>
+<div class="test-card"><div class="test-inner"><p class="test-quote" data-zh="作为铝行业出口商，我们对CBAM非常担忧。碳桥不仅给了我们清晰的成本预测，还帮我们对接了3个欧盟买家。" data-en="As an aluminium exporter, we were very concerned about CBAM. CarbonBridge not only gave us clear cost projections but also connected us with 3 EU buyers.">作为铝行业出口商，我们对CBAM非常担忧。碳桥不仅给了我们清晰的成本预测，还帮我们对接了3个欧盟买家。</p><div class="test-author" data-zh="张副总" data-en="Vice President Zhang">张副总</div><div class="test-co" data-zh="广东某铝业集团" data-en="Guangdong Aluminium Group">广东某铝业集团</div></div></div>
+<div class="test-card"><div class="test-inner"><p class="test-quote" data-zh="碳桥的服务非常专业，报告质量远超预期。他们的脱碳路线图帮助我们获得了省级绿色工厂认证。" data-en="CarbonBridge's service was exceptionally professional. Their decarbonization roadmap helped us obtain provincial green factory certification.">碳桥的服务非常专业，报告质量远超预期。他们的脱碳路线图帮助我们获得了省级绿色工厂认证。</p><div class="test-author" data-zh="刘厂长" data-en="Plant Director Liu">刘厂长</div><div class="test-co" data-zh="江苏某水泥厂" data-en="Jiangsu Cement Factory">江苏某水泥厂</div></div></div>
+</div>
+<div class="test-dots"><button class="test-dot active" onclick="goTest(0)"></button><button class="test-dot" onclick="goTest(1)"></button><button class="test-dot" onclick="goTest(2)"></button></div>
+</div></div></section>
+
+<!-- REPORT PREVIEW -->
+<section class="sec reveal" id="report"><div class="ctn"><div class="rpt-g">
+<div class="rpt-pages">
+<div class="rpt-page"><div class="rp-h"></div><div class="rp-t">CarbonBridge</div><div class="rp-l"></div><div class="rp-l sh"></div><div class="rp-l" style="margin-top:12px"></div><div class="rp-l"></div><div class="rp-l sh"></div><div class="rp-tbl"><div class="rp-c hd"></div><div class="rp-c hd"></div><div class="rp-c"></div><div class="rp-c"></div><div class="rp-c"></div><div class="rp-c"></div><div class="rp-c"></div><div class="rp-c"></div></div></div>
+<div class="rpt-page"><div class="rp-h"></div><div class="rp-t" data-zh="详细排放计算" data-en="Emissions Calc.">详细排放计算</div><div class="rp-tbl"><div class="rp-c hd"></div><div class="rp-c hd"></div><div class="rp-c"></div><div class="rp-c"></div><div class="rp-c"></div><div class="rp-c"></div><div class="rp-c"></div><div class="rp-c"></div><div class="rp-c"></div><div class="rp-c"></div></div><div class="rp-ch"></div></div>
+<div class="rpt-page"><div class="rp-h"></div><div class="rp-t" data-zh="脱碳路线图" data-en="Decarbonization Roadmap">脱碳路线图</div><div class="rp-ch" style="height:30px"></div><div class="rp-l" style="margin-top:8px"></div><div class="rp-l"></div><div class="rp-l sh"></div></div>
+</div>
+<div class="rpt-text">
+<div class="sec-over" data-zh="专业报告" data-en="Professional report">专业报告</div>
+<h3 data-zh="不是模板，是定制化报告" data-en="Not a template — a custom report">不是模板，是定制化报告</h3>
+<p data-zh="每份报告基于工厂实际数据和现场核查生成，包含完整排放计算、多维度分析和可执行的优化建议。" data-en="Each report built from your factory's actual data and on-site verification, with complete calculations and actionable recommendations.">每份报告基于工厂实际数据和现场核查生成，包含完整排放计算、多维度分析和可执行的优化建议。</p>
+<div class="rpt-feat">
+<div class="rpt-fi"><div class="ck">✓</div><span data-zh="执行摘要 + 一页式关键数据概览" data-en="Executive summary + one-page overview">执行摘要 + 一页式关键数据概览</span></div>
+<div class="rpt-fi"><div class="ck">✓</div><span data-zh="逐步排放计算 + 欧盟基准对比" data-en="Step-by-step calculations + EU benchmarks">逐步排放计算 + 欧盟基准对比</span></div>
+<div class="rpt-fi"><div class="ck">✓</div><span data-zh="碳价敏感性分析（5种价格情景）" data-en="Carbon price sensitivity (5 scenarios)">碳价敏感性分析（5种价格情景）</span></div>
+<div class="rpt-fi"><div class="ck">✓</div><span data-zh="5年成本预测（含免费配额递减）" data-en="5-year projection with free allocation phase-down">5年成本预测（含免费配额递减）</span></div>
+<div class="rpt-fi"><div class="ck">✓</div><span data-zh="4阶段脱碳路线图 + 节省估算" data-en="4-phase decarbonization roadmap + savings">4阶段脱碳路线图 + 节省估算</span></div>
+<div class="rpt-fi"><div class="ck">✓</div><span data-zh="CBAM准备度评分 + 竞争定位" data-en="Readiness scorecard + competitive positioning">CBAM准备度评分 + 竞争定位</span></div>
+</div></div></div></div></section>
+
+<!-- ESTIMATOR -->
+<section class="est-sec" id="estimator"><div class="ctn-n">
+<div class="sec-h" style="margin-bottom:32px">
+<div class="sec-over" data-zh="免费工具" data-en="Free tool">免费工具</div>
+<h2 class="sec-title" data-zh="CBAM 成本估算器" data-en="CBAM Cost Estimator">CBAM 成本估算器</h2>
+<p class="sec-desc" data-zh="输入工厂数据，30秒获取CBAM成本分析。免费、无需注册、数据不存储。" data-en="Enter your data, get analysis in 30 seconds. Free, no registration, data not stored.">输入工厂数据，30秒获取CBAM成本分析。免费、无需注册、数据不存储。</p>
+</div>
+<div class="est-wrap">
+<!-- Gate -->
+<div class="gate" id="gate">
+<div class="gi">🔐</div>
+<h3 data-zh="输入访问码使用估算器" data-en="Enter Access Code">输入访问码使用估算器</h3>
+<p class="gd" data-zh="CBAM估算器需要访问码才能使用。请联系碳桥获取您的专属访问码——完全免费。" data-en="The CBAM estimator requires an access code. Contact CarbonBridge for your free code.">CBAM估算器需要访问码才能使用。请联系碳桥获取您的专属访问码——完全免费。</p>
+<div class="g-row">
+<input type="text" class="g-in" id="codeIn" maxlength="6" placeholder="000000" inputmode="numeric" onkeydown="if(event.key==='Enter')validateCode()">
+<button class="g-btn" onclick="validateCode()" data-zh="验证" data-en="Verify">验证</button>
+</div>
+<div class="g-err" id="codeErr"></div>
+<div class="g-contact">
+<p data-zh="还没有访问码？" data-en="Don't have a code yet?">还没有访问码？</p>
+<button onclick="openContact()" data-zh="📱 联系碳桥获取免费访问码" data-en="📱 Contact CarbonBridge for free code">📱 联系碳桥获取免费访问码</button>
+</div>
+</div>
+<!-- Estimator content -->
+<div id="estContent" style="display:none"><div class="est-body">
+<div class="steps-bar">
+<div class="step-pill active" id="sp1"><div class="step-num">1</div><span data-zh="选择产品" data-en="Product">选择产品</span></div>
+<div class="step-conn"></div>
+<div class="step-pill" id="sp2"><div class="step-num">2</div><span data-zh="填写数据" data-en="Data">填写数据</span></div>
+<div class="step-conn"></div>
+<div class="step-pill" id="sp3"><div class="step-num">3</div><span data-zh="查看结果" data-en="Results">查看结果</span></div>
+</div>
+
+<!-- STEP 1 -->
+<div class="est-step active" id="step1">
+<h2 class="est-title" data-zh="选择您的产品类别" data-en="Select Your Product Category">选择您的产品类别</h2>
+<p class="est-sub" data-zh="选择工厂生产的主要出口产品（受CBAM影响的品类）" data-en="Choose the main export product your factory produces (CBAM-affected categories)">选择工厂生产的主要出口产品（受CBAM影响的品类）</p>
+<div class="prod-g" id="prodGrid"></div>
+<div class="btn-row"><button class="btn btn-pri" onclick="goStep(2)" id="btnS1" disabled data-zh="下一步 →" data-en="Next →">下一步 →</button></div>
+</div>
+
+<!-- STEP 2 -->
+<div class="est-step" id="step2">
+<h2 class="est-title" data-zh="填写工厂数据" data-en="Enter Factory Data">填写工厂数据</h2>
+<p class="est-sub" data-zh="以下数据均可从电费单、产量记录和出口单据中获取" data-en="All data available from your electricity bills, production records, and export documents">以下数据均可从电费单、产量记录和出口单据中获取</p>
+<div class="form-g">
+<div class="f-sec-lab" data-zh="基本信息" data-en="BASIC INFORMATION">基本信息</div>
+<div class="f-row">
+<div class="f-grp"><label class="f-lab" data-zh="工厂名称" data-en="Factory name">工厂名称</label><input class="f-input" type="text" id="fName" placeholder="例：东莞市鑫达钢铁有限公司"></div>
+<div class="f-grp"><label class="f-lab" data-zh="所在城市" data-en="City / Province">所在城市</label><input class="f-input" type="text" id="fCity" placeholder="例：东莞，广东省"></div>
+</div>
+<div class="f-sec-lab" data-zh="生产与能源数据" data-en="PRODUCTION & ENERGY DATA">生产与能源数据</div>
+<div class="f-row">
+<div class="f-grp"><label class="f-lab"><span data-zh="年产量" data-en="Annual production">年产量</span> <span class="tip" data-tip="全年总产量（吨）">?</span></label><div class="iw-unit"><input class="f-input" type="number" id="fProd" value="10000" min="0"><span class="f-unit" data-zh="吨/年" data-en="t/yr">吨/年</span></div></div>
+<div class="f-grp"><label class="f-lab"><span data-zh="年用电量" data-en="Annual electricity">年用电量</span> <span class="tip" data-tip="见电费账单，全年累计">?</span></label><div class="iw-unit"><input class="f-input" type="number" id="fElec" value="5000" min="0"><span class="f-unit">MWh</span></div></div>
+</div>
+<div class="f-row">
+<div class="f-grp"><label class="f-lab"><span data-zh="已知直接排放量" data-en="Known direct emissions">已知直接排放量</span> <span class="tip" data-tip="填0则使用欧盟默认值">?</span></label><div class="iw-unit"><input class="f-input" type="number" id="fDirect" value="0" min="0"><span class="f-unit">tCO2e</span></div><p class="f-hint" data-zh="填0则使用欧盟默认值（偏保守）" data-en="Enter 0 to use EU default values (conservative)">填0则使用欧盟默认值（偏保守）</p></div>
+<div class="f-grp"><label class="f-lab"><span data-zh="产能利用率" data-en="Capacity utilization">产能利用率</span></label><div class="iw-unit"><input class="f-input" type="number" id="fUtil" value="80" min="0" max="100"><span class="f-unit">%</span></div></div>
+</div>
+<div class="f-sec-lab" data-zh="欧盟出口数据" data-en="EU EXPORT DATA">欧盟出口数据</div>
+<div class="f-row">
+<div class="f-grp"><label class="f-lab"><span data-zh="欧盟出口占比" data-en="EU export share">欧盟出口占比</span></label><div class="iw-unit"><input class="f-input" type="number" id="fEuShare" value="30" min="0" max="100"><span class="f-unit">%</span></div></div>
+<div class="f-grp"><label class="f-lab"><span data-zh="欧盟出口总价值" data-en="EU export value">欧盟出口总价值</span></label><div class="iw-unit"><input class="f-input" type="number" id="fEuVal" value="2000000" min="0"><span class="f-unit">EUR</span></div></div>
+</div>
+<div class="f-row">
+<div class="f-grp"><label class="f-lab"><span data-zh="对欧单价" data-en="Selling price/tonne to EU">对欧单价</span></label><div class="iw-unit"><input class="f-input" type="number" id="fPrice" value="0" min="0"><span class="f-unit">EUR/t</span></div><p class="f-hint" data-zh="选填，用于计算CBAM占售价%" data-en="Optional; for CBAM cost as % of price">选填，用于计算CBAM占售价%</p></div>
+<div class="f-grp"><label class="f-lab"><span data-zh="碳价基准" data-en="Carbon price">碳价基准</span></label><div class="iw-unit"><input class="f-input" type="number" id="fCarbon" value="95" min="0"><span class="f-unit">EUR/tCO2e</span></div></div>
+</div>
+<div class="f-sec-lab" data-zh="中国碳市场（选填）" data-en="CHINA ETS (OPTIONAL)">中国碳市场（选填）</div>
+<div class="toggle-row" style="margin-bottom:12px"><span class="toggle-lab" data-zh="工厂是否参与中国碳交易市场？" data-en="Participate in China's national ETS?">工厂是否参与中国碳交易市场？</span><div class="toggle-sw" id="chinaToggle" onclick="toggleChina()"></div></div>
+<div id="chinaFields" style="display:none"><div class="f-row">
+<div class="f-grp"><label class="f-lab"><span data-zh="中国ETS碳价" data-en="China ETS price">中国ETS碳价</span></label><div class="iw-unit"><input class="f-input" type="number" id="fCnPrice" value="90" min="0"><span class="f-unit">RMB/tCO2e</span></div></div>
+<div class="f-grp"><label class="f-lab"><span data-zh="人民币/欧元汇率" data-en="RMB/EUR rate">人民币/欧元汇率</span></label><div class="iw-unit"><input class="f-input" type="number" id="fRate" value="7.8" min="0" step="0.1"><span class="f-unit">RMB/EUR</span></div></div>
+</div></div>
+<div class="f-sec-lab" data-zh="绿色能源（选填）" data-en="GREEN ENERGY (OPTIONAL)">绿色能源（选填）</div>
+<div class="f-row">
+<div class="f-grp"><label class="f-lab"><span data-zh="绿电占比" data-en="Renewable electricity share">绿电占比</span></label><div class="iw-unit"><input class="f-input" type="number" id="fGreen" value="0" min="0" max="100"><span class="f-unit">%</span></div></div>
+<div class="f-grp"><label class="f-lab"><span data-zh="是否持有绿证" data-en="Green certificates">是否持有绿证</span></label><select class="f-sel" id="fCerts"><option value="none" data-zh="无" data-en="None">无</option><option value="gec" data-zh="中国绿证(GEC)" data-en="China GEC">中国绿证(GEC)</option><option value="irec" data-zh="国际绿证(I-REC)" data-en="I-REC">国际绿证(I-REC)</option></select></div>
+</div>
+</div>
+<div class="btn-row">
+<button class="btn btn-sec" onclick="goStep(1)" data-zh="← 返回" data-en="← Back">← 返回</button>
+<button class="btn btn-pri" onclick="calculate()" data-zh="计算 CBAM 成本 →" data-en="Calculate CBAM Cost →">计算 CBAM 成本 →</button>
+</div>
+</div>
+
+<!-- STEP 3: RESULTS -->
+<div class="est-step" id="step3">
+<div class="res-h"><h2 data-zh="CBAM 成本估算报告" data-en="CBAM Cost Estimate Report">CBAM 成本估算报告</h2><div class="fl" id="resFactory"></div><div class="pl" id="resProd"></div></div>
+<div class="r-tabs" id="resTabs"></div>
+<div id="resContent"></div>
+
+<!-- Comparison table -->
+<h4 style="font-size:14px;margin:32px 0 12px;color:var(--t2)" data-zh="为什么选择碳桥？" data-en="Why CarbonBridge?">为什么选择碳桥？</h4>
+<table class="cmp-t"><thead><tr><th data-zh="服务项目" data-en="Service">服务项目</th><th>CarbonBridge 碳桥</th><th>TÜV / SGS</th></tr></thead><tbody>
+<tr><td data-zh="报告交付时间" data-en="Report delivery">报告交付时间</td><td class="ck-c">5-7 <span data-zh="工作日" data-en="days">工作日</span></td><td>6-8 <span data-zh="月" data-en="months">月</span></td></tr>
+<tr><td data-zh="费用" data-en="Cost">费用</td><td class="ck-c">¥55,000–180,000</td><td>¥200,000–600,000+</td></tr>
+<tr><td data-zh="中文服务" data-en="Chinese service">中文服务</td><td class="ck-c">✓ <span data-zh="母语" data-en="Native">母语</span></td><td data-zh="有限" data-en="Limited">有限</td></tr>
+<tr><td data-zh="欧盟买家对接" data-en="EU buyer matching">欧盟买家对接</td><td class="ck-c">✓</td><td class="cr-c">✗</td></tr>
+<tr><td data-zh="绿电采购协助" data-en="Green PPA">绿电采购协助</td><td class="ck-c">✓</td><td class="cr-c">✗</td></tr>
+<tr class="rh"><td data-zh="正式认证" data-en="Official cert.">正式认证</td><td data-zh="准备性报告（衔接正式认证）" data-en="Preparatory (bridges to official)">准备性报告（衔接正式认证）</td><td class="ck-c" data-zh="正式认证" data-en="Official">正式认证</td></tr>
+</tbody></table>
+
+<div class="cta-box">
+<h3 data-zh="准备好降低您的CBAM成本了吗？" data-en="Ready to Reduce Your CBAM Costs?">准备好降低您的CBAM成本了吗？</h3>
+<p data-zh="碳桥提供完整的CBAM准备服务：从现场评估、专业报告到欧盟买家对接和绿电采购。" data-en="CarbonBridge provides complete CBAM preparation: from on-site assessment to EU buyer matching and green electricity procurement.">碳桥提供完整的CBAM准备服务：从现场评估、专业报告到欧盟买家对接和绿电采购。</p>
+<button class="cta-btn" onclick="openContact()" data-zh="联系碳桥 →" data-en="Contact CarbonBridge →">联系碳桥 →</button>
+</div>
+<div class="disc"><strong data-zh="免责声明：" data-en="Disclaimer:">免责声明：</strong><span data-zh="本估算器为碳桥提供的免费工具，仅供参考。计算基于欧盟CBAM默认值和用户输入数据，不构成正式CBAM认证或法律建议。正式CBAM认证须由欧盟认可的核查机构执行。" data-en="This estimator is a free tool provided by CarbonBridge for reference only. Calculations are based on EU CBAM default values and user-input data. This does not constitute official CBAM verification or legal advice.">本估算器为碳桥提供的免费工具，仅供参考。计算基于欧盟CBAM默认值和用户输入数据，不构成正式CBAM认证或法律建议。正式CBAM认证须由欧盟认可的核查机构执行。</span></div>
+<div class="btn-row" style="margin-top:24px">
+<button class="btn btn-pri" onclick="window.print()" data-zh="打印/保存PDF" data-en="Print / Save PDF">打印/保存PDF</button>
+<button class="btn btn-sec" onclick="resetAll()" data-zh="🔄 新计算" data-en="🔄 New Calculation">🔄 新计算</button>
+</div>
+</div>
+</div></div>
+</div></div></section>
+
+<!-- FAQ -->
+<section class="sec reveal" id="faq"><div class="ctn">
+<div class="sec-h"><div class="sec-over" data-zh="常见问题" data-en="FAQ">常见问题</div><h2 class="sec-title" data-zh="关于CBAM您需要知道的" data-en="What you need to know about CBAM">关于CBAM您需要知道的</h2></div>
+<div class="faq-g" id="faqGrid"></div>
+</div></section>
+
+<!-- FINAL CTA -->
+<section class="fcta reveal"><div class="ctn">
+<h2 data-zh="每天不行动，成本都在增长" data-en="Every day of inaction costs more">每天不行动，成本都在增长</h2>
+<p data-zh="立即使用免费估算器了解CBAM成本，或联系碳桥获取专业评估。" data-en="Use our free estimator now, or contact CarbonBridge for professional assessment.">立即使用免费估算器了解CBAM成本，或联系碳桥获取专业评估。</p>
+<div style="display:flex;gap:14px;justify-content:center;position:relative;flex-wrap:wrap">
+<button class="btn-p" onclick="scrollTo('#estimator')" data-zh="免费估算 →" data-en="Free Estimate →">免费估算 →</button>
+<button class="btn-s" onclick="openContact()" data-zh="联系我们" data-en="Contact Us">联系我们</button>
+</div></div></section>
+
+<!-- FOOTER -->
+<footer class="foot"><div class="ctn">
+<div class="foot-g">
+<div><div class="foot-brand"><div class="ic">🌿</div><span class="nm">CarbonBridge 碳桥</span></div><p class="foot-desc" data-zh="帮助中国出口工厂理解、准备并优化CBAM合规。总部上海，在布鲁塞尔和深圳设有办事处。" data-en="Helping Chinese factories understand, prepare, and optimize CBAM compliance. HQ Shanghai, offices in Brussels and Shenzhen.">帮助中国出口工厂理解、准备并优化CBAM合规。总部上海，在布鲁塞尔和深圳设有办事处。</p></div>
+<div class="foot-col"><h5 data-zh="服务" data-en="Services">服务</h5><a href="#services" data-zh="CBAM准备性报告" data-en="Preparatory Report">CBAM准备性报告</a><a href="#services" data-zh="绿电PPA协助" data-en="Green PPA">绿电PPA协助</a><a href="#services" data-zh="欧盟买家对接" data-en="EU Buyer Matching">欧盟买家对接</a><a href="#services" data-zh="CBAM培训" data-en="CBAM Training">CBAM培训</a></div>
+<div class="foot-col"><h5 data-zh="资源" data-en="Resources">资源</h5><a href="#estimator" data-zh="免费CBAM估算器" data-en="Free Estimator">免费CBAM估算器</a><a href="#timeline" data-zh="CBAM时间线" data-en="CBAM Timeline">CBAM时间线</a><a href="#faq" data-zh="常见问题" data-en="FAQ">常见问题</a><a href="https://cbam.ec.europa.eu/" target="_blank">EU CBAM Registry</a></div>
+<div class="foot-col"><h5 data-zh="联系" data-en="Contact">联系</h5><a href="mailto:contact@carbonbridge.eu">contact@carbonbridge.eu</a><a href="#" data-zh="微信：CarbonBridge_Official" data-en="WeChat: CarbonBridge_Official">微信：CarbonBridge_Official</a><a href="#" data-zh="上海 · 布鲁塞尔 · 深圳" data-en="Shanghai · Brussels · Shenzhen">上海 · 布鲁塞尔 · 深圳</a></div>
+</div>
+<div class="foot-bot"><span>© 2026 CarbonBridge 碳桥</span><span data-zh="本工具不构成法律建议 | 隐私政策 | 使用条款" data-en="Not legal advice | Privacy Policy | Terms of Use">本工具不构成法律建议 | 隐私政策 | 使用条款</span></div>
+</div></footer>
+
+<!-- Cookie Consent -->
+<div class="cookie" id="cookieBanner">
+<p data-zh="我们使用Cookie来改善您的体验。继续使用本网站即表示同意。" data-en="We use cookies to improve your experience. By continuing to use this site, you agree.">我们使用Cookie来改善您的体验。继续使用本网站即表示同意。</p>
+<button class="acc" onclick="document.getElementById('cookieBanner').style.display='none'" data-zh="接受" data-en="Accept">接受</button>
+<button class="dec" onclick="document.getElementById('cookieBanner').style.display='none'" data-zh="拒绝" data-en="Decline">拒绝</button>
+</div>
+
+<!-- Loading -->
+<div class="loading" id="loadingOv"><div class="spinner"></div><div class="loading-t" data-zh="正在计算CBAM成本..." data-en="Calculating CBAM costs...">正在计算CBAM成本...</div></div>
+
+<!-- Contact Modal -->
+<div class="modal-ov" id="contactModal" onclick="if(event.target===this)closeContact()">
+<div class="modal">
+<button class="modal-close" onclick="closeContact()">&times;</button>
+<h3 data-zh="联系碳桥" data-en="Contact CarbonBridge">联系碳桥</h3>
+<div class="m-sub" data-zh="碳桥顾问将在24小时内回复" data-en="Our consultant will respond within 24 hours">碳桥顾问将在24小时内回复</div>
+<div class="m-qr"><span style="font-size:32px">📱</span><span data-zh="扫码添加微信" data-en="Scan WeChat QR">扫码添加微信</span></div>
+<div class="m-id">WeChat: CarbonBridge_Official</div>
+<a href="mailto:contact@carbonbridge.eu" class="m-email">✉ contact@carbonbridge.eu</a>
+</div></div>
+
+<script>
+// ═══ GLOBALS ═══
+var lang='zh',selProd=null,locked=false,R={},testIdx=0;
+var SALT="CB2026_";
+var HASHES=new Set(["53f68a5614803d0d5f99ac15caed46a7617a952edc3738975fbb5ab394e6dec5","8fbb3df740e1e2ae79a50c301aee2cba8ab3ddd3f0329c3708b8f2d5fe059ee6","5468548da5b34a34cb880f70e985331a5ebfe581496b3fd49faefe3beb359a97","f949dfc665f2fbe0cf80c1ae01605eae39561d51ed0e5a1f372d34f179e0bee8","db0fb550bee49b392eef816248d4e6f811c60adc206b9b3501b4a3b1c25bc297","60c9bf6e55884327b346b4277ba4cfe8df6524b0034750576fe1236aef6c5c87","f428b9e6049b270344650e307b1edb16457d4e4bcd5ef38688d36edb62607772","45fba845801c5b3494f6cd4e1d0f2f17c64a3500d2b844e92902bc3843e6b966"]);
+var usedKeys=[];
+
+var PRODS={
+hot_rolled_steel:{zh:'钢铁',en:'Steel',icon:'🏗️',sub:'Iron & Steel',hs:'7208',see:2.10,ds:.75,is:.25,ef:.5703,bm:1.520,comp:{india:2.42,turkey:1.78,eu:1.52,cn:2.10},advZh:'建议优先采购绿电（太阳能/风电直供），可减少间接排放35-55%。电弧炉工艺替代可降低直接排放40-60%。综合优化可降低CBAM成本<strong style="color:var(--ac)">30-50%</strong>。',advEn:'Priority: green electricity PPA (solar/wind) to reduce indirect emissions 35-55%. EAF process can cut direct emissions 40-60%. Combined optimization: <strong style="color:var(--ac)">30-50%</strong> savings.'},
+aluminium:{zh:'铝',en:'Aluminium',icon:'🔩',sub:'Aluminium',hs:'7601',see:8.50,ds:.30,is:.70,ef:.5703,bm:1.514,comp:{india:10.2,turkey:5.5,eu:3.5,cn:8.5},advZh:'铝是电力密集型产业。使用水电或可再生能源的工厂可减排<strong style="color:var(--ac)">50-70%</strong>，大幅降低CBAM成本。',advEn:'Aluminium is electricity-intensive. Renewables can reduce emissions <strong style="color:var(--ac)">50-70%</strong>.'},
+cement:{zh:'水泥',en:'Cement',icon:'🧱',sub:'Cement',hs:'2523',see:0.85,ds:.85,is:.15,ef:.5703,bm:0.766,comp:{india:0.72,turkey:0.68,eu:0.65,cn:0.85},advZh:'水泥排放以石灰石煅烧为主。辅助胶凝材料和替代燃料可降成本<strong style="color:var(--ac)">15-35%</strong>。',advEn:'Cement emissions dominated by calcination. Alternative materials can reduce costs <strong style="color:var(--ac)">15-35%</strong>.'},
+fertilizers:{zh:'化肥',en:'Fertilizers',icon:'🌾',sub:'Fertilizers',hs:'3102',see:1.80,ds:.70,is:.30,ef:.5703,bm:1.619,comp:{india:2.1,turkey:1.6,eu:1.4,cn:1.8},advZh:'化肥生产排放密集。绿氢替代可减排<strong style="color:var(--ac)">60-80%</strong>。近期建议优先能效提升。',advEn:'Green hydrogen can cut emissions <strong style="color:var(--ac)">60-80%</strong>. Near-term: prioritize efficiency.'},
+hydrogen:{zh:'氢',en:'Hydrogen',icon:'⚡',sub:'Hydrogen',hs:'2804',see:12.0,ds:.60,is:.40,ef:.5703,bm:8.85,comp:{india:14.0,turkey:10.0,eu:5.0,cn:12.0},advZh:'从灰氢转向绿氢可将CBAM成本降低<strong style="color:var(--ac)">90%+</strong>。',advEn:'Grey to green hydrogen transition: <strong style="color:var(--ac)">90%+</strong> CBAM reduction.'},
+electricity:{zh:'电力',en:'Electricity',icon:'🔌',sub:'Electricity',hs:'2716',see:0.60,ds:.05,is:.95,ef:.5703,bm:0.35,comp:{india:0.82,turkey:0.48,eu:0.25,cn:0.60},advZh:'增加可再生能源占比是唯一根本路径。每增10%可再生能源，CBAM成本降约<strong style="color:var(--ac)">8-10%</strong>。',advEn:'Each 10% renewable addition reduces CBAM costs by <strong style="color:var(--ac)">8-10%</strong>.'}
+};
+var PHASE={2026:.975,2027:.95,2028:.90,2029:.85,2030:.775};
+var FAQS=[
+{zh:'什么是CBAM碳边境调节机制？',en:'What is CBAM?',azh:'CBAM是欧盟2023年通过的法规（EU 2023/956），要求进口特定商品购买碳证书，价格与EU ETS碳价挂钩。2026年1月正式实施。',aen:'EU regulation requiring carbon certificates for imports of steel, aluminium, cement, fertilizers, hydrogen, electricity. Fully enforced Jan 2026.'},
+{zh:'碳桥和TÜV/SGS报告的区别？',en:'CarbonBridge vs TÜV/SGS?',azh:'碳桥提供准备性评估报告，TÜV/SGS提供官方认证。碳桥为正式认证做好数据准备，可节省50-70%审计时间和成本。',aen:'We provide preparatory reports; TÜV/SGS provides official verification. We prepare all data, saving 50-70% of audit time.'},
+{zh:'使用默认值比实际数据贵多少？',en:'Default vs actual data cost?',azh:'欧盟默认值有意偏高。实际排放通常比默认值低15-40%，意味着通过测量可直接降低CBAM成本15-40%。',aen:'EU defaults are conservative. Actual emissions typically 15-40% lower, meaning measurement directly reduces costs.'},
+{zh:'不管CBAM会怎样？',en:'What if we ignore CBAM?',azh:'欧盟买家必须购买碳证书否则面临罚款。买家会优先选择有合规数据的供应商，不提供数据将逐渐失去欧盟订单。',aen:'EU buyers must purchase certificates or face penalties. They\'ll prefer compliant suppliers. No data = losing EU orders.'},
+{zh:'服务流程多长时间？',en:'How long is the process?',azh:'2-3周：问卷1-2天 → 现场核查1-2天 → 报告5-7工作日。对比TÜV/SGS的6-8月，效率优势明显。',aen:'2-3 weeks: questionnaire 1-2 days → on-site 1-2 days → report 5-7 business days.'},
+{zh:'中国碳市场的碳价可以抵扣CBAM吗？',en:'Can China ETS price offset CBAM?',azh:'是的，CBAM法规允许抵扣出口国已支付的碳价。中国全国碳市场参与者可以将已支付的碳价从CBAM成本中扣除。',aen:'Yes, CBAM allows deduction of carbon prices paid in the exporting country. China national ETS participants can deduct their paid carbon price.'}
+];
+
+// ═══ NAV ═══
+window.addEventListener('scroll',function(){document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50)});
+function scrollTo(s){document.querySelector(s).scrollIntoView({behavior:'smooth'})}
+function toggleMob(){document.getElementById('mobMenu').classList.toggle('open')}
+function closeMob(){document.getElementById('mobMenu').classList.remove('open')}
+
+// ═══ LANG ═══
+function setLang(l){
+lang=l;
+document.querySelectorAll('.nav-lang button').forEach(function(b){b.classList.toggle('active',l==='zh'?b.textContent==='中文':b.textContent==='EN')});
+document.querySelectorAll('[data-zh]').forEach(function(el){
+var t=el.getAttribute('data-'+l);if(!t)return;
+if(el.tagName==='INPUT')el.placeholder=t;
+else if(el.tagName==='OPTION')el.textContent=t;
+else if(!el.children.length||el.querySelector('strong'))el.innerHTML=t;
+else el.textContent=t;
+});
+}
+
+// ═══ SCROLL REVEAL ═══
+var observer=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');if(e.target.querySelector('.stat-num'))animateCounters(e.target)}})},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(function(el){observer.observe(el)});
+function animateCounters(container){
+container.querySelectorAll('.stat-num[data-count]').forEach(function(el){
+var target=parseInt(el.dataset.count),prefix=el.dataset.prefix||'',suffix=el.dataset.suffix||'',dur=1500,start=Date.now();
+function tick(){var p=Math.min((Date.now()-start)/dur,1);var eased=1-Math.pow(1-p,3);el.textContent=prefix+Math.round(target*eased)+suffix;if(p<1)requestAnimationFrame(tick)}
+tick();
+});
+}
+
+// ═══ TESTIMONIALS ═══
+function moveTest(d){goTest(testIdx+d)}
+function goTest(i){
+testIdx=((i%3)+3)%3;
+document.getElementById('testTrack').style.transform='translateX(-'+testIdx*100+'%)';
+document.querySelectorAll('.test-dot').forEach(function(d,j){d.classList.toggle('active',j===testIdx)});
+}
+setInterval(function(){moveTest(1)},6000);
+
+// ═══ PRODUCTS GRID ═══
+(function(){
+var h='';for(var k in PRODS){var p=PRODS[k];
+h+='<div class="prod-c" data-p="'+k+'" onclick="selProduct(this)"><div class="icon">'+p.icon+'</div><div class="name" data-zh="'+p.zh+'" data-en="'+p.en+'">'+p.zh+'</div><div class="sub">'+p.sub+'</div></div>';
+}
+document.getElementById('prodGrid').innerHTML=h;
+})();
+function selProduct(el){
+document.querySelectorAll('.prod-c').forEach(function(c){c.classList.remove('sel')});
+el.classList.add('sel');selProd=el.dataset.p;
+document.getElementById('btnS1').disabled=false;
+}
+
+// ═══ FAQ ═══
+(function(){
+var h='';FAQS.forEach(function(f,i){
+h+='<div class="faq-i" onclick="toggleFaq(this)"><div class="faq-q"><span data-zh="'+f.zh+'" data-en="'+f.en+'">'+f.zh+'</span><span class="faq-arr">▼</span></div><div class="faq-a"><p data-zh="'+f.azh+'" data-en="'+f.aen+'">'+f.azh+'</p></div></div>';
+});
+document.getElementById('faqGrid').innerHTML=h;
+})();
+function toggleFaq(el){el.classList.toggle('open')}
+
+// ═══ ACCESS GATE ═══
+async function sha256(m){var b=new TextEncoder().encode(m);var h=await crypto.subtle.digest('SHA-256',b);return Array.from(new Uint8Array(h)).map(function(x){return x.toString(16).padStart(2,'0')}).join('')}
+async function validateCode(){
+var inp=document.getElementById('codeIn').value.trim(),err=document.getElementById('codeErr');
+if(!inp){err.textContent=lang==='zh'?'请输入访问码':'Please enter code';err.style.display='block';return}
+var hash=await sha256(SALT+inp);
+if(!HASHES.has(hash)){err.textContent=lang==='zh'?'访问码无效':'Invalid code';err.style.display='block';return}
+if(usedKeys.includes(hash)){err.textContent=lang==='zh'?'此访问码已使用':'Code already used';err.style.display='block';return}
+usedKeys.push(hash);
+document.getElementById('gate').style.display='none';
+document.getElementById('estContent').style.display='block';
+}
+
+// ═══ STEPS ═══
+function goStep(s){
+if(locked&&s<3)return;
+document.querySelectorAll('.est-step').forEach(function(e){e.classList.remove('active')});
+document.getElementById('step'+s).classList.add('active');
+for(var i=1;i<=3;i++){var p=document.getElementById('sp'+i);p.classList.remove('active','done');if(i<s)p.classList.add('done');if(i===s)p.classList.add('active')}
+document.getElementById('estimator').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function toggleChina(){var t=document.getElementById('chinaToggle');t.classList.toggle('on');document.getElementById('chinaFields').style.display=t.classList.contains('on')?'block':'none'}
+
+// ═══ CALCULATION ═══
+function calculate(){
+document.getElementById('loadingOv').classList.add('active');
+setTimeout(function(){doCalc();document.getElementById('loadingOv').classList.remove('active');goStep(3);locked=true},800);
+}
+function resetAll(){locked=false;selProd=null;document.querySelectorAll('.prod-c').forEach(function(c){c.classList.remove('sel')});document.getElementById('btnS1').disabled=true;document.getElementById('estContent').style.display='none';document.getElementById('gate').style.display='block';document.getElementById('codeIn').value='';document.getElementById('codeErr').style.display='none';goStep(1)}
+
+function doCalc(){
+var p=PRODS[selProd],prod=parseFloat(document.getElementById('fProd').value)||0,elec=parseFloat(document.getElementById('fElec').value)||0,
+directIn=parseFloat(document.getElementById('fDirect').value)||0,euSh=(parseFloat(document.getElementById('fEuShare').value)||0)/100,
+euVal=parseFloat(document.getElementById('fEuVal').value)||0,sellP=parseFloat(document.getElementById('fPrice').value)||0,
+cp=parseFloat(document.getElementById('fCarbon').value)||95,greenSh=(parseFloat(document.getElementById('fGreen').value)||0)/100,
+fName=document.getElementById('fName').value||(lang==='zh'?'未填写':'Not specified'),
+cnActive=document.getElementById('chinaToggle').classList.contains('on'),
+cnP=cnActive?(parseFloat(document.getElementById('fCnPrice').value)||0):0,
+exRate=parseFloat(document.getElementById('fRate').value)||7.8,cnPEUR=cnP/exRate;
+
+var dSEE,iSEE,tSEE,src;
+if(directIn>0&&prod>0){dSEE=directIn/prod;iSEE=(elec*p.ef*(1-greenSh))/prod;tSEE=dSEE+iSEE;src=lang==='zh'?'工厂实报':'Factory reported'}
+else if(elec>0&&prod>0){iSEE=(elec*p.ef*(1-greenSh))/prod;dSEE=p.see*p.ds;tSEE=dSEE+iSEE;src=lang==='zh'?'部分实测+默认值':'Partial+defaults'}
+else{tSEE=p.see;dSEE=tSEE*p.ds;iSEE=tSEE*p.is;src=lang==='zh'?'EU默认值':'EU defaults'}
+
+var tEm=tSEE*prod,tCost=tEm*cp,euCost=tCost*euSh,cpt=tSEE*cp,
+cnDed=cnActive?Math.min(cnPEUR,cp)*tEm*euSh:0,netCost=euCost-cnDed,
+gSav=iSEE*.55*prod*cp*euSh,pSav=dSEE*.15*prod*cp*euSh,combSav=gSav+pSav,
+dPct=Math.round((dSEE/tSEE)*100),iPct=100-dPct;
+
+R={p:p,prod:prod,tSEE:tSEE,dSEE:dSEE,iSEE:iSEE,tEm:tEm,tCost:tCost,euCost:euCost,cpt:cpt,euSh:euSh,euVal:euVal,sellP:sellP,cp:cp,gSav:gSav,pSav:pSav,combSav:combSav,dPct:dPct,iPct:iPct,cnDed:cnDed,netCost:netCost,cnActive:cnActive,cnPEUR:cnPEUR,src:src,fName:fName};
+renderResults();
+}
+
+function fmt(n){return n.toLocaleString('en-US',{maximumFractionDigits:0})}
+function fmtM(n){return(n/1e6).toFixed(2)}
+function isZh(){return lang==='zh'}
+
+function renderResults(){
+var r=R,z=isZh();
+document.getElementById('resFactory').textContent=r.fName;
+document.getElementById('resProd').textContent=(z?r.p.zh:r.p.en)+' | HS '+r.p.hs;
+
+// Tabs
+var tabs=[{id:'overview',zh:'概览',en:'Overview'},{id:'calc',zh:'计算明细',en:'Calculations'},{id:'sens',zh:'敏感性分析',en:'Sensitivity'},{id:'scen',zh:'优化方案',en:'Scenarios'},{id:'proj',zh:'5年预测',en:'5-Year'},{id:'ready',zh:'准备度',en:'Readiness'}];
+document.getElementById('resTabs').innerHTML=tabs.map(function(t,i){return '<button class="r-tab'+(i===0?' active':'')+'" onclick="showTab(\''+t.id+'\',this)">'+(z?t.zh:t.en)+'</button>'}).join('');
+
+var gap=r.tSEE-r.p.bm,costGap=gap*r.cp;
+var netCostAfterOpt=r.euCost-r.combSav,pctSav=r.euCost>0?(r.combSav/r.euCost*100).toFixed(0):0;
+var circ=2*Math.PI*42,dashN=(100-pctSav)/100*circ,dashS=pctSav/100*circ;
+
+// Build all panels
+var html='';
+
+// OVERVIEW
+html+='<div class="r-panel active" id="p-overview">';
+html+='<div class="kpi-g"><div class="kpi"><div class="kpi-l">'+(z?'碳排放强度':'Emissions intensity')+'</div><div class="kpi-v">'+r.tSEE.toFixed(2)+'</div><div class="kpi-s">tCO2e/'+(z?'吨产品':'tonne')+'</div></div>';
+html+='<div class="kpi"><div class="kpi-l">'+(z?'年CBAM成本':'Annual CBAM cost')+'</div><div class="kpi-v red">€'+fmtM(r.euCost)+'M</div><div class="kpi-s">'+(r.euVal>0?(r.euCost/r.euVal*100).toFixed(1)+'% '+(z?'占出口价值':'of export value'):'')+'</div></div>';
+html+='<div class="kpi"><div class="kpi-l">'+(z?'节省潜力':'Savings potential')+'</div><div class="kpi-v green">€'+fmtM(r.combSav)+'M</div><div class="kpi-s">'+pctSav+'% '+(z?'节省':'savings')+'</div></div></div>';
+html+='<div class="kpi-g"><div class="kpi"><div class="kpi-l">'+(z?'每吨CBAM成本':'CBAM cost/tonne')+'</div><div class="kpi-v warn">€'+fmt(r.cpt)+'</div><div class="kpi-s">'+(r.sellP>0?(r.cpt/r.sellP*100).toFixed(1)+'% '+(z?'占售价':'of price'):'')+'</div></div>';
+html+='<div class="kpi"><div class="kpi-l">'+(z?'年总排放':'Total emissions')+'</div><div class="kpi-v">'+fmt(r.tEm)+'</div><div class="kpi-s">tCO2e</div></div>';
+html+='<div class="kpi"><div class="kpi-l">'+(z?'中国ETS抵扣':'China ETS deduction')+'</div><div class="kpi-v green">'+(r.cnActive?'-€'+fmt(r.cnDed):(z?'不适用':'N/A'))+'</div><div class="kpi-s">'+(r.cnActive?(z?'净成本':'Net')+': €'+fmtM(r.netCost)+'M':'')+'</div></div></div>';
+// Emissions bar
+html+='<div class="em-bar-c"><div class="em-bar-l"><span>'+(z?'排放构成':'Emissions breakdown')+'</span></div><div class="em-bar"><div class="direct" style="width:'+r.dPct+'%"></div><div class="indirect" style="width:'+r.iPct+'%"></div></div>';
+html+='<div class="legend"><span><span class="legend-dot" style="background:#10b981"></span>'+(z?'直接排放':'Direct')+' <strong>'+r.dPct+'%</strong></span><span><span class="legend-dot" style="background:#fbbf24"></span>'+(z?'间接排放':'Indirect')+' <strong>'+r.iPct+'%</strong></span></div></div>';
+// Donut
+html+='<div class="ch-c"><div class="ch-t">'+(z?'CBAM成本优化潜力':'CBAM Cost Optimization Potential')+'</div><div class="donut-w"><svg class="donut-svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#1a2b22" stroke-width="12"/><circle cx="50" cy="50" r="42" fill="none" stroke="#f87171" stroke-width="12" stroke-dasharray="'+dashN+' '+circ+'" stroke-dashoffset="0" transform="rotate(-90 50 50)" stroke-linecap="round"/><circle cx="50" cy="50" r="42" fill="none" stroke="#34d399" stroke-width="12" stroke-dasharray="'+dashS+' '+circ+'" stroke-dashoffset="'+-dashN+'" transform="rotate(-90 50 50)" stroke-linecap="round"/><text x="50" y="46" text-anchor="middle" font-size="12" font-weight="800" fill="#e8efe9" font-family="DM Sans">'+pctSav+'%</text><text x="50" y="58" text-anchor="middle" font-size="6" fill="#8fa898">'+(z?'可优化':'saveable')+'</text></svg><div class="donut-lg"><div class="donut-li"><div class="donut-ld" style="background:#f87171"></div>'+(z?'不可避免':'Unavoidable')+': €'+fmtM(netCostAfterOpt)+'M</div><div class="donut-li"><div class="donut-ld" style="background:#34d399"></div>'+(z?'可优化':'Savings')+': €'+fmtM(r.combSav)+'M</div></div></div></div>';
+// Benchmark
+html+='<h4 style="font-size:14px;margin-bottom:12px;color:var(--t2)">'+(z?'与欧盟基准对比':'EU Benchmark Comparison')+'</h4>';
+html+='<table class="dt"><thead><tr><th>'+(z?'指标':'Metric')+'</th><th>'+(z?'本工厂':'This factory')+'</th><th>'+(z?'欧盟基准':'EU benchmark')+'</th><th>'+(z?'差距':'Gap')+'</th></tr></thead><tbody>';
+html+='<tr><td>SEE</td><td class="vc">'+r.tSEE.toFixed(2)+'</td><td class="vc">'+r.p.bm.toFixed(3)+'</td><td class="vc" style="color:'+(gap>0?'var(--red)':'var(--ac)')+'">'+( gap>0?'+':'')+gap.toFixed(3)+'</td></tr>';
+html+='<tr><td>'+(z?'每吨成本':'Cost/t')+'</td><td class="vc">€'+fmt(r.cpt)+'</td><td class="vc">€'+fmt(r.p.bm*r.cp)+'</td><td class="vc" style="color:'+(costGap>0?'var(--red)':'var(--ac)')+'">'+( costGap>0?'+':'')+fmt(costGap)+'</td></tr></tbody></table>';
+html+='</div>';
+
+// CALCULATIONS
+html+='<div class="r-panel" id="p-calc"><h4 style="font-size:14px;margin-bottom:12px;color:var(--t2)">'+(z?'逐步计算明细':'Step-by-Step Calculation')+'</h4><table class="dt"><thead><tr><th>#</th><th>'+(z?'参数':'Parameter')+'</th><th class="vc">'+(z?'数值':'Value')+'</th><th>'+(z?'来源':'Source')+'</th></tr></thead><tbody>';
+var steps=[[1,z?'排放强度':'SEE',r.tSEE.toFixed(2)+' tCO2e/t',r.src],[2,z?'直接排放':'Direct',r.dSEE.toFixed(3),r.dPct+'%'],[3,z?'间接排放':'Indirect',r.iSEE.toFixed(3),r.iPct+'%'],[4,z?'年产量':'Production',fmt(r.prod)+' t',z?'工厂':'Factory'],[5,z?'年总排放':'Total emissions',fmt(r.tEm)+' tCO2e','1×4'],[6,z?'碳价':'Carbon price','€'+r.cp+'/t','EU ETS'],[7,z?'总成本':'Total cost','€'+fmtM(r.tCost)+'M','5×6'],[8,z?'EU出口占比':'EU share',(r.euSh*100).toFixed(0)+'%',z?'工厂':'Factory'],[9,z?'EU CBAM成本':'EU CBAM','€'+fmtM(r.euCost)+'M','7×8']];
+if(r.cnActive){steps.push([10,z?'中国ETS抵扣':'China ETS','-€'+fmt(r.cnDed),'€'+r.cnPEUR.toFixed(1)+'/t']);steps.push([11,z?'净成本':'Net cost','€'+fmtM(r.netCost)+'M','9-10'])}
+steps.forEach(function(s){html+='<tr'+(s[0]===9||s[0]===11?' class="hl"':'')+'><td>'+s[0]+'</td><td>'+s[1]+'</td><td class="vc">'+s[2]+'</td><td>'+s[3]+'</td></tr>'});
+html+='</tbody></table></div>';
+
+// SENSITIVITY
+var prices=[70,85,r.cp,120,150];
+html+='<div class="r-panel" id="p-sens"><h4 style="font-size:14px;margin-bottom:12px;color:var(--t2)">'+(z?'碳价敏感性分析':'Carbon Price Sensitivity')+'</h4>';
+var maxS=Math.max.apply(null,prices.map(function(pr){return r.tEm*pr*r.euSh}));
+html+='<div class="ch-c"><div class="bar-ch">';
+prices.forEach(function(pr){var c=r.tEm*pr*r.euSh,pct=maxS>0?c/maxS*100:0,cur=pr===r.cp,cl=pr<=85?'gr':pr<=r.cp?'am':'rd';
+html+='<div class="bar-r"><div class="bar-l">€'+pr+'/t'+(cur?' ★':'')+'</div><div class="bar-tk"><div class="bar-f '+cl+(cur?' cur':'')+'" style="width:'+Math.max(pct,3)+'%"><span class="bar-v">€'+fmtM(c)+'M</span></div></div></div>'});
+html+='</div></div>';
+html+='<table class="dt"><thead><tr><th>'+(z?'碳价':'Price')+'</th><th class="vc">'+(z?'总成本':'Total')+'</th><th class="vc">'+(z?'EU成本':'EU cost')+'</th><th class="vc">'+(z?'每吨':'Per t')+'</th></tr></thead><tbody>';
+prices.forEach(function(pr){var c=r.tEm*pr,eu=c*r.euSh,t=r.tSEE*pr,cur=pr===r.cp;
+html+='<tr'+(cur?' class="sc"':'')+'><td>€'+pr+(cur?' ←':'')+'</td><td class="vc">€'+fmtM(c)+'M</td><td class="vc">€'+fmtM(eu)+'M</td><td class="vc">€'+fmt(t)+'</td></tr>'});
+html+='</tbody></table></div>';
+
+// SCENARIOS
+var scns=[{zh:'当前基准',en:'Baseline',cost:r.euCost,sav:0,best:false},{zh:'绿电PPA',en:'Green PPA',cost:r.euCost-r.gSav,sav:r.gSav,best:false},{zh:'工艺优化',en:'Process',cost:r.euCost-r.pSav,sav:r.pSav,best:false},{zh:'综合方案',en:'Combined',cost:r.euCost-r.combSav,sav:r.combSav,best:true}];
+html+='<div class="r-panel" id="p-scen"><div class="scn-g">';
+scns.forEach(function(s){html+='<div class="scn'+(s.best?' best':'')+'"><div class="scn-n">'+(z?s.zh:s.en)+'</div><div class="scn-c" style="color:'+(s.best?'var(--ac)':'var(--t1)')+'">€'+fmtM(s.cost)+'M</div>'+(s.sav>0?'<div class="scn-s">'+(z?'节省':'Save')+' €'+fmt(s.sav)+' ('+(s.sav/r.euCost*100).toFixed(0)+'%)</div>':'')+(s.best?'<span class="scn-tag">'+(z?'推荐':'RECOMMENDED')+'</span>':'')+'</div>'});
+html+='</div>';
+// Scenario bars
+var maxScn=Math.max.apply(null,scns.map(function(s){return s.cost}));
+html+='<div class="ch-c"><div class="ch-t">'+(z?'年度成本对比':'Annual Cost Comparison')+'</div><div class="bar-ch">';
+scns.forEach(function(s){var pct=maxScn>0?s.cost/maxScn*100:0,cl=s.best?'gr':s.sav>0?'em':'am';
+html+='<div class="bar-r"><div class="bar-l">'+(z?s.zh:s.en)+'</div><div class="bar-tk"><div class="bar-f '+cl+'" style="width:'+Math.max(pct,3)+'%"><span class="bar-v">€'+fmtM(s.cost)+'M</span></div></div>'+(s.sav>0?'<span class="bar-vo" style="color:var(--ac)">-'+(s.sav/r.euCost*100).toFixed(0)+'%</span>':'')+'</div>'});
+html+='</div></div>';
+html+='<h4 style="font-size:14px;margin:24px 0 8px;color:var(--t2)">'+(z?'产品建议':'Product Advice')+'</h4><div style="background:var(--bgc);border:1px solid var(--bd);border-radius:12px;padding:18px;font-size:13px;color:var(--t2);line-height:1.7">'+(z?r.p.advZh:r.p.advEn)+'</div></div>';
+
+// 5-YEAR PROJECTION
+var cum=0,projR=[];
+for(var yr=2026;yr<=2030;yr++){var pri=yr===2026?r.cp:r.cp*Math.pow(1.05,yr-2026),ph=PHASE[yr],ac=r.tEm*pri*r.euSh*ph;cum+=ac;projR.push({yr:yr,pri:pri,ph:ph,ac:ac,cum:cum})}
+html+='<div class="r-panel" id="p-proj"><h4 style="font-size:14px;margin-bottom:12px;color:var(--t2)">'+(z?'不行动的5年成本':'5-Year Cost of Inaction')+'</h4>';
+var maxP=Math.max.apply(null,projR.map(function(p){return p.ac}));
+html+='<div class="ch-c"><div class="ch-t">'+(z?'年度趋势':'Annual Trend')+'</div><div class="proj-bars">';
+projR.forEach(function(p,i){var pct=maxP>0?p.ac/maxP*100:0;
+html+='<div class="proj-col"><div class="proj-bv">€'+fmtM(p.ac)+'M</div><div class="proj-b y'+(i+1)+'" style="height:'+Math.max(pct,4)+'%"></div><div class="proj-by">'+p.yr+'</div></div>'});
+html+='</div></div>';
+html+='<table class="dt"><thead><tr><th>'+(z?'年份':'Year')+'</th><th class="vc">'+(z?'碳价':'Price')+'</th><th class="vc">'+(z?'证书比例':'Cert%')+'</th><th class="vc">'+(z?'年成本':'Annual')+'</th><th class="vc">'+(z?'累计':'Cumul.')+'</th></tr></thead><tbody>';
+projR.forEach(function(p,i){html+='<tr'+(i===projR.length-1?' class="dr"':'')+'><td>'+p.yr+'</td><td class="vc">€'+p.pri.toFixed(0)+'</td><td class="vc">'+(p.ph*100).toFixed(1)+'%</td><td class="vc">€'+fmtM(p.ac)+'M</td><td class="vc">€'+fmtM(p.cum)+'M</td></tr>'});
+html+='</tbody></table>';
+var sav5=cum*(r.combSav/r.euCost);
+html+='<div class="proj-tot"><div class="tl">'+(z?'5年总成本':'Total 5-year cost')+'</div><div class="tv">€'+fmtM(cum)+'M</div><div class="ts">'+(z?'综合优化可节省约':'Combined optimization saves ~')+'€'+fmtM(sav5)+'M</div></div></div>';
+
+// READINESS
+var hasActual=r.src.includes('实报')||r.src.includes('Factory'),hasGreen=parseFloat(document.getElementById('fGreen').value)>0;
+var dims=[{zh:'排放数据质量',en:'Data quality',s:hasActual?4:2},{zh:'文档准备度',en:'Documentation',s:3},{zh:'流程透明度',en:'Transparency',s:hasActual?3:2},{zh:'脱碳进展',en:'Decarbonization',s:hasGreen?3:1},{zh:'买家沟通',en:'Buyer readiness',s:2}];
+var avg=(dims.reduce(function(a,d){return a+d.s},0)/dims.length).toFixed(1);
+html+='<div class="r-panel" id="p-ready"><div class="rd-big"><div class="score">'+avg+'</div><div class="oo">/ 5.0</div><p style="font-size:12px;color:var(--tm);margin-top:8px">'+(z?'CBAM准备度评分':'CBAM Readiness Score')+'</p></div>';
+html+='<div class="rd-g">';
+dims.forEach(function(d){html+='<div class="rd-item"><span class="rd-lab">'+(z?d.zh:d.en)+'</span><div class="rd-dots">';
+for(var i=1;i<=5;i++)html+='<div class="rd-dot'+(i<=d.s?' f':'')+'"></div>';
+html+='</div></div>'});
+html+='</div>';
+// Competitors
+var comp=[{n:z?'欧盟':'EU',see:r.p.bm,pos:z?'基准':'Baseline'},{n:z?'本工厂':'This factory',see:r.tSEE,pos:z?'当前':'Current',hl:true},{n:z?'中国平均':'China avg',see:r.p.comp.cn,pos:z?'典型':'Typical'},{n:z?'印度':'India',see:r.p.comp.india,pos:z?'更高':'Higher'},{n:z?'土耳其':'Turkey',see:r.p.comp.turkey,pos:z?'更低':'Lower'}];
+var maxC=Math.max.apply(null,comp.map(function(c){return c.see}));
+html+='<h4 style="font-size:14px;margin:24px 0 12px;color:var(--t2)">'+(z?'竞争对比':'Competitive Positioning')+'</h4>';
+html+='<div class="ch-c"><div class="bar-ch">';
+comp.forEach(function(c){var pct=maxC>0?c.see/maxC*100:0,cl=c.hl?'am':c.see<=r.p.bm?'gr':'bl';
+html+='<div class="bar-r"><div class="bar-l">'+c.n+'</div><div class="bar-tk"><div class="bar-f '+cl+(c.hl?' cur':'')+'" style="width:'+Math.max(pct,3)+'%"><span class="bar-v">'+c.see.toFixed(2)+'</span></div></div></div>'});
+html+='</div></div></div>';
+
+document.getElementById('resContent').innerHTML=html;
+}
+
+function showTab(id,btn){
+document.querySelectorAll('.r-tab').forEach(function(t){t.classList.remove('active')});
+document.querySelectorAll('.r-panel').forEach(function(p){p.classList.remove('active')});
+btn.classList.add('active');
+document.getElementById('p-'+id).classList.add('active');
+}
+
+// ═══ MODALS ═══
+function openContact(){document.getElementById('contactModal').classList.add('active')}
+function closeContact(){document.getElementById('contactModal').classList.remove('active')}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')closeContact()});
+</script>
+</body>
+</html>
