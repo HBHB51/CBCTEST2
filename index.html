@@ -1,9 +1,23 @@
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CARBONBRIDGE CBAM PLATFORM - PART 1 OF 4
+     Enhanced Professional Version with Advanced Features
+     
+     PART 1 CONTAINS:
+     - Complete <head> section with meta tags
+     - All CSS styling for entire site
+     - Navigation with mobile menu
+     - Hero section with animated stats
+     - Trust bar with regulatory citations
+     
+     TO ASSEMBLE: Concatenate part1.html + part2.html + part3.html + part4.html
+     Then add closing </body></html> tags at the very end
+════════════════════════════════════════════════════════════════════════════════ -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="index, follow">
+    <meta name="robots" content="noindex, nofollow">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="CarbonBridge - Professional CBAM compliance services for Chinese exporters. Free cost estimator, expert consulting, and full reporting solutions.">
     <meta name="keywords" content="CBAM, carbon border adjustment, EU carbon tax, carbon compliance, emissions reporting, Chinese exporters">
@@ -125,7 +139,6 @@ body::before {
     pointer-events: none;
     z-index: 0;
     animation: gradientFloat 20s ease-in-out infinite;
-    will-change: transform;
 }
 
 @keyframes gradientFloat {
@@ -363,11 +376,6 @@ body::before {
     box-shadow: 0 6px 28px rgba(16, 185, 129, 0.4);
 }
 
-.nav-cta:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 4px var(--accent-glow);
-}
-
 .nav-lang {
     display: flex;
     gap: 4px;
@@ -432,7 +440,6 @@ body::before {
     gap: 8px;
     animation: slideInDown 0.3s ease;
     box-shadow: var(--shadow-lg);
-    z-index: var(--z-fixed);
 }
 
 @keyframes slideInDown {
@@ -566,7 +573,6 @@ body::before {
     font-family: inherit;
     box-shadow: 0 4px 24px rgba(16, 185, 129, 0.35);
     transition: all var(--transition-base);
-    text-decoration: none;
 }
 
 .hero-btn-primary:hover {
@@ -588,19 +594,12 @@ body::before {
     border: 1px solid var(--border);
     font-family: inherit;
     transition: all var(--transition-base);
-    text-decoration: none;
 }
 
 .hero-btn-secondary:hover {
     border-color: var(--accent);
     color: var(--text-primary);
     background: var(--bg-card);
-}
-
-.hero-btn-primary:focus-visible,
-.hero-btn-secondary:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 4px var(--accent-glow);
 }
 
 /* Hero stats - animated counters */
@@ -655,7 +654,6 @@ body::before {
     right: 0;
     height: 4px;
     background: linear-gradient(90deg, var(--accent), #6ee7b7, var(--accent-dim));
-    z-index: 1;
 }
 
 .preview-header {
@@ -758,12 +756,12 @@ body::before {
 
 .hero-float-badge.b1 {
     top: -10px;
-    right: 0;
+    right: -20px;
 }
 
 .hero-float-badge.b2 {
     bottom: 30px;
-    left: 0;
+    left: -30px;
     animation-delay: 1.5s;
 }
 
@@ -822,6 +820,21 @@ body::before {
     height: 28px;
     background: var(--border);
 }
+
+/* ═══ PART 1 END ═══ -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CARBONBRIDGE CBAM PLATFORM - PART 2 OF 4
+     
+     PART 2 CONTAINS:
+     - Stats section with animated counters
+     - Interactive CBAM regulatory timeline
+     - How it works section
+     - Services grid
+     - Client testimonials carousel
+     - Report preview
+     - Resources & news section
+     
+════════════════════════════════════════════════════════════════════════════════ -->
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    STATS SECTION
@@ -1387,8 +1400,6 @@ body::before {
     box-shadow: var(--shadow-xl);
     transform: rotateY(-5deg);
     transition: all 0.4s ease;
-    backface-visibility: hidden;
-    transform-style: preserve-3d;
 }
 
 .report-page:hover {
@@ -1710,6 +1721,18 @@ body::before {
     line-height: 1.5;
 }
 
+/* ═══ PART 2 END ═══ -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CARBONBRIDGE CBAM PLATFORM - PART 3A OF 4
+     
+     PART 3A CONTAINS:
+     - FAQ section with accordion
+     - Final CTA section
+     - Footer
+     - Back to top button
+     
+════════════════════════════════════════════════════════════════════════════════ -->
+
 /* ═══════════════════════════════════════════════════════════════════════════════
    FAQ SECTION
 ════════════════════════════════════════════════════════════════════════════════ */
@@ -2027,11 +2050,7 @@ body::before {
     opacity: 0;
     visibility: hidden;
     transition: all var(--transition-base);
-    z-index: var(--z-modal-backdrop);
-}
-
-body.cookie-banner-active .back-to-top {
-    bottom: 120px;
+    z-index: var(--z-fixed);
 }
 
 .back-to-top.visible {
@@ -2139,18 +2158,9 @@ body.cookie-banner-active .back-to-top {
     color: var(--text-primary);
 }
 
-.cookie-btn:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 4px var(--accent-glow);
-}
-
 /* ═══════════════════════════════════════════════════════════════════════════════
    MODALS
 ════════════════════════════════════════════════════════════════════════════════ */
-.body-modal-open {
-    overflow: hidden;
-}
-
 .modal-overlay {
     display: none;
     position: fixed;
@@ -2281,6 +2291,21 @@ body.cookie-banner-active .back-to-top {
     border-color: var(--accent);
     background: rgba(52, 211, 153, 0.08);
 }
+
+/* ═══ PART 3A END ═══ -->
+
+         
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CARBONBRIDGE CBAM PLATFORM - PART 3B OF 4
+     
+     PART 3B CONTAINS:
+     - Estimator section CSS
+     - Access gate styling
+     - Form inputs and controls
+     - Results panels and charts
+     - All estimator-related styles
+     
+════════════════════════════════════════════════════════════════════════════════ -->
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    ESTIMATOR SECTION
@@ -2839,6 +2864,19 @@ body.cookie-banner-active .back-to-top {
     border-color: var(--accent);
     background: rgba(52, 211, 153, 0.08);
 }
+
+/* ═══ PART 3B END ═══ -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CARBONBRIDGE CBAM PLATFORM - PART 3C OF 4
+     
+     PART 3C CONTAINS:
+     - Results section CSS
+     - KPI cards and charts
+     - Data tables
+     - Comparison tables
+     - All results visualization styles
+     
+════════════════════════════════════════════════════════════════════════════════ -->
 
 /* ═══════════════════════════════════════════════════════════════════════════════
    RESULTS SECTION
@@ -3545,6 +3583,20 @@ body.cookie-banner-active .back-to-top {
     flex-shrink: 0;
 }
 
+/* ═══ PART 3C END ═══ -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CARBONBRIDGE CBAM PLATFORM - PART 3D OF 4
+     
+     PART 3D CONTAINS:
+     - Responsive media queries
+     - Print styles
+     - Utility classes
+     - Closing CSS tag
+     
+     After this part, the HTML content sections begin
+     
+════════════════════════════════════════════════════════════════════════════════ -->
+
 /* ═══════════════════════════════════════════════════════════════════════════════
    UTILITY CLASSES
 ════════════════════════════════════════════════════════════════════════════════ */
@@ -3683,7 +3735,6 @@ body.cookie-banner-active .back-to-top {
     
     .timeline-item .timeline-content {
         text-align: left !important;
-        margin-left: 40px;
     }
     
     .timeline-line {
@@ -3695,11 +3746,11 @@ body.cookie-banner-active .back-to-top {
     }
     
     .testimonial-arrow.prev {
-        left: 10px;
+        left: -20px;
     }
     
     .testimonial-arrow.next {
-        right: 10px;
+        right: -20px;
     }
 }
 
@@ -5751,7 +5802,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!cookieConsent) {
         setTimeout(() => {
             document.getElementById('cookieBanner').classList.add('visible');
-            document.body.classList.add('cookie-banner-active');
         }, 2000);
     }
 });
@@ -5786,13 +5836,11 @@ function animateCounters() {
 function acceptCookies() {
     localStorage.setItem('cbam_cookie_consent', 'accepted');
     document.getElementById('cookieBanner').classList.remove('visible');
-    document.body.classList.remove('cookie-banner-active');
 }
 
 function declineCookies() {
     localStorage.setItem('cbam_cookie_consent', 'declined');
     document.getElementById('cookieBanner').classList.remove('visible');
-    document.body.classList.remove('cookie-banner-active');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -5801,28 +5849,20 @@ function declineCookies() {
 
 function contactUs() {
     document.getElementById('contactModal').classList.add('active');
-    document.body.classList.add('body-modal-open');
 }
 
 function openPrivacyModal() {
     document.getElementById('privacyModal').classList.add('active');
-    document.body.classList.add('body-modal-open');
 }
 
 function closeModal(modalId) {
     document.getElementById(modalId).classList.remove('active');
-    if (!document.querySelector('.modal-overlay.active')) {
-        document.body.classList.remove('body-modal-open');
-    }
 }
 
 // Close modal on overlay click
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('modal-overlay')) {
         e.target.classList.remove('active');
-        if (!document.querySelector('.modal-overlay.active')) {
-            document.body.classList.remove('body-modal-open');
-        }
     }
 });
 
@@ -6347,7 +6387,275 @@ function formatNumber(num) {
 }
 
 // ═══ PART 6C END ═══
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CARBONBRIDGE CBAM PLATFORM - PART 6D (FINAL)
+     
+     PART 6D CONTAINS:
+     - Sensitivity analysis rendering
+     - 5-year projection rendering
+     - Optimization scenarios rendering
+     - Readiness scorecard rendering
+     - Closing script tag
+     - Closing body and html tags
+     
+════════════════════════════════════════════════════════════════════════════════ -->
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SENSITIVITY ANALYSIS RENDERING
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function renderSensitivityAnalysis() {
+    const r = calculationResults;
+    
+    const scenarios = [
+        { name: currentLang === 'zh' ? '低价' : 'Low', price: 60, color: 'green' },
+        { name: currentLang === 'zh' ? '中低' : 'Med-Low', price: 80, color: 'emerald' },
+        { name: currentLang === 'zh' ? '当前' : 'Current', price: 95, color: 'amber', current: true },
+        { name: currentLang === 'zh' ? '中高' : 'Med-High', price: 110, color: 'red' },
+        { name: currentLang === 'zh' ? '高价' : 'High', price: 130, color: 'red' }
+    ];
+    
+    const chart = document.getElementById('sensitivityChart');
+    const maxCost = r.totalEmissions * 130;
+    
+    chart.innerHTML = scenarios.map(s => {
+        const cost = r.totalEmissions * s.price;
+        return `
+            <div class="bar-row">
+                <div class="bar-label">${s.name}</div>
+                <div class="bar-track">
+                    <div class="bar-fill ${s.color} ${s.current ? 'current' : ''}" style="width: ${(cost / maxCost * 100).toFixed(1)}%">
+                        <span class="bar-value">€${formatNumber(cost)}</span>
+                    </div>
+                </div>
+            </div>
+        `;
+    }).join('');
+    
+    const table = document.getElementById('sensitivityTable');
+    table.innerHTML = scenarios.map((s, i) => {
+        const cost = r.totalEmissions * s.price;
+        const costPerTonne = cost / r.exportVolume;
+        const vsCurrentPercent = ((cost / r.annualCost - 1) * 100).toFixed(0);
+        const rowClass = s.current ? 'sensitivity-current' : (i > 2 ? 'sensitivity-high' : '');
+        return `
+            <tr class="${rowClass}">
+                <td>${s.name}</td>
+                <td class="value-col">€${s.price}/t</td>
+                <td class="value-col">€${formatNumber(cost)}</td>
+                <td class="value-col">€${costPerTonne.toFixed(0)}</td>
+                <td class="value-col">${vsCurrentPercent > 0 ? '+' : ''}${vsCurrentPercent}%</td>
+            </tr>
+        `;
+    }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// 5-YEAR PROJECTION RENDERING
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function renderProjection() {
+    const r = calculationResults;
+    
+    const years = [
+        { year: 2026, price: 95, freeAlloc: 97.5 },
+        { year: 2027, price: 105, freeAlloc: 95 },
+        { year: 2028, price: 110, freeAlloc: 90 },
+        { year: 2029, price: 115, freeAlloc: 82.5 },
+        { year: 2030, price: 120, freeAlloc: 0 }
+    ];
+    
+    let cumulative = 0;
+    const projectionData = years.map(y => {
+        const cost = r.totalEmissions * y.price * (y.freeAlloc / 100);
+        cumulative += cost;
+        return { ...y, cost, cumulative };
+    });
+    
+    // Bar chart
+    const chart = document.getElementById('projectionChart');
+    const maxCost = Math.max(...projectionData.map(d => d.cost));
+    
+    chart.innerHTML = projectionData.map((d, i) => {
+        const height = (d.cost / maxCost * 100).toFixed(1);
+        return `
+            <div class="proj-bar-col">
+                <div class="proj-bar y${i + 1}" style="height: ${height}%"></div>
+                <div class="proj-bar-val">€${formatNumber(d.cost)}</div>
+                <div class="proj-bar-yr">${d.year}</div>
+            </div>
+        `;
+    }).join('');
+    
+    // Totals
+    const fiveYearTotal = projectionData[projectionData.length - 1].cumulative;
+    const fiveYearSavings = fiveYearTotal * 0.35;
+    document.getElementById('fiveYearTotal').textContent = `€${formatNumber(fiveYearTotal)}`;
+    document.getElementById('fiveYearSavings').textContent = `€${formatNumber(fiveYearSavings)}`;
+    
+    // Table
+    const table = document.getElementById('projectionTable');
+    table.innerHTML = projectionData.map(d => `
+        <tr>
+            <td>${d.year}</td>
+            <td class="value-col">€${d.price}/t</td>
+            <td class="value-col">${d.freeAlloc.toFixed(1)}%</td>
+            <td class="value-col">€${formatNumber(d.cost)}</td>
+            <td class="value-col">€${formatNumber(d.cumulative)}</td>
+        </tr>
+    `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// OPTIMIZATION SCENARIOS RENDERING
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function renderOptimization() {
+    const r = calculationResults;
+    
+    const baseline = r.annualCost;
+    const greenElecSavings = r.electricity * 0.5 * emissionFactors.electricity * r.effectivePrice;
+    const processOptSavings = baseline * 0.15;
+    const optimized = baseline - greenElecSavings - processOptSavings;
+    
+    document.getElementById('scenarioBaseline').textContent = `€${formatNumber(baseline)}`;
+    document.getElementById('scenarioOptimized').textContent = `€${formatNumber(optimized)}`;
+    document.getElementById('scenarioSaving').textContent = `${currentLang === 'zh' ? '节省' : 'Savings'} €${formatNumber(baseline - optimized)}`;
+    
+    // Optimization measures chart
+    const measures = [
+        { name: currentLang === 'zh' ? '50%绿电PPA' : '50% Green PPA', savings: greenElecSavings, color: 'green' },
+        { name: currentLang === 'zh' ? '工艺优化' : 'Process Optimization', savings: processOptSavings, color: 'blue' },
+        { name: currentLang === 'zh' ? '能效提升' : 'Energy Efficiency', savings: baseline * 0.08, color: 'emerald' }
+    ];
+    
+    const chart = document.getElementById('optimizationChart');
+    const maxSavings = Math.max(...measures.map(m => m.savings));
+    
+    chart.innerHTML = measures.map(m => `
+        <div class="bar-row">
+            <div class="bar-label">${m.name}</div>
+            <div class="bar-track">
+                <div class="bar-fill ${m.color}" style="width: ${(m.savings / maxSavings * 100).toFixed(1)}%">
+                    <span class="bar-value">€${formatNumber(m.savings)}</span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    
+    // Optimization table
+    const table = document.getElementById('optimizationTable');
+    const optimizationMeasures = [
+        { 
+            measure: currentLang === 'zh' ? '绿电PPA采购（50%）' : 'Green PPA (50%)',
+            difficulty: currentLang === 'zh' ? '中' : 'Medium',
+            timeframe: currentLang === 'zh' ? '6-12个月' : '6-12 months',
+            savings: greenElecSavings,
+            roi: currentLang === 'zh' ? '2-3年' : '2-3 years'
+        },
+        {
+            measure: currentLang === 'zh' ? '工艺参数优化' : 'Process Optimization',
+            difficulty: currentLang === 'zh' ? '低' : 'Low',
+            timeframe: currentLang === 'zh' ? '3-6个月' : '3-6 months',
+            savings: processOptSavings,
+            roi: currentLang === 'zh' ? '<1年' : '<1 year'
+        },
+        {
+            measure: currentLang === 'zh' ? '能效设备升级' : 'Energy Efficiency Upgrade',
+            difficulty: currentLang === 'zh' ? '高' : 'High',
+            timeframe: currentLang === 'zh' ? '12-18个月' : '12-18 months',
+            savings: baseline * 0.08,
+            roi: currentLang === 'zh' ? '3-5年' : '3-5 years'
+        }
+    ];
+    
+    table.innerHTML = optimizationMeasures.map(m => `
+        <tr>
+            <td>${m.measure}</td>
+            <td>${m.difficulty}</td>
+            <td>${m.timeframe}</td>
+            <td class="value-col">€${formatNumber(m.savings)}</td>
+            <td>${m.roi}</td>
+        </tr>
+    `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// READINESS SCORECARD RENDERING
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function renderReadiness() {
+    const r = calculationResults;
+    
+    // Calculate scores (out of 5)
+    const dataScore = r.electricity > 0 ? 4 : 2;
+    const intensityScore = r.emissionIntensity < r.benchmark ? 5 : (r.emissionIntensity < r.benchmark * 1.2 ? 3 : 2);
+    const greenScore = Math.min(5, Math.floor(r.greenElec / 20) + 1);
+    const buyerScore = 3;
+    const optimizationScore = r.savingsPotential > r.annualCost * 0.3 ? 5 : 3;
+    
+    const totalScore = Math.round((dataScore + intensityScore + greenScore + buyerScore + optimizationScore) / 5 * 20);
+    
+    document.getElementById('readinessScore').textContent = totalScore;
+    
+    // Fill dots
+    fillReadinessDots('readiness1', dataScore);
+    fillReadinessDots('readiness2', intensityScore);
+    fillReadinessDots('readiness3', greenScore);
+    fillReadinessDots('readiness4', buyerScore);
+    fillReadinessDots('readiness5', optimizationScore);
+    
+    // Actions table
+    const table = document.getElementById('actionsTable');
+    const actions = [
+        {
+            priority: currentLang === 'zh' ? '高' : 'High',
+            action: currentLang === 'zh' ? '联系绿电供应商，签署PPA协议' : 'Contact green electricity providers, sign PPA',
+            impact: currentLang === 'zh' ? '降低35-50%成本' : 'Reduce costs 35-50%'
+        },
+        {
+            priority: currentLang === 'zh' ? '高' : 'High',
+            action: currentLang === 'zh' ? '建立完整数据收集系统' : 'Establish complete data collection system',
+            impact: currentLang === 'zh' ? '准确计算，避免默认值' : 'Accurate calculations, avoid defaults'
+        },
+        {
+            priority: currentLang === 'zh' ? '中' : 'Medium',
+            action: currentLang === 'zh' ? '联系碳桥获取专业报告' : 'Contact CarbonBridge for professional report',
+            impact: currentLang === 'zh' ? '买家沟通，认证准备' : 'Buyer communication, certification prep'
+        }
+    ];
+    
+    table.innerHTML = actions.map(a => `
+        <tr>
+            <td><strong>${a.priority}</strong></td>
+            <td>${a.action}</td>
+            <td>${a.impact}</td>
+        </tr>
+    `).join('');
+}
+
+function fillReadinessDots(containerId, score) {
+    const container = document.getElementById(containerId);
+    const dots = container.querySelectorAll('.readiness-dot');
+    dots.forEach((dot, index) => {
+        if (index < score) {
+            dot.classList.add('filled');
+        } else {
+            dot.classList.remove('filled');
+        }
+    });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// INITIALIZATION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Initialize on page load
+window.addEventListener('load', () => {
+    console.log('CarbonBridge CBAM Platform loaded successfully');
+});
 
 </script>
+
 </body>
 </html>
