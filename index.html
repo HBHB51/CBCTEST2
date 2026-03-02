@@ -4886,3 +4886,797 @@ body::before {
 </div>
 
 <!-- ═══ PART 4D END ═══ -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CARBONBRIDGE CBAM PLATFORM - PART 5A
+     
+     PART 5A CONTAINS:
+     - Estimator section wrapper
+     - Access gate HTML
+     - Product selection step
+     - Basic info form step
+     - Production data form step
+     
+════════════════════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══ ESTIMATOR SECTION ═══ -->
+<section class="estimator-section fade-in-section" id="estimator">
+    <div class="container-narrow">
+        <div class="section-header">
+            <div class="section-overline" data-zh="免费工具" data-en="FREE TOOL">免费工具</div>
+            <h2 class="section-heading" data-zh="CBAM成本估算器" data-en="CBAM Cost Estimator">CBAM成本估算器</h2>
+            <p class="section-desc" data-zh="30秒了解您的CBAM成本、敏感性分析和5年预测" data-en="Understand your CBAM costs, sensitivity analysis and 5-year projection in 30 seconds">30秒了解您的CBAM成本、敏感性分析和5年预测</p>
+        </div>
+        
+        <div class="estimator-wrapper">
+            <div class="estimator-body">
+                
+                <!-- ═══ ACCESS GATE ═══ -->
+                <div class="est-section active" id="accessGate">
+                    <div class="access-gate">
+                        <div class="gate-icon">🔐</div>
+                        <h3 data-zh="输入访问密钥" data-en="Enter Access Key">输入访问密钥</h3>
+                        <p class="gate-desc" data-zh="此工具需要访问密钥。如果您是碳桥客户或合作伙伴，请输入您收到的密钥。" data-en="This tool requires an access key. If you're a CarbonBridge client or partner, please enter your key.">
+                            此工具需要访问密钥。如果您是碳桥客户或合作伙伴，请输入您收到的密钥。
+                        </p>
+                        
+                        <div class="gate-input-row">
+                            <input type="text" class="gate-input" id="accessKeyInput" placeholder="XXXX" maxlength="8" data-zh="输入密钥" data-en="Enter key">
+                            <button class="gate-btn" id="accessBtn" onclick="validateAccess()">
+                                <span data-zh="验证" data-en="Verify">验证</span>
+                            </button>
+                        </div>
+                        
+                        <div class="gate-error" id="gateError" data-zh="密钥无效或已使用" data-en="Invalid or used key">密钥无效或已使用</div>
+                        
+                        <div class="gate-contact">
+                            <p data-zh="还没有密钥？联系我们获取访问权限。" data-en="Don't have a key? Contact us for access.">还没有密钥？联系我们获取访问权限。</p>
+                            <button class="gate-contact-btn" onclick="contactUs()">
+                                <span>💬</span>
+                                <span data-zh="联系碳桥" data-en="Contact CarbonBridge">联系碳桥</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ═══ STEP 1: PRODUCT SELECTION ═══ -->
+                <div class="est-section" id="step1">
+                    <div class="steps-bar">
+                        <div class="step-pill active">
+                            <div class="step-num">1</div>
+                            <span data-zh="产品" data-en="Product">产品</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill">
+                            <div class="step-num">2</div>
+                            <span data-zh="基本信息" data-en="Basic Info">基本信息</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill">
+                            <div class="step-num">3</div>
+                            <span data-zh="生产数据" data-en="Production">生产数据</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill">
+                            <div class="step-num">4</div>
+                            <span data-zh="结果" data-en="Results">结果</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="est-title" data-zh="选择您的产品类别" data-en="Select Your Product Category">选择您的产品类别</h3>
+                    <p class="est-subtitle" data-zh="CBAM目前覆盖6大类产品，请选择您出口到欧盟的主要产品" data-en="CBAM currently covers 6 product categories. Select your main EU export product.">CBAM目前覆盖6大类产品，请选择您出口到欧盟的主要产品</p>
+                    
+                    <div class="product-grid">
+                        <div class="product-card" onclick="selectProduct('cement')">
+                            <div class="product-icon">🏗️</div>
+                            <div class="product-name" data-zh="水泥" data-en="Cement">水泥</div>
+                            <div class="product-name-en">Cement</div>
+                            <div class="product-see">CN Code: 2507-2523</div>
+                        </div>
+                        
+                        <div class="product-card" onclick="selectProduct('steel')">
+                            <div class="product-icon">🔩</div>
+                            <div class="product-name" data-zh="钢铁" data-en="Iron & Steel">钢铁</div>
+                            <div class="product-name-en">Iron & Steel</div>
+                            <div class="product-see">CN Code: 7201-7229</div>
+                        </div>
+                        
+                        <div class="product-card" onclick="selectProduct('aluminium')">
+                            <div class="product-icon">⚙️</div>
+                            <div class="product-name" data-zh="铝" data-en="Aluminium">铝</div>
+                            <div class="product-name-en">Aluminium</div>
+                            <div class="product-see">CN Code: 7601-7616</div>
+                        </div>
+                        
+                        <div class="product-card" onclick="selectProduct('fertiliser')">
+                            <div class="product-icon">🌾</div>
+                            <div class="product-name" data-zh="化肥" data-en="Fertilisers">化肥</div>
+                            <div class="product-name-en">Fertilisers</div>
+                            <div class="product-see">CN Code: 2808, 3102-3105</div>
+                        </div>
+                        
+                        <div class="product-card" onclick="selectProduct('hydrogen')">
+                            <div class="product-icon">💧</div>
+                            <div class="product-name" data-zh="氢" data-en="Hydrogen">氢</div>
+                            <div class="product-name-en">Hydrogen</div>
+                            <div class="product-see">CN Code: 2804 10 00</div>
+                        </div>
+                        
+                        <div class="product-card" onclick="selectProduct('electricity')">
+                            <div class="product-icon">⚡</div>
+                            <div class="product-name" data-zh="电力" data-en="Electricity">电力</div>
+                            <div class="product-name-en">Electricity</div>
+                            <div class="product-see">CN Code: 2716 00 00</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- ═══ STEP 2: BASIC INFO ═══ -->
+                <div class="est-section" id="step2">
+                    <div class="steps-bar">
+                        <div class="step-pill completed">
+                            <div class="step-num">✓</div>
+                            <span data-zh="产品" data-en="Product">产品</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill active">
+                            <div class="step-num">2</div>
+                            <span data-zh="基本信息" data-en="Basic Info">基本信息</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill">
+                            <div class="step-num">3</div>
+                            <span data-zh="生产数据" data-en="Production">生产数据</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill">
+                            <div class="step-num">4</div>
+                            <span data-zh="结果" data-en="Results">结果</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="est-title" data-zh="基本信息" data-en="Basic Information">基本信息</h3>
+                    <p class="est-subtitle" data-zh="告诉我们您的工厂和出口情况" data-en="Tell us about your factory and exports">告诉我们您的工厂和出口情况</p>
+                    
+                    <div class="form-grid">
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span data-zh="工厂名称" data-en="Factory Name">工厂名称</span>
+                                </label>
+                                <input type="text" class="field-input" id="factoryName" placeholder="例如：东莞市鑫达钢铁有限公司" data-zh="例如：东莞市鑫达钢铁有限公司" data-en="e.g., Dongguan Xinda Steel Co.">
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span data-zh="所在省份" data-en="Province">所在省份</span>
+                                </label>
+                                <select class="field-select" id="province">
+                                    <option value="" data-zh="选择省份" data-en="Select province">选择省份</option>
+                                    <option value="guangdong" data-zh="广东" data-en="Guangdong">广东</option>
+                                    <option value="jiangsu" data-zh="江苏" data-en="Jiangsu">江苏</option>
+                                    <option value="zhejiang" data-zh="浙江" data-en="Zhejiang">浙江</option>
+                                    <option value="shandong" data-zh="山东" data-en="Shandong">山东</option>
+                                    <option value="hebei" data-zh="河北" data-en="Hebei">河北</option>
+                                    <option value="henan" data-zh="河南" data-en="Henan">河南</option>
+                                    <option value="liaoning" data-zh="辽宁" data-en="Liaoning">辽宁</option>
+                                    <option value="other" data-zh="其他" data-en="Other">其他</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span data-zh="年出口量（吨）" data-en="Annual Export Volume (tonnes)">年出口量（吨）</span>
+                                    <span class="tip" data-tip="仅计算出口到欧盟的数量">?</span>
+                                </label>
+                                <input type="number" class="field-input" id="exportVolume" placeholder="10000" min="0">
+                                <div class="field-hint" data-zh="仅计算出口到欧盟的数量" data-en="EU exports only">仅计算出口到欧盟的数量</div>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span data-zh="主要欧盟市场" data-en="Main EU Market">主要欧盟市场</span>
+                                </label>
+                                <select class="field-select" id="euMarket">
+                                    <option value="" data-zh="选择国家" data-en="Select country">选择国家</option>
+                                    <option value="germany" data-zh="德国" data-en="Germany">德国</option>
+                                    <option value="france" data-zh="法国" data-en="France">法国</option>
+                                    <option value="italy" data-zh="意大利" data-en="Italy">意大利</option>
+                                    <option value="spain" data-zh="西班牙" data-en="Spain">西班牙</option>
+                                    <option value="netherlands" data-zh="荷兰" data-en="Netherlands">荷兰</option>
+                                    <option value="poland" data-zh="波兰" data-en="Poland">波兰</option>
+                                    <option value="other" data-zh="其他" data-en="Other">其他</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="btn-row">
+                        <button class="btn btn-secondary" onclick="goToStep(1)">
+                            <span data-zh="← 上一步" data-en="← Back">← 上一步</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="goToStep(3)">
+                            <span data-zh="下一步 →" data-en="Next →">下一步 →</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- ═══ STEP 3: PRODUCTION DATA ═══ -->
+                <div class="est-section" id="step3">
+                    <div class="steps-bar">
+                        <div class="step-pill completed">
+                            <div class="step-num">✓</div>
+                            <span data-zh="产品" data-en="Product">产品</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill completed">
+                            <div class="step-num">✓</div>
+                            <span data-zh="基本信息" data-en="Basic Info">基本信息</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill active">
+                            <div class="step-num">3</div>
+                            <span data-zh="生产数据" data-en="Production">生产数据</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill">
+                            <div class="step-num">4</div>
+                            <span data-zh="结果" data-en="Results">结果</span>
+                        </div>
+                    </div>
+                    
+                    <h3 class="est-title" data-zh="生产与排放数据" data-en="Production & Emissions Data">生产与排放数据</h3>
+                    <p class="est-subtitle" data-zh="提供关键生产数据以计算CBAM成本" data-en="Provide key production data to calculate CBAM costs">提供关键生产数据以计算CBAM成本</p>
+                    
+                    <div class="form-grid">
+                        <div class="form-section-label" data-zh="能源消耗" data-en="ENERGY CONSUMPTION">能源消耗</div>
+                        
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span data-zh="年用电量（MWh）" data-en="Annual Electricity (MWh)">年用电量（MWh）</span>
+                                    <span class="tip" data-tip="1 MWh = 1000 kWh。查看电费账单获取准确数据">?</span>
+                                </label>
+                                <div class="input-with-unit">
+                                    <input type="number" class="field-input" id="electricity" placeholder="50000" min="0">
+                                    <span class="field-unit">MWh</span>
+                                </div>
+                                <div class="field-hint" data-zh="1 MWh = 1000 kWh" data-en="1 MWh = 1000 kWh">1 MWh = 1000 kWh</div>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span data-zh="绿电比例" data-en="Green Electricity %">绿电比例</span>
+                                    <span class="tip" data-tip="有绿证的可再生能源电力占比">?</span>
+                                </label>
+                                <div class="input-with-unit">
+                                    <input type="number" class="field-input" id="greenElec" placeholder="0" min="0" max="100">
+                                    <span class="field-unit">%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="field-row">
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span data-zh="年用煤量（吨）" data-en="Annual Coal (tonnes)">年用煤量（吨）</span>
+                                </label>
+                                <div class="input-with-unit">
+                                    <input type="number" class="field-input" id="coal" placeholder="0" min="0">
+                                    <span class="field-unit" data-zh="吨" data-en="tonnes">吨</span>
+                                </div>
+                            </div>
+                            
+                            <div class="field-group">
+                                <label class="field-label">
+                                    <span data-zh="年用天然气（m³）" data-en="Annual Natural Gas (m³)">年用天然气（m³）</span>
+                                </label>
+                                <div class="input-with-unit">
+                                    <input type="number" class="field-input" id="gas" placeholder="0" min="0">
+                                    <span class="field-unit">m³</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-section-label" data-zh="工艺排放（如适用）" data-en="PROCESS EMISSIONS (IF APPLICABLE)">工艺排放（如适用）</div>
+                        
+                        <div class="field-group">
+                            <label class="field-label">
+                                <span data-zh="工艺排放量（吨CO₂）" data-en="Process Emissions (tonnes CO₂)">工艺排放量（吨CO₂）</span>
+                                <span class="tip" data-tip="水泥生产中的石灰石分解、钢铁生产中的高炉反应等产生的直接CO₂排放">?</span>
+                            </label>
+                            <div class="input-with-unit">
+                                <input type="number" class="field-input" id="processEmissions" placeholder="0" min="0">
+                                <span class="field-unit">t CO₂</span>
+                            </div>
+                            <div class="field-hint" data-zh="如不清楚可留空，系统将使用行业平均值" data-en="Leave blank if unknown, system will use industry average">如不清楚可留空，系统将使用行业平均值</div>
+                        </div>
+                        
+                        <div class="form-section-label" data-zh="其他信息" data-en="ADDITIONAL INFO">其他信息</div>
+                        
+                        <div class="toggle-row">
+                            <span class="toggle-label" data-zh="工厂参与中国全国碳市场（ETS）" data-en="Factory participates in China National ETS">工厂参与中国全国碳市场（ETS）</span>
+                            <div class="toggle-switch" id="chinaEtsToggle" onclick="toggleSwitch(this)"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="btn-row">
+                        <button class="btn btn-secondary" onclick="goToStep(2)">
+                            <span data-zh="← 上一步" data-en="← Back">← 上一步</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="calculateResults()">
+                            <span data-zh="计算CBAM成本 →" data-en="Calculate CBAM Cost →">计算CBAM成本 →</span>
+                        </button>
+                    </div>
+                </div>
+
+<!-- ═══ PART 5A END ═══ -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CARBONBRIDGE CBAM PLATFORM - PART 5B
+     
+     PART 5B CONTAINS:
+     - Results section (Step 4)
+     - All 6 result panels with charts and tables
+     - CTA section within results
+     - Disclaimer
+     
+════════════════════════════════════════════════════════════════════════════════ -->
+
+                <!-- ═══ STEP 4: RESULTS ═══ -->
+                <div class="est-section" id="step4">
+                    <div class="steps-bar">
+                        <div class="step-pill completed">
+                            <div class="step-num">✓</div>
+                            <span data-zh="产品" data-en="Product">产品</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill completed">
+                            <div class="step-num">✓</div>
+                            <span data-zh="基本信息" data-en="Basic Info">基本信息</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill completed">
+                            <div class="step-num">✓</div>
+                            <span data-zh="生产数据" data-en="Production">生产数据</span>
+                        </div>
+                        <div class="step-connector"></div>
+                        <div class="step-pill active">
+                            <div class="step-num">4</div>
+                            <span data-zh="结果" data-en="Results">结果</span>
+                        </div>
+                    </div>
+                    
+                    <div class="results-header">
+                        <h2 data-zh="您的CBAM成本分析" data-en="Your CBAM Cost Analysis">您的CBAM成本分析</h2>
+                        <div class="factory-label" id="resultFactoryName">工厂名称</div>
+                        <div class="product-label" id="resultProduct">产品类别</div>
+                    </div>
+                    
+                    <!-- Result Tabs -->
+                    <div class="result-tabs">
+                        <button class="result-tab active" onclick="switchResultTab(0)" data-zh="概览" data-en="Overview">概览</button>
+                        <button class="result-tab" onclick="switchResultTab(1)" data-zh="排放明细" data-en="Emissions">排放明细</button>
+                        <button class="result-tab" onclick="switchResultTab(2)" data-zh="敏感性分析" data-en="Sensitivity">敏感性分析</button>
+                        <button class="result-tab" onclick="switchResultTab(3)" data-zh="5年预测" data-en="5-Year">5年预测</button>
+                        <button class="result-tab" onclick="switchResultTab(4)" data-zh="优化方案" data-en="Optimization">优化方案</button>
+                        <button class="result-tab" onclick="switchResultTab(5)" data-zh="准备度" data-en="Readiness">准备度</button>
+                    </div>
+                    
+                    <!-- ═══ PANEL 1: OVERVIEW ═══ -->
+                    <div class="result-panel active" id="panel0">
+                        <div class="kpi-grid">
+                            <div class="kpi-card">
+                                <div class="kpi-label" data-zh="年CBAM成本" data-en="ANNUAL CBAM COST">年CBAM成本</div>
+                                <div class="kpi-value danger" id="kpiAnnualCost">€0</div>
+                                <div class="kpi-sub" id="kpiCostPerTonne" data-zh="每吨产品" data-en="per tonne">每吨产品</div>
+                            </div>
+                            
+                            <div class="kpi-card">
+                                <div class="kpi-label" data-zh="总排放强度" data-en="TOTAL EMISSION INTENSITY">总排放强度</div>
+                                <div class="kpi-value accent" id="kpiIntensity">0</div>
+                                <div class="kpi-sub">t CO₂ / t product</div>
+                            </div>
+                            
+                            <div class="kpi-card">
+                                <div class="kpi-label" data-zh="节省潜力" data-en="SAVINGS POTENTIAL">节省潜力</div>
+                                <div class="kpi-value accent" id="kpiSavings">€0</div>
+                                <div class="kpi-sub" id="kpiSavingsPercent">0%</div>
+                            </div>
+                        </div>
+                        
+                        <div class="emissions-bar-container">
+                            <div class="emissions-bar-label">
+                                <span data-zh="排放结构" data-en="Emission Structure">排放结构</span>
+                                <span id="totalEmissions">0 t CO₂</span>
+                            </div>
+                            <div class="emissions-bar">
+                                <div class="direct" id="directBar" style="width: 0%"></div>
+                                <div class="indirect" id="indirectBar" style="width: 0%"></div>
+                            </div>
+                            <div class="legend-row">
+                                <span><span class="legend-dot" style="background: linear-gradient(90deg, #059669, #10b981)"></span><span data-zh="直接排放" data-en="Direct emissions">直接排放</span> <span id="directPercent">0%</span></span>
+                                <span><span class="legend-dot" style="background: linear-gradient(90deg, #d97706, #fbbf24)"></span><span data-zh="间接排放（电力）" data-en="Indirect (electricity)">间接排放（电力）</span> <span id="indirectPercent">0%</span></span>
+                            </div>
+                        </div>
+                        
+                        <h4 style="margin-top:32px;margin-bottom:16px;font-size:16px;font-weight:700" data-zh="关键发现" data-en="Key Findings">关键发现</h4>
+                        <div class="data-table">
+                            <table style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th data-zh="指标" data-en="Metric">指标</th>
+                                        <th data-zh="您的工厂" data-en="Your Factory">您的工厂</th>
+                                        <th data-zh="EU基准" data-en="EU Benchmark">EU基准</th>
+                                        <th data-zh="差异" data-en="Difference">差异</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="overviewTable">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- ═══ PANEL 2: EMISSIONS BREAKDOWN ═══ -->
+                    <div class="result-panel" id="panel1">
+                        <h4 style="margin-bottom:20px;font-size:18px;font-weight:700" data-zh="排放来源明细" data-en="Emission Sources Breakdown">排放来源明细</h4>
+                        
+                        <div class="chart-container">
+                            <div class="chart-title" data-zh="按来源分类" data-en="BY SOURCE">按来源分类</div>
+                            <div class="bar-chart" id="emissionsBySource">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                        
+                        <h4 style="margin-top:32px;margin-bottom:16px;font-size:16px;font-weight:700" data-zh="详细计算" data-en="Detailed Calculations">详细计算</h4>
+                        <div class="data-table">
+                            <table style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th data-zh="排放源" data-en="Emission Source">排放源</th>
+                                        <th data-zh="消耗量" data-en="Consumption">消耗量</th>
+                                        <th data-zh="排放因子" data-en="Emission Factor">排放因子</th>
+                                        <th data-zh="CO₂排放" data-en="CO₂ Emissions">CO₂排放</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="emissionsDetailTable">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- ═══ PANEL 3: SENSITIVITY ANALYSIS ═══ -->
+                    <div class="result-panel" id="panel2">
+                        <h4 style="margin-bottom:20px;font-size:18px;font-weight:700" data-zh="碳价敏感性分析" data-en="Carbon Price Sensitivity Analysis">碳价敏感性分析</h4>
+                        <p style="color:var(--text-secondary);margin-bottom:24px;font-size:14px" data-zh="EU ETS碳价波动对您CBAM成本的影响" data-en="Impact of EU ETS price fluctuations on your CBAM costs">EU ETS碳价波动对您CBAM成本的影响</p>
+                        
+                        <div class="chart-container">
+                            <div class="chart-title" data-zh="不同碳价情景下的年成本" data-en="ANNUAL COST UNDER DIFFERENT CARBON PRICES">不同碳价情景下的年成本</div>
+                            <div class="bar-chart" id="sensitivityChart">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="data-table" style="margin-top:28px">
+                            <table style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th data-zh="情景" data-en="Scenario">情景</th>
+                                        <th data-zh="碳价" data-en="Carbon Price">碳价</th>
+                                        <th data-zh="年成本" data-en="Annual Cost">年成本</th>
+                                        <th data-zh="每吨成本" data-en="Cost/tonne">每吨成本</th>
+                                        <th data-zh="vs当前" data-en="vs Current">vs当前</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sensitivityTable">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- ═══ PANEL 4: 5-YEAR PROJECTION ═══ -->
+                    <div class="result-panel" id="panel3">
+                        <h4 style="margin-bottom:20px;font-size:18px;font-weight:700" data-zh="2026-2030年成本预测" data-en="2026-2030 Cost Projection">2026-2030年成本预测</h4>
+                        <p style="color:var(--text-secondary);margin-bottom:24px;font-size:14px" data-zh="考虑EU免费配额递减和碳价上涨趋势" data-en="Considering EU free allocation phase-down and carbon price trends">考虑EU免费配额递减和碳价上涨趋势</p>
+                        
+                        <div class="chart-container">
+                            <div class="chart-title" data-zh="年度CBAM成本预测" data-en="ANNUAL CBAM COST PROJECTION">年度CBAM成本预测</div>
+                            <div class="proj-bars" id="projectionChart">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="projection-total">
+                            <div class="total-label" data-zh="5年累计CBAM成本" data-en="5-YEAR CUMULATIVE CBAM COST">5年累计CBAM成本</div>
+                            <div class="total-value" id="fiveYearTotal">€0</div>
+                            <div class="total-sub" data-zh="通过优化可节省" data-en="Potential savings through optimization">通过优化可节省 <span id="fiveYearSavings">€0</span></div>
+                        </div>
+                        
+                        <div class="data-table" style="margin-top:28px">
+                            <table style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th data-zh="年份" data-en="Year">年份</th>
+                                        <th data-zh="碳价假设" data-en="Carbon Price">碳价假设</th>
+                                        <th data-zh="免费配额" data-en="Free Allocation">免费配额</th>
+                                        <th data-zh="年成本" data-en="Annual Cost">年成本</th>
+                                        <th data-zh="累计成本" data-en="Cumulative">累计成本</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="projectionTable">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- ═══ PANEL 5: OPTIMIZATION SCENARIOS ═══ -->
+                    <div class="result-panel" id="panel4">
+                        <h4 style="margin-bottom:20px;font-size:18px;font-weight:700" data-zh="成本优化方案" data-en="Cost Optimization Scenarios">成本优化方案</h4>
+                        <p style="color:var(--text-secondary);margin-bottom:24px;font-size:14px" data-zh="通过不同措施降低CBAM成本的潜力" data-en="Potential CBAM cost reduction through different measures">通过不同措施降低CBAM成本的潜力</p>
+                        
+                        <div class="scenario-grid">
+                            <div class="scenario-card">
+                                <div class="scenario-name" data-zh="当前情景" data-en="CURRENT SCENARIO">当前情景</div>
+                                <div class="scenario-cost" id="scenarioBaseline">€0</div>
+                                <div class="scenario-tag" data-zh="基准" data-en="BASELINE">基准</div>
+                            </div>
+                            
+                            <div class="scenario-card best">
+                                <div class="scenario-name" data-zh="最优情景" data-en="OPTIMIZED SCENARIO">最优情景</div>
+                                <div class="scenario-cost" id="scenarioOptimized">€0</div>
+                                <div class="scenario-saving" id="scenarioSaving" data-zh="节省" data-en="Savings">节省 €0</div>
+                                <div class="scenario-tag" data-zh="推荐" data-en="RECOMMENDED">推荐</div>
+                            </div>
+                        </div>
+                        
+                        <h4 style="margin-top:32px;margin-bottom:16px;font-size:16px;font-weight:700" data-zh="优化措施对比" data-en="Optimization Measures Comparison">优化措施对比</h4>
+                        
+                        <div class="chart-container">
+                            <div class="chart-title" data-zh="各措施节省潜力" data-en="SAVINGS POTENTIAL BY MEASURE">各措施节省潜力</div>
+                            <div class="bar-chart" id="optimizationChart">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="comparison-table" style="margin-top:28px">
+                            <table style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th data-zh="优化措施" data-en="Measure">优化措施</th>
+                                        <th data-zh="实施难度" data-en="Difficulty">实施难度</th>
+                                        <th data-zh="时间框架" data-en="Timeframe">时间框架</th>
+                                        <th data-zh="成本节省" data-en="Cost Savings">成本节省</th>
+                                        <th data-zh="投资回报" data-en="ROI">投资回报</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="optimizationTable">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- ═══ PANEL 6: READINESS SCORECARD ═══ -->
+                    <div class="result-panel" id="panel5">
+                        <h4 style="margin-bottom:20px;font-size:18px;font-weight:700" data-zh="CBAM准备度评分" data-en="CBAM Readiness Scorecard">CBAM准备度评分</h4>
+                        <p style="color:var(--text-secondary);margin-bottom:24px;font-size:14px" data-zh="评估您的工厂在CBAM合规方面的准备程度" data-en="Assess your factory's preparedness for CBAM compliance">评估您的工厂在CBAM合规方面的准备程度</p>
+                        
+                        <div class="readiness-score-big">
+                            <div class="score" id="readinessScore">0</div>
+                            <div class="out-of">/100</div>
+                        </div>
+                        
+                        <div class="readiness-grid">
+                            <div class="readiness-item">
+                                <div class="readiness-label" data-zh="数据收集能力" data-en="Data Collection Capability">数据收集能力</div>
+                                <div class="readiness-dots" id="readiness1">
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="readiness-item">
+                                <div class="readiness-label" data-zh="排放强度竞争力" data-en="Emission Intensity Competitiveness">排放强度竞争力</div>
+                                <div class="readiness-dots" id="readiness2">
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="readiness-item">
+                                <div class="readiness-label" data-zh="绿电采购进度" data-en="Green Electricity Adoption">绿电采购进度</div>
+                                <div class="readiness-dots" id="readiness3">
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="readiness-item">
+                                <div class="readiness-label" data-zh="买家沟通准备" data-en="Buyer Communication Readiness">买家沟通准备</div>
+                                <div class="readiness-dots" id="readiness4">
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="readiness-item">
+                                <div class="readiness-label" data-zh="成本优化潜力" data-en="Cost Optimization Potential">成本优化潜力</div>
+                                <div class="readiness-dots" id="readiness5">
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                    <div class="readiness-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h4 style="margin-top:32px;margin-bottom:16px;font-size:16px;font-weight:700" data-zh="建议行动" data-en="Recommended Actions">建议行动</h4>
+                        <div class="data-table">
+                            <table style="width:100%">
+                                <thead>
+                                    <tr>
+                                        <th data-zh="优先级" data-en="Priority">优先级</th>
+                                        <th data-zh="行动项" data-en="Action Item">行动项</th>
+                                        <th data-zh="预期影响" data-en="Expected Impact">预期影响</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="actionsTable">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <!-- CTA Section -->
+                    <div class="cta-section">
+                        <h3 data-zh="想要更详细的分析？" data-en="Want a more detailed analysis?">想要更详细的分析？</h3>
+                        <p data-zh="碳桥专业报告包含20-25页深度分析、现场核查、脱碳路线图和买家对接服务。" data-en="CarbonBridge professional report includes 20-25 pages of in-depth analysis, on-site verification, decarbonization roadmap and buyer matching.">碳桥专业报告包含20-25页深度分析、现场核查、脱碳路线图和买家对接服务。</p>
+                        
+                        <div class="cta-features">
+                            <div class="cta-feature">
+                                <span class="icon">✓</span>
+                                <span data-zh="工厂现场数据核查与拍照存档" data-en="On-site data verification with photo documentation">工厂现场数据核查与拍照存档</span>
+                            </div>
+                            <div class="cta-feature">
+                                <span class="icon">✓</span>
+                                <span data-zh="精确排放计算（误差<5%）" data-en="Precise emission calculations (error <5%)">精确排放计算（误差<5%）</span>
+                            </div>
+                            <div class="cta-feature">
+                                <span class="icon">✓</span>
+                                <span data-zh="4阶段脱碳路线图与投资回报分析" data-en="4-phase decarbonization roadmap with ROI">4阶段脱碳路线图与投资回报分析</span>
+                            </div>
+                            <div class="cta-feature">
+                                <span class="icon">✓</span>
+                                <span data-zh="绿电PPA供应商对接与谈判支持" data-en="Green PPA supplier matching & negotiation">绿电PPA供应商对接与谈判支持</span>
+                            </div>
+                            <div class="cta-feature">
+                                <span class="icon">✓</span>
+                                <span data-zh="欧盟买家匹配与技术文档准备" data-en="EU buyer matching & technical documentation">欧盟买家匹配与技术文档准备</span>
+                            </div>
+                            <div class="cta-feature">
+                                <span class="icon">✓</span>
+                                <span data-zh="为TÜV/SGS正式认证做好准备" data-en="Preparation for TÜV/SGS official verification">为TÜV/SGS正式认证做好准备</span>
+                            </div>
+                        </div>
+                        
+                        <button class="cta-btn" onclick="contactUs()">
+                            <span data-zh="联系碳桥获取专业报告" data-en="Contact CarbonBridge for Professional Report">联系碳桥获取专业报告</span>
+                            <span>→</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Disclaimer -->
+                    <div class="disclaimer">
+                        <strong data-zh="免责声明：" data-en="Disclaimer:">免责声明：</strong>
+                        <span data-zh="本估算器提供的结果仅供参考，基于简化假设和行业平均数据。实际CBAM成本取决于具体生产工艺、能源结构、EU ETS碳价波动等多种因素。本工具不构成法律或财务建议。如需精确计算和合规指导，请联系碳桥获取专业报告或咨询TÜV、SGS等认证机构。" data-en="Results from this estimator are for reference only, based on simplified assumptions and industry averages. Actual CBAM costs depend on specific production processes, energy mix, EU ETS price fluctuations and other factors. This tool does not constitute legal or financial advice. For precise calculations and compliance guidance, contact CarbonBridge for a professional report or consult certification bodies like TÜV or SGS.">
+                            本估算器提供的结果仅供参考，基于简化假设和行业平均数据。实际CBAM成本取决于具体生产工艺、能源结构、EU ETS碳价波动等多种因素。本工具不构成法律或财务建议。如需精确计算和合规指导，请联系碳桥获取专业报告或咨询TÜV、SGS等认证机构。
+                        </span>
+                    </div>
+                    
+                    <div class="btn-row">
+                        <button class="btn btn-secondary" onclick="goToStep(3)">
+                            <span data-zh="← 修改数据" data-en="← Edit Data">← 修改数据</span>
+                        </button>
+                        <button class="btn btn-primary" onclick="window.print()">
+                            <span data-zh="打印结果" data-en="Print Results">打印结果</span>
+                        </button>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ PART 5B END ═══ -->
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CARBONBRIDGE CBAM PLATFORM - PART 5C
+     
+     PART 5C CONTAINS:
+     - Contact modal with QR code
+     - Privacy policy modal
+     - All modal overlays
+     
+════════════════════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══ CONTACT MODAL ═══ -->
+<div class="modal-overlay" id="contactModal">
+    <div class="modal qr-modal">
+        <button class="modal-close" onclick="closeModal('contactModal')">×</button>
+        <h3 data-zh="联系碳桥" data-en="Contact CarbonBridge">联系碳桥</h3>
+        <p class="modal-subtitle" data-zh="扫描二维码添加微信或发送邮件" data-en="Scan QR code to add WeChat or send email">扫描二维码添加微信或发送邮件</p>
+        
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23fff' width='200' height='200'/%3E%3Ctext x='100' y='100' font-size='14' text-anchor='middle' fill='%23333'%3EWeChat QR Code%3C/text%3E%3Ctext x='100' y='120' font-size='12' text-anchor='middle' fill='%23666'%3Ewxid_6l0deh8mqiqm12%3C/text%3E%3C/svg%3E" alt="WeChat QR Code">
+        
+        <div class="qr-id">wxid_6l0deh8mqiqm12</div>
+        
+        <a href="mailto:contact@carbonbridge.eu" class="qr-email">
+            <span>✉️</span>
+            <span>contact@carbonbridge.eu</span>
+        </a>
+    </div>
+</div>
+
+<!-- ═══ PRIVACY POLICY MODAL ═══ -->
+<div class="modal-overlay" id="privacyModal">
+    <div class="modal">
+        <button class="modal-close" onclick="closeModal('privacyModal')">×</button>
+        <h3 data-zh="隐私政策与服务条款" data-en="Privacy Policy & Terms of Service">隐私政策与服务条款</h3>
+        <p class="modal-subtitle" data-zh="最后更新：2026年1月" data-en="Last updated: January 2026">最后更新：2026年1月</p>
+        
+        <div class="modal-content">
+            <h4 data-zh="1. 数据收集" data-en="1. Data Collection">1. 数据收集</h4>
+            <p data-zh="本网站收集您在使用CBAM估算器时输入的工厂信息和生产数据。这些数据仅用于计算CBAM成本，不会与第三方共享。" data-en="This website collects factory information and production data you enter when using the CBAM estimator. This data is used solely for CBAM cost calculations and is not shared with third parties.">
+                本网站收集您在使用CBAM估算器时输入的工厂信息和生产数据。这些数据仅用于计算CBAM成本，不会与第三方共享。
+            </p>
+            
+            <h4 data-zh="2. Cookie使用" data-en="2. Cookie Usage">2. Cookie使用</h4>
+            <p data-zh="我们使用Cookie来保存您的语言偏好和访问密钥状态。您可以通过浏览器设置禁用Cookie，但这可能影响网站功能。" data-en="We use cookies to save your language preference and access key status. You can disable cookies through your browser settings, but this may affect website functionality.">
+                我们使用Cookie来保存您的语言偏好和访问密钥状态。您可以通过浏览器设置禁用Cookie，但这可能影响网站功能。
+            </p>
+            
+            <h4 data-zh="3. 数据安全" data-en="3. Data Security">3. 数据安全</h4>
+            <p data-zh="所有数据传输均通过HTTPS加密。访问密钥使用SHA-256哈希验证，确保安全性。我们不存储您的原始生产数据。" data-en="All data transmission is encrypted via HTTPS. Access keys are verified using SHA-256 hashing for security. We do not store your raw production data.">
+                所有数据传输均通过HTTPS加密。访问密钥使用SHA-256哈希验证，确保安全性。我们不存储您的原始生产数据。
+            </p>
+            
+            <h4 data-zh="4. 免责声明" data-en="4. Disclaimer">4. 免责声明</h4>
+            <p data-zh="本工具提供的估算结果仅供参考，不构成法律、财务或专业建议。实际CBAM成本可能因多种因素而异。碳桥不对使用本工具产生的任何损失承担责任。" data-en="Estimates provided by this tool are for reference only and do not constitute legal, financial or professional advice. Actual CBAM costs may vary due to multiple factors. CarbonBridge is not liable for any losses arising from use of this tool.">
+                本工具提供的估算结果仅供参考，不构成法律、财务或专业建议。实际CBAM成本可能因多种因素而异。碳桥不对使用本工具产生的任何损失承担责任。
+            </p>
+            
+            <h4 data-zh="5. 知识产权" data-en="5. Intellectual Property">5. 知识产权</h4>
+            <p data-zh="本网站的所有内容、设计、代码和计算方法均为碳桥所有。未经许可不得复制、修改或用于商业目的。" data-en="All content, design, code and calculation methods on this website are owned by CarbonBridge. Reproduction, modification or commercial use without permission is prohibited.">
+                本网站的所有内容、设计、代码和计算方法均为碳桥所有。未经许可不得复制、修改或用于商业目的。
+            </p>
+            
+            <h4 data-zh="6. 联系我们" data-en="6. Contact Us">6. 联系我们</h4>
+            <p data-zh="如有任何问题或疑虑，请通过以下方式联系我们：" data-en="For any questions or concerns, please contact us:">
+                如有任何问题或疑虑，请通过以下方式联系我们：
+            </p>
+            <ul>
+                <li data-zh="邮箱：contact@carbonbridge.eu" data-en="Email: contact@carbonbridge.eu">邮箱：contact@carbonbridge.eu</li>
+                <li data-zh="微信：wxid_6l0deh8mqiqm12" data-en="WeChat: wxid_6l0deh8mqiqm12">微信：wxid_6l0deh8mqiqm12</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ PART 5C END ═══ -->
