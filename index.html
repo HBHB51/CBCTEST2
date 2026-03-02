@@ -125,6 +125,7 @@ body::before {
     pointer-events: none;
     z-index: 0;
     animation: gradientFloat 20s ease-in-out infinite;
+    will-change: transform;
 }
 
 @keyframes gradientFloat {
@@ -362,6 +363,11 @@ body::before {
     box-shadow: 0 6px 28px rgba(16, 185, 129, 0.4);
 }
 
+.nav-cta:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
 .nav-lang {
     display: flex;
     gap: 4px;
@@ -426,6 +432,7 @@ body::before {
     gap: 8px;
     animation: slideInDown 0.3s ease;
     box-shadow: var(--shadow-lg);
+    z-index: var(--z-fixed);
 }
 
 @keyframes slideInDown {
@@ -559,6 +566,7 @@ body::before {
     font-family: inherit;
     box-shadow: 0 4px 24px rgba(16, 185, 129, 0.35);
     transition: all var(--transition-base);
+    text-decoration: none;
 }
 
 .hero-btn-primary:hover {
@@ -580,12 +588,19 @@ body::before {
     border: 1px solid var(--border);
     font-family: inherit;
     transition: all var(--transition-base);
+    text-decoration: none;
 }
 
 .hero-btn-secondary:hover {
     border-color: var(--accent);
     color: var(--text-primary);
     background: var(--bg-card);
+}
+
+.hero-btn-primary:focus-visible,
+.hero-btn-secondary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--accent-glow);
 }
 
 /* Hero stats - animated counters */
@@ -640,6 +655,7 @@ body::before {
     right: 0;
     height: 4px;
     background: linear-gradient(90deg, var(--accent), #6ee7b7, var(--accent-dim));
+    z-index: 1;
 }
 
 .preview-header {
@@ -742,12 +758,12 @@ body::before {
 
 .hero-float-badge.b1 {
     top: -10px;
-    right: -20px;
+    right: 0;
 }
 
 .hero-float-badge.b2 {
     bottom: 30px;
-    left: -30px;
+    left: 0;
     animation-delay: 1.5s;
 }
 
@@ -1371,6 +1387,8 @@ body::before {
     box-shadow: var(--shadow-xl);
     transform: rotateY(-5deg);
     transition: all 0.4s ease;
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
 }
 
 .report-page:hover {
@@ -2009,7 +2027,11 @@ body::before {
     opacity: 0;
     visibility: hidden;
     transition: all var(--transition-base);
-    z-index: var(--z-fixed);
+    z-index: var(--z-modal-backdrop);
+}
+
+body.cookie-banner-active .back-to-top {
+    bottom: 120px;
 }
 
 .back-to-top.visible {
@@ -2117,9 +2139,18 @@ body::before {
     color: var(--text-primary);
 }
 
+.cookie-btn:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--accent-glow);
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════════
    MODALS
 ════════════════════════════════════════════════════════════════════════════════ */
+.body-modal-open {
+    overflow: hidden;
+}
+
 .modal-overlay {
     display: none;
     position: fixed;
@@ -3652,6 +3683,7 @@ body::before {
     
     .timeline-item .timeline-content {
         text-align: left !important;
+        margin-left: 40px;
     }
     
     .timeline-line {
@@ -3663,11 +3695,11 @@ body::before {
     }
     
     .testimonial-arrow.prev {
-        left: -20px;
+        left: 10px;
     }
     
     .testimonial-arrow.next {
-        right: -20px;
+        right: 10px;
     }
 }
 
@@ -5719,6 +5751,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!cookieConsent) {
         setTimeout(() => {
             document.getElementById('cookieBanner').classList.add('visible');
+            document.body.classList.add('cookie-banner-active');
         }, 2000);
     }
 });
@@ -5753,11 +5786,13 @@ function animateCounters() {
 function acceptCookies() {
     localStorage.setItem('cbam_cookie_consent', 'accepted');
     document.getElementById('cookieBanner').classList.remove('visible');
+    document.body.classList.remove('cookie-banner-active');
 }
 
 function declineCookies() {
     localStorage.setItem('cbam_cookie_consent', 'declined');
     document.getElementById('cookieBanner').classList.remove('visible');
+    document.body.classList.remove('cookie-banner-active');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -5766,20 +5801,28 @@ function declineCookies() {
 
 function contactUs() {
     document.getElementById('contactModal').classList.add('active');
+    document.body.classList.add('body-modal-open');
 }
 
 function openPrivacyModal() {
     document.getElementById('privacyModal').classList.add('active');
+    document.body.classList.add('body-modal-open');
 }
 
 function closeModal(modalId) {
     document.getElementById(modalId).classList.remove('active');
+    if (!document.querySelector('.modal-overlay.active')) {
+        document.body.classList.remove('body-modal-open');
+    }
 }
 
 // Close modal on overlay click
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('modal-overlay')) {
         e.target.classList.remove('active');
+        if (!document.querySelector('.modal-overlay.active')) {
+            document.body.classList.remove('body-modal-open');
+        }
     }
 });
 
