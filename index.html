@@ -803,6 +803,7 @@ body::before {
 .trust-logo {
     font-size: 13px;
     color: var(--text-dim);
+    text-decoration: none;
     font-weight: 600;
     font-family: 'Inter', sans-serif;
     letter-spacing: 0.5px;
@@ -813,6 +814,7 @@ body::before {
 
 .trust-logo:hover {
     opacity: 1;
+    text-decoration: underline;
 }
 
 .trust-divider {
@@ -1228,147 +1230,6 @@ body::before {
     color: var(--accent);
     font-weight: 700;
     font-size: 16px;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════════
-   TESTIMONIALS
-════════════════════════════════════════════════════════════════════════════════ */
-.testimonials-section {
-    padding: 100px 0;
-}
-
-.testimonials-carousel {
-    position: relative;
-    max-width: 900px;
-    margin: 0 auto;
-    overflow: hidden;
-}
-
-.testimonials-track {
-    display: flex;
-    transition: transform 0.5s ease;
-}
-
-.testimonial-card {
-    min-width: 100%;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-xl);
-    padding: 40px;
-    position: relative;
-}
-
-.testimonial-quote {
-    font-size: 18px;
-    line-height: 1.7;
-    color: var(--text-primary);
-    margin-bottom: 28px;
-    font-style: italic;
-}
-
-.testimonial-quote::before {
-    content: '"';
-    font-size: 60px;
-    color: var(--accent);
-    opacity: 0.3;
-    position: absolute;
-    top: 20px;
-    left: 30px;
-    font-family: Georgia, serif;
-}
-
-.testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.testimonial-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent-dim), var(--accent-dark));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 700;
-    color: #060a08;
-}
-
-.testimonial-info {
-    flex: 1;
-}
-
-.testimonial-name {
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--text-primary);
-    margin-bottom: 4px;
-}
-
-.testimonial-title {
-    font-size: 13px;
-    color: var(--text-muted);
-}
-
-.testimonial-company {
-    font-size: 13px;
-    color: var(--accent);
-    font-weight: 600;
-}
-
-.testimonials-nav {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    margin-top: 32px;
-}
-
-.testimonial-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: var(--border);
-    cursor: pointer;
-    transition: all var(--transition-base);
-}
-
-.testimonial-dot.active {
-    background: var(--accent);
-    width: 32px;
-    border-radius: 5px;
-}
-
-.testimonial-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all var(--transition-base);
-    z-index: 2;
-}
-
-.testimonial-arrow:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: #060a08;
-}
-
-.testimonial-arrow.prev {
-    left: -60px;
-}
-
-.testimonial-arrow.next {
-    right: -60px;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -2061,6 +1922,59 @@ body::before {
 .back-to-top:hover {
     transform: translateY(-4px);
     box-shadow: 0 8px 32px rgba(16, 185, 129, 0.4);
+}
+/* ═══════════════════════════════════════════════════════════════════════════════
+   FLOATING WECHAT BUTTON
+════════════════════════════════════════════════════════════════════════════════ */
+.float-wechat {
+    position: fixed;
+    bottom: 96px;
+    right: 32px;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: #07c160;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    box-shadow: var(--shadow-lg);
+    transition: all var(--transition-base);
+    z-index: var(--z-fixed);
+}
+.float-wechat:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 32px rgba(7, 193, 96, 0.4);
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   TOAST NOTIFICATION
+════════════════════════════════════════════════════════════════════════════════ */
+.toast {
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--bg-card);
+    border: 1px solid var(--accent);
+    color: var(--text-primary);
+    padding: 12px 24px;
+    border-radius: var(--radius-lg);
+    font-size: 14px;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transition: all 0.3s ease;
+    z-index: 9999;
+    pointer-events: none;
+    white-space: nowrap;
+}
+.toast.visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -3632,7 +3546,6 @@ body::before {
     .timeline-section,
     .how-section,
     .services-section,
-    .testimonials-section,
     .report-section,
     .resources-section,
     .faq-section,
@@ -3743,13 +3656,6 @@ body::before {
         left: 20px;
     }
     
-    .testimonial-arrow.prev {
-        left: -20px;
-    }
-    
-    .testimonial-arrow.next {
-        right: -20px;
-    }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════════
@@ -3868,9 +3774,6 @@ body::before {
         flex-direction: column;
     }
     
-    .testimonial-arrow {
-        display: none;
-    }
     
     .news-subscribe {
         flex-direction: column;
@@ -4085,13 +3988,13 @@ body::before {
         <div class="trust-inner">
             <span class="trust-label" data-zh="基于以下法规框架" data-en="BASED ON">基于以下法规框架</span>
             <div class="trust-logos">
-                <span class="trust-logo">EU CBAM Reg. 2023/956</span>
+                <a class="trust-logo" href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R0956" target="_blank" rel="noopener">EU CBAM Reg. 2023/956</a>
                 <div class="trust-divider"></div>
-                <span class="trust-logo">EU ETS Directive</span>
+                <a class="trust-logo" href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32003L0087" target="_blank" rel="noopener">EU ETS Directive</a>
                 <div class="trust-divider"></div>
-                <span class="trust-logo">Impl. Reg. 2023/1773</span>
+                <a class="trust-logo" href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1773" target="_blank" rel="noopener">Impl. Reg. 2023/1773</a>
                 <div class="trust-divider"></div>
-                <span class="trust-logo">China MEE Grid Factor</span>
+                <a class="trust-logo" href="https://www.mee.gov.cn/" target="_blank" rel="noopener">China MEE Grid Factor</a>
             </div>
         </div>
     </div>
@@ -4356,72 +4259,6 @@ body::before {
     </div>
 </section>
 
-<!-- ═══ TESTIMONIALS ═══ -->
-<section class="testimonials-section fade-in-section" id="testimonials">
-    <div class="container">
-        <div class="section-header">
-            <div class="section-overline" data-zh="客户评价" data-en="CLIENT TESTIMONIALS">客户评价</div>
-            <h2 class="section-heading" data-zh="工厂的真实反馈" data-en="Real feedback from factories">工厂的真实反馈</h2>
-            <p class="section-desc" data-zh="看看其他出口商如何通过碳桥降低CBAM成本" data-en="See how other exporters reduced CBAM costs with CarbonBridge">看看其他出口商如何通过碳桥降低CBAM成本</p>
-        </div>
-        
-        <div class="testimonials-carousel">
-            <button class="testimonial-arrow prev" onclick="changeTestimonial(-1)">‹</button>
-            <button class="testimonial-arrow next" onclick="changeTestimonial(1)">›</button>
-            
-            <div class="testimonials-track" id="testimonialsTrack">
-                <div class="testimonial-card">
-                    <p class="testimonial-quote" data-zh="碳桥的报告让我们第一次真正理解了CBAM对工厂的影响。通过他们推荐的绿电PPA，我们预计每年可以节省120万欧元的碳成本。欧盟买家对我们的准备度印象深刻。" data-en="CarbonBridge's report helped us truly understand CBAM's impact for the first time. Through their recommended green PPA, we expect to save €1.2M annually in carbon costs. Our EU buyers were impressed with our preparedness.">
-                        碳桥的报告让我们第一次真正理解了CBAM对工厂的影响。通过他们推荐的绿电PPA，我们预计每年可以节省120万欧元的碳成本。欧盟买家对我们的准备度印象深刻。
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">李</div>
-                        <div class="testimonial-info">
-                            <div class="testimonial-name" data-zh="李明" data-en="Li Ming">李明</div>
-                            <div class="testimonial-title" data-zh="总经理" data-en="General Manager">总经理</div>
-                            <div class="testimonial-company" data-zh="东莞市鑫达钢铁有限公司" data-en="Dongguan Xinda Steel Co., Ltd.">东莞市鑫达钢铁有限公司</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-quote" data-zh="我们原本以为CBAM会让我们失去竞争力，但碳桥的分析显示，通过工艺优化和绿电采购，我们的成本可以比印度竞争对手更低。现在我们把CBAM合规作为市场优势。" data-en="We thought CBAM would make us uncompetitive, but CarbonBridge's analysis showed that with process optimization and green electricity, our costs could be lower than Indian competitors. Now we use CBAM compliance as a market advantage.">
-                        我们原本以为CBAM会让我们失去竞争力，但碳桥的分析显示，通过工艺优化和绿电采购，我们的成本可以比印度竞争对手更低。现在我们把CBAM合规作为市场优势。
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">张</div>
-                        <div class="testimonial-info">
-                            <div class="testimonial-name" data-zh="张伟" data-en="Zhang Wei">张伟</div>
-                            <div class="testimonial-title" data-zh="出口部经理" data-en="Export Manager">出口部经理</div>
-                            <div class="testimonial-company" data-zh="江苏华铝集团" data-en="Jiangsu Hualv Group">江苏华铝集团</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <p class="testimonial-quote" data-zh="碳桥团队非常专业，从现场核查到报告交付只用了一周。报告内容详实，数据准确，我们直接用它与德国客户沟通，客户非常满意。比TÜV报价便宜70%，速度快5倍。" data-en="The CarbonBridge team is very professional. From on-site verification to report delivery took only one week. The report is detailed and accurate — we used it directly with our German client, who was very satisfied. 70% cheaper than TÜV quote and 5x faster.">
-                        碳桥团队非常专业，从现场核查到报告交付只用了一周。报告内容详实，数据准确，我们直接用它与德国客户沟通，客户非常满意。比TÜV报价便宜70%，速度快5倍。
-                    </p>
-                    <div class="testimonial-author">
-                        <div class="testimonial-avatar">王</div>
-                        <div class="testimonial-info">
-                            <div class="testimonial-name" data-zh="王芳" data-en="Wang Fang">王芳</div>
-                            <div class="testimonial-title" data-zh="质量总监" data-en="Quality Director">质量总监</div>
-                            <div class="testimonial-company" data-zh="河北建材集团" data-en="Hebei Building Materials Group">河北建材集团</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="testimonials-nav">
-                <div class="testimonial-dot active" onclick="goToTestimonial(0)"></div>
-                <div class="testimonial-dot" onclick="goToTestimonial(1)"></div>
-                <div class="testimonial-dot" onclick="goToTestimonial(2)"></div>
-            </div>
-        </div>
-    </div>
-</section>
-
 <!-- ═══ REPORT PREVIEW ═══ -->
 <section class="report-section fade-in-section" id="report">
     <div class="container">
@@ -4557,9 +4394,9 @@ body::before {
                         <span>🇨🇳 中文</span>
                         <span>⏱️ 15分钟阅读</span>
                     </div>
-                    <button class="resource-download" onclick="alert('Guide download simulation')">
+                    <button class="resource-download" onclick="window.print()">
                         <span>⬇</span>
-                        <span data-zh="下载 PDF" data-en="Download PDF">下载 PDF</span>
+                        <span data-zh="打印报告" data-en="Print Report">打印报告</span>
                     </button>
                 </div>
             </div>
@@ -4575,9 +4412,9 @@ body::before {
                         <span>🇨🇳/🇬🇧 双语</span>
                         <span>⚡ 即用</span>
                     </div>
-                    <button class="resource-download" onclick="alert('Template download simulation')">
+                    <button class="resource-download" onclick="window.print()">
                         <span>⬇</span>
-                        <span data-zh="下载 Excel" data-en="Download Excel">下载 Excel</span>
+                        <span data-zh="打印报告" data-en="Print Report">打印报告</span>
                     </button>
                 </div>
             </div>
@@ -4593,9 +4430,9 @@ body::before {
                         <span>🇨🇳/🇬🇧 双语</span>
                         <span>⏱️ 参考工具</span>
                     </div>
-                    <button class="resource-download" onclick="alert('Glossary download simulation')">
+                    <button class="resource-download" onclick="window.print()">
                         <span>⬇</span>
-                        <span data-zh="下载 PDF" data-en="Download PDF">下载 PDF</span>
+                        <span data-zh="打印报告" data-en="Print Report">打印报告</span>
                     </button>
                 </div>
             </div>
@@ -4808,7 +4645,7 @@ body::before {
                 <div class="footer-social">
                     <a href="#" class="footer-social-link" title="WeChat">💬</a>
                     <a href="#" class="footer-social-link" title="LinkedIn">🔗</a>
-                    <a href="mailto:contact@carbonbridge.eu" class="footer-social-link" title="Email">✉️</a>
+                    <a href="mailto:info@carbonbridge.co" class="footer-social-link" title="Email">✉️</a>
                 </div>
             </div>
             
@@ -4832,7 +4669,7 @@ body::before {
             
             <div class="footer-col">
                 <h5 data-zh="联系" data-en="CONTACT">联系</h5>
-                <a href="mailto:contact@carbonbridge.eu">contact@carbonbridge.eu</a>
+                <a href="mailto:info@carbonbridge.co">info@carbonbridge.co</a>
                 <a href="#" onclick="contactUs(); return false;" data-zh="微信：wxid_6l0deh8mqiqm12" data-en="WeChat: wxid_6l0deh8mqiqm12">微信：wxid_6l0deh8mqiqm12</a>
                 <a href="#" onclick="alert('Shanghai office: Coming soon'); return false;" data-zh="上海办公室" data-en="Shanghai Office">上海办公室</a>
                 <a href="#" onclick="alert('Brussels office: Coming soon'); return false;" data-zh="布鲁塞尔办公室" data-en="Brussels Office">布鲁塞尔办公室</a>
@@ -4851,10 +4688,16 @@ body::before {
     </div>
 </footer>
 
+<!-- ═══ FLOATING WECHAT BUTTON ═══ -->
+<button class="float-wechat" onclick="contactUs()" title="WeChat">💬</button>
+
 <!-- ═══ BACK TO TOP BUTTON ═══ -->
 <button class="back-to-top" id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
     ↑
 </button>
+
+<!-- ═══ TOAST NOTIFICATION ═══ -->
+<div class="toast" id="toastNotification"></div>
 
 <!-- ═══ COOKIE CONSENT BANNER ═══ -->
 <div class="cookie-banner" id="cookieBanner">
@@ -5595,6 +5438,12 @@ body::before {
                         <button class="btn btn-primary" onclick="window.print()">
                             <span data-zh="打印结果" data-en="Print Results">打印结果</span>
                         </button>
+                        <button class="btn btn-secondary" onclick="sendViaEmail()">
+                            <span data-zh="📧 发送邮件" data-en="📧 Send via Email">📧 发送邮件</span>
+                        </button>
+                        <button class="btn btn-secondary" onclick="sendViaWeChat()">
+                            <span data-zh="💬 发送微信" data-en="💬 Send via WeChat">💬 发送微信</span>
+                        </button>
                     </div>
                 </div>
                 
@@ -5625,9 +5474,9 @@ body::before {
         
         <div class="qr-id">wxid_6l0deh8mqiqm12</div>
         
-        <a href="mailto:contact@carbonbridge.eu" class="qr-email">
+        <a href="mailto:info@carbonbridge.co" class="qr-email">
             <span>✉️</span>
-            <span>contact@carbonbridge.eu</span>
+            <span>info@carbonbridge.co</span>
         </a>
     </div>
 </div>
@@ -5670,7 +5519,7 @@ body::before {
                 如有任何问题或疑虑，请通过以下方式联系我们：
             </p>
             <ul>
-                <li data-zh="邮箱：contact@carbonbridge.eu" data-en="Email: contact@carbonbridge.eu">邮箱：contact@carbonbridge.eu</li>
+                <li data-zh="邮箱：info@carbonbridge.co" data-en="Email: info@carbonbridge.co">邮箱：info@carbonbridge.co</li>
                 <li data-zh="微信：wxid_6l0deh8mqiqm12" data-en="WeChat: wxid_6l0deh8mqiqm12">微信：wxid_6l0deh8mqiqm12</li>
             </ul>
         </div>
@@ -5698,7 +5547,6 @@ body::before {
 
 let currentLang = 'zh';
 let currentStep = 0;
-let currentTestimonial = 0;
 let currentResultTab = 0;
 let selectedProduct = null;
 let calculationResults = {};
@@ -5882,44 +5730,6 @@ function toggleFaq(element) {
     }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// TESTIMONIALS CAROUSEL
-// ═══════════════════════════════════════════════════════════════════════════════
-
-function changeTestimonial(direction) {
-    const track = document.getElementById('testimonialsTrack');
-    const dots = document.querySelectorAll('.testimonial-dot');
-    const totalTestimonials = 3;
-    
-    currentTestimonial += direction;
-    
-    if (currentTestimonial < 0) currentTestimonial = totalTestimonials - 1;
-    if (currentTestimonial >= totalTestimonials) currentTestimonial = 0;
-    
-    track.style.transform = `translateX(-${currentTestimonial * 100}%)`;
-    
-    dots.forEach((dot, index) => {
-        dot.classList.toggle('active', index === currentTestimonial);
-    });
-}
-
-function goToTestimonial(index) {
-    const track = document.getElementById('testimonialsTrack');
-    const dots = document.querySelectorAll('.testimonial-dot');
-    
-    currentTestimonial = index;
-    track.style.transform = `translateX(-${currentTestimonial * 100}%)`;
-    
-    dots.forEach((dot, i) => {
-        dot.classList.toggle('active', i === currentTestimonial);
-    });
-}
-
-// Auto-rotate testimonials
-setInterval(() => {
-    changeTestimonial(1);
-}, 8000);
-
 // ═══ PART 6A END ═══
 /* ═══════════════════════════════════════════════════════════════════════════════
      CARBONBRIDGE CBAM PLATFORM - PART 6B
@@ -5947,13 +5757,508 @@ async function sha256(message) {
 }
 
 // Valid access key hashes (SHA-256)
+// Access codes: 100001, 100002, 100003, 100004, 100005, 100006, 100007, 100008, 100009, 100010, ... 100491, 100492, 100493, 100494, 100495, 100496, 100497, 100498, 100499, 100500
 const validKeyHashes = [
-    'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', // Example key: test1234
-    '5e884898da28047151d0e56f8dc6292773603d0d6aabbdd62a11ef721d1542d8', // password
-    '6b86b273ff34fce19d6b804eff5a3f5747ada4eaa22f1d49c01e52ddb7875b4b', // cbam2026
-    'a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3', // bridge01
-    '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', // carbon99
-    // Add more hashes as needed - generate with: echo -n "yourkey" | sha256sum
+    '97c489b6c1231ecd9fac99df40e60cec000a70a057d5971fb520c578da8e8841',
+    '3fb836229505c02d85ef0286b0c93213db710766d841f00d91db5edaeade136b',
+    '24eb33c5f8f98314500b1c7f3fe403413c3b3fe0e4ae8ac5cc464dd2b686802c',
+    '9d186a0f4729551607e18c9ba595d564321d5a0df721dc0bf85a88850c69b4d3',
+    'cf488acc4d95a725831a0162ff06023768b3dd2774ebecc78158fb3ccc87b64c',
+    '0a3e4e8d8e78dbb2dd0a0297243aedef9f8b01e52113945e8b2516ade2e3fca9',
+    'a9b75b2f327ec0df12c834a62d22c54ea6e41d12437eb556126f8a786e2a53c7',
+    'c6197a851ecbf99d15dcd787999bdf3b0f3a5d6b0ac74742839305c74bdff8f4',
+    '39f6d4d95349109bc7568494f6bdba6834222376db1b98034cb194c66a9369cd',
+    'a9788e889e31fccc4651902adb05d2f8c4bcc1845694d91202e72716ebe9a4a0',
+    '8162e509861bf0b9ccdb512d6abb780ed03beacb777c62b761562a9c2458de5d',
+    '92eed7da0290ed8950c106c08c30b86b42975c23a95acfba509d3088818566d4',
+    '36209542362787f22054182c3e41409fd1b0486ecb282c02dc57b4f98e47de70',
+    '81bac4d5e72a902240671a10a7fb277575d9b9365972bd063604429f16bbb0c5',
+    '0189782e2d72a44a603d97e504deeca637b1bbc6f9d52eb2fb6aff0d27cf8b36',
+    '87d4a243d01cc915105fb9605df6ff9bfeab911e0b90e7137d4e68482c4510fd',
+    '1acbb3962a15a2e44003b169c53a252549e1a0a46bc74d381f61cab4a0aa11c4',
+    '90a39c4f8f2b9420a3d0caaa9bf842210ec967db323c20a206040cf35b590464',
+    '1dc132aa79c22b2e6ca16c048f22a33faadc5581ecb152e955732f2aea05cba0',
+    '6404e853cc54939b97d57f059327a092c76c39ad1d16fff53dec151781c5ea9f',
+    'd9a14448faceec97e5359937305986f77b948c9c9c5c63b0a7564b8cd3cbec8a',
+    '98d3aa2a2461646c07ba02a03ca716592661148ce41c1ce54a49885ca6b82971',
+    '37cc4d783c2f0c7993cf9fd37ce08c105e19b65609b5778abaf76843a41d2e23',
+    'a90260346935a0134bb6835b648da50f2ce636fe364730761a62feb60e67815a',
+    'ea18c18f33f6443ad78a3fa448b93faa23e3ef8ad36929161a11a8eacf952963',
+    '3a2973d660e446db44bccc17c08d8f135f440731d6ed0c7b8cd4434ad2a32140',
+    '31ee8cfc3c4a75d84a0eed3680f6bf25ff94bbefd3dcb410b701804edf230d53',
+    '57c327ffcc8b5855ff07ff2558e8666a13b87d5730cdbe0d1b3517ab6891a4f5',
+    '660724a9aea1277ab1096e00f13a9bce6c2792321ef25f7444f4528ba956a9b5',
+    '24e3ef295497fb46bd6ec4c926e8a42faec3bc9c8158f270cb28b3e140fc8fef',
+    'c1c44378d8ba1a8389199f6c69e78a6798911f3d21902d4d99ca713d11d8ebf2',
+    '69f3ce645ebec7841fc4a6e63f5ebdf709beec4ae9af4766c5e3dff7eb452ab0',
+    '0644ac826b5232b9b680c652e4aaf7a6e9366d84b3e786e586b570045530cf99',
+    '9654242cd94a7e2a01fa533e9602a2a98675148e65e32d885a168c98a92a0b70',
+    'fbb6c37ba1b13d1b4de60977e6e338fd8b7d19fbd8d8bf49bfa63b4418190c20',
+    '30fd67ba2c0a31a8400e557cbd41281d673de1e397b6725d64877ac96613865e',
+    '61ddd79a3d28252ae7e6cdfece4a2abb6e44527e1b8a1bbfea00f5975ac200f9',
+    '2646150e111d418bb019f472dece64ccfbbf5e11d6e27c2d9b3f315989a60a44',
+    'a9bcd7e29196a705cfcb1725e29776989d492ee2b615175c135b4e03d7c76373',
+    '09cd7494ba6d3a13d8181e6ab41e5d06bab8c876d66acc112c9201ee017bf95e',
+    'a278fe7f41d196144ab7e25c8bcda763b8ece11ba1d97b4c36a7ee3511fe7a12',
+    '41f0675ef8c61bf86282af348cc25563c49ffc563c470a41b0bd658e877ab2dc',
+    'f0a6f19e7358bf2c75ddd7ef42ced97f4a8cd6ec538cdb5cfe01f203e9dfb4ef',
+    '5644a4eec0549ffbf83ae68eac2e41c98afe31d82e3395f2e658e59fc5d91c8a',
+    '39d6e9140e1bd1dc6f65b2b26bd39145b5047087456c34573b1739bbba53153b',
+    'b2e21cba3b9ecbe099d9c8010094aba5e4e2098b48ab58acd9ac165f27447f15',
+    'be8d4c6bac0310b4c7c34227137b3086c2ed53711d283d4e0d462b7c1f330ac9',
+    '7bebd2d43e22fcaf15f1ce474a32bd6bed84c8c36f1043458ae3f1fe62f3d114',
+    'f1f223b07299823dc16da4bbbccd03fbb8098eb09eb5aa2739c0c214e14b7304',
+    'ca459e250ec57a785ab46804d15bf239664a464e6d757c4f3200956a0e490f75',
+    'a0c8a8bf38b5dfac62e0a7967f40f4730cbdfc238995765097909b77fb180800',
+    '8d55c84058216728dbf563f3f1d58858aa12870ea6048e6d4c3e90427cc7f50d',
+    '91c7c74007dc0f0de3a5637fcdb3bef6681c4402b50f7e83a01f48b15ad34b1e',
+    '5a77afdf12b292dea5b440cd8d21708a4a3ed84a49c39716f8973c66ace8df4a',
+    '5071957e41e35d7f91e421a4b06cf5ba4b8de636272824a1030a702ba0fe320a',
+    'e00857cb7e2a07bc33bace93360dc1e482972c450da4b2f2a24980706563a8b2',
+    '50c5906fd8ae5227ec43f223441fb43ae0a4d80ca749b5899992f115850588f8',
+    '98a8349fc6e5dbfe7dc773c0ade4eacffaa8cebfb1a9369d872ff31219d06528',
+    '02c3803f7c14095d4d10e33998971e847846159cb2a027da759753da08164799',
+    '1a446246d0889a95ac9e0453cebd87a2db84baf5b7cfabfd4a3eec4e68bb836b',
+    '555bb34b712fc5786081c253038692989eaa9a61a5b62ec914bd3d7a5927075a',
+    'c35cccbcc523bca44ff95d1a1d67bec240ed053bcc7a7643a9c82c4758825b3e',
+    '7d4cd4f2fea9b95dfb154ae370cbbc1d20eb80ba36052ea2552f0bddd7e27f24',
+    '61fdfeaeb309a67241442c2fbf1436e16aa569259de590c90d9c8c3ab72cca79',
+    'a66a70eadd7280362f53a62420a8a581ee6f7bd56dfb1854a124a67002f0123d',
+    '4e06b6081f1e36cc02157728436e8e2b4c35ecdd475cfabf21c86462946c0741',
+    '41d65c99e84fd3b0439f1bef78cefe6cf3aee7f9f2f7537de2a7e0c03e3b40ae',
+    '624987e76eec352f3eec02729aaddb3284c5d01b92a785bb37f348bae9e343df',
+    '8562bdd4e905bd1c7ac03901d280eee5b069a98233055da4469308bbe2cea3bd',
+    '43ffdebb5362477f959c01f8d00f324833aeeeb7ad3a7a35473fdb63dc19ef37',
+    'cd289926c448df7bce24c2deacdedeefb4e9160bcc1abf976d47cfc2e96d187d',
+    '322aa799b17cc790e1b35a5938e1287405998d8e1612da8d35f50b92786b1270',
+    '18904766fc064c88023b3fb57e977358d9e03d0a3b4703947e40d3ed4968f5b2',
+    'e6c4faae5003e75b5ba32f70785c1df88f6643800fd2b585c12e4e6e6be15e7b',
+    '7e8a06e27a198260ae327e9d548ca4f3a735781bf52808b7a95321696ba483d9',
+    'efe879bac0ac737b8a9a4b6190ac15c746361fabc3756e1664b21eb5d52bc32a',
+    '9bf776cf9b19e07297920ee28d77ebe21ca9810ba575730853b9e9ef20ceb7ea',
+    '06f7680f644133ff444b6d362ae6d0b995b380b4ad83240f972d8005787540aa',
+    '4dd8ccba4b04ad7efb975db1cb0307bd4407bd077e0cc29d78fa3adfd2ab3d0a',
+    'c8493bd2f9d60b4c9143c1065c30abd975c09c14a136f88344fa4b15a179c520',
+    '3afa63adf55cf9d79170bb4460064c69be5d9057771f79ec9c02cd7264114054',
+    'b14017891c63987f0096d67aec2f74e2402824a6e56804d7cd4bd7b0006daf85',
+    '406e2cf651d41220f40d058322908bbbfc3d401723017b677918158f1d4f7e97',
+    '21f5ad25165fc5d7cc8afc2af3b52df69e19359eba217a669007ad4c5a285a9e',
+    '51d12f63eb41063c5e67b23fbd52d3e25b0cddf79682af974d7a1de15d114e44',
+    '62cbb33e260e58a00433e91f5ec47e3101dda807c0e1ff5e4077ba4e2fb5c2db',
+    'f7a59c4f60a04773d62f14794ebe88228f4f6846890a8617289ebfc53ac16980',
+    '7e4311dbcd6af519722863530a8c84451fd3d99ecd82f15c56dc416ca9daec0f',
+    'd44d456983cb3501744e1bb52f42834e16be134865afb399a3b755692b7cb60f',
+    'cb3ed6858282f1eeed14b5c06bebece5f2b008660f952576e2f4ee9d4839c66b',
+    '421696ba77c023aad77fdf5b03fc5843cbf1aa0e4f32eaa92bc8ae8811faeb1d',
+    'e2a00b60c783494c57dddb0e5a6f94cbad822c66cd99d9a318eac61f8ad96e09',
+    '6d9113191d4f314f0099117bae8d5729e502b102015f98e2192e9d205f924ceb',
+    '3862eebf2bdffe9a9ca1b0126ba141c99011893cf34fce64c3e08f79e393135b',
+    '4bac565ec843f52f1efa93c6d9f8783089f42368515f121d110ae9ee9ebba014',
+    '61a3a230fb457e173ffa65261205f2bc98f251ff7a178dc6d59446c31fa798a6',
+    '85fbe45fffa6302a4688195fbf28006e0301f5e86a9647d5c8c27ebf3177ea5e',
+    'f3b5c8fc397b318c8f75901486e780e1a0cc3a10ee4cb75cc9c2327aca64c9ec',
+    'f6cfafec504dca66498644534f88936b78d2625a7681da08c5a8d5135935ba79',
+    '7618f66753db7ec069c83ed8c197708e1402396774f60961065addd678933871',
+    '9273c499a75ff31fcd1444f6b1bac768ab93ed86475a4202c7ad5466363f0cfe',
+    '74ffd4af197773f08ffdb110842cd5d603a3cc5faee1b108a2a5d6a1e37c03ce',
+    '0431e9b4b15a2f0c7bf2de0707640a7ef542531e2d33915776e43a186547779d',
+    '69303d3c5d2e967ad5192c2fa5a93cb897de7ee9c7e3fbe9c5de48d9a7574672',
+    '81f18f7c177d3922cd9df4fd4e3281517888ff39381320ca2ff000f933664b6c',
+    'ccbde76c925125361a6ab2ec97dbb0bb3376bd5f165ca71b8cf9b1851fce1251',
+    '6fe3a4d4ab5e4dbf25ad2e6c5a9e177b3e8e9728fcd60f1bbf75e30592cc7d61',
+    '7b501a4208b6b1a3afe9249a145f73df675eb13a0888b44d6e746f285320fd08',
+    '08936563aaa2e39c721bfb074529904ffae85d2869493405d51442e25b5f1551',
+    '81c5cd1bcca9c78d8d51c76dfb1770bf6509f09c3760179060f12057cf2281ee',
+    'caf42c350b933954e087b008bb5f8457f6cd247f4c06788ecd804a3a8c35cfe1',
+    'c20da575724013406f330c1e2646d7b8cf2bda2abd60c150da1226c9bfda64cc',
+    '7ee9410967a25bb5fa1e216346ae62567594f8c866bfbb1f4c750799cf178cda',
+    '6934c913ba36028ba8cfb7aca92194ecae5b3377d04433afce969c6bc807db78',
+    'a5654216e31f0dc011e34c33e787b560d64e761feeb0d8c1c0324128f17751cd',
+    'fb3abfcf34eca3dc23f0af92bc9882f057ac50760f79b69fb677ca2bdb960c64',
+    'e848a04fdfe964da1ca4c690d30d460a0cdd08c077f4c60f2517640ff97b2650',
+    '852bf95a2b79475b201e42c0678181c8aa2072de48e804ba85907933a7d03e8a',
+    '86c5f753933abac669fcb831d225bccc4c1e413c0fa251ebdbc0f34b16fe119a',
+    'a9e965a1d0b7e35a1eef1f958044b414d79e2d5ef757244e9f38efccf24d417e',
+    '2f93f0fad3584785437a9bd894f8e1aca2749b25262450403d2dc6bfd9c50d62',
+    '22f172df0657189b03040ffed3acbb7f567d420d964956b7392c9245a2a6aff8',
+    '01c90f21760e2946cf11b659b904ca32ee50e320961ffa8971b6af945ed7e2fe',
+    '36dc3882db9899bbb0c5ad4b82b65417ddadf72f655e2bbf8f9b1636aae53257',
+    'b397ccc3b322ae0a5f056a6d34c7376d9ca2b123d742bd783a52a83c95de25a4',
+    '07c3f8108a9b55a665a846b65939d55f57f9d6148a99cb72d747be4764392e15',
+    '42f9ba974ae5d8229f7fb79d64ce632ada60cc6797fb1e0642d4fbd24a5f87c9',
+    'a229b32288bad532a09f679a9ce1527b2f8cf6a5557e7dd5f482bcbc3914331b',
+    'a90d05dbe82a9d7f53809ab82d5f0b0e51bd54a5f6b2ad0619191dc3d8676dff',
+    'eca92720802fc4ffa06c6bff82809fe9b9c7ccd52f2eeaf6e3ee5740c68b611d',
+    '4bb473071b8f297e140c99677e78a90b8031666c9fdbdf79494b2a5c1141d6a4',
+    '87ddf332bc38acd4196dfa1ad9ec5f26a0a8ccb7f24507c17e0cdbc6708641d6',
+    '5605bbc54cafaea5b591d2705049ccaa5a8e5d6c18e6cfd61ce700281e4b1f20',
+    'd8085e459716d56967e29af850f63ecd179cfe40577650aa84221ecabc703832',
+    'd6bada30f6b2ba702a98131f3e140be90087927be2e5f5b399be08c1e3c96252',
+    '7468b94180d82aaec5101632f03291bfa24807e2d311073097e1312397155305',
+    '3c07d67a5b20073fee9f03d483a670b644236f4ab8dd8482d51cf0933eeee8af',
+    '09b7af667b6e100143a22b6f48f18bbe1466cbc233a4d7f1610e4266ba8475c5',
+    '8d5b6bb228aec08885fa79448734cc3ab044f207292cea360aa1c85827b5c866',
+    '04d8aece9c13b7358bc50285a0671a221ad42cda81fd74da2715cde97a9ec3ef',
+    'cd8091ad30596b0db3efe9298bad64376116f0b675060031a6ce7abfe630bbdf',
+    '7bc67764113a6eba1d81ac71c652be28db6c0be69d2fac9bf5a300f72fa68a9c',
+    'd51159d62a45f300e55cf7d3056a8459854ed36b9d2f7ffe63024654ed57c852',
+    '16a57e5d8d61070e2d6959c7a302fa701734fd2fe71f423574fdda3d94ae5758',
+    '5c3899c528c72b5ca983099ecb01e31de509799af2a51e3bfb86945424923cd5',
+    'caeb86fcfde4d4571d3b5c7fb941be093ae7fed381cd22a570711c595f8409cc',
+    '46b9dc267eb1c791cf8ce0ea6b877ce2d6a8d13666020761727d2eecc72255ed',
+    '8078d6e13aeee82260d263c19f74f0cce5be2f477e0fde2d9ba416364874f24e',
+    '285771eaac3b65c2c06eab558b05b52df66eb14afef78eecc8b3d9f57fcb498e',
+    '2080415a4cacef9a74a65e502cc76195a4e0938a5f8895378339d009e2a8af85',
+    '0dbdeeea309872a44cba3dc172b10318e812c95f1a153c7b9631a597f681ddf0',
+    '5cba6b9a8875b52217e2b930adeb920437b5cb2a76979547550143f6b56fdd94',
+    '1913ef6596cbe318caffb08adba11795030c8513b5e74b0ec5b8e9deb09ae321',
+    'e8040096738231f54e7c84fd3380adf69109cd78537bb714767bf995303fcade',
+    '8fc99e87928d9a7b0a1f342d69815bc9695375540bf32fb6ee4623858f45ea87',
+    '8c28b4e1b27acea41a70aba5e9c653bc3e1fcf40320ca48947c61d70b9f04920',
+    'dd0c7045a0da881f09862f57d5480dd1c8d33072eb70eee982b4f5ed53bbab10',
+    '31dbeb0eb47ee29335dea03d7f8d4f9dce5846ef3c3a1256fec2c862e91043f3',
+    '28d8589262e040b93a6363a154a9ccb1c0251b10afb41a487ce305ccceeb490a',
+    '89d4dc72e9a9fd2b938ee2b53b5cda633492126475a8e956688a04f5ef8c51ab',
+    'c82851d88bce52de3d5c7b9ac1d674d27c2fe3655702f08d9de79eb1fb221611',
+    'c54433a45d2c03b45c11f870d3f3c12e15ac09c14d8b57cdfb8f36f9ec0f5b6e',
+    'a7ac54366c830b6dd91b247ef9d46525fd541667a872b32d3f67557202123da6',
+    '42c96ef17601b422262264ddb27c52e9183e259497709f66c158484a5e21abc1',
+    'e88d6fdbccd0f17ee16f6c503a82015b7c85b62ad4cf478389acf2c28f6d34ae',
+    'c6c239e318068d8af6188618c904973c0db7f06728609f4be51698ef5e85c698',
+    '866043cb22350237937323f341fac2950befdd6f5d5fadc63b1610967ecb2bec',
+    '6415f786ea46959e27c07ffd47fa3338151e49afe67046911798af2baadb7754',
+    'b4410914d6390afbf2ef32b629cfceea74a14bfaaa0d7824fae19a7e1738b94a',
+    '76e2220c7f2c78245ec4df02213b77c20f4b005237086d3d79113270cb40870d',
+    '58a584dc3f2e237fc409edb464c13db19c10ee579474b2a7e09aa196b40c2479',
+    '300a3b1eb988489da10f234fa7e08dab58ad47729ebe3b9176250a5def54a251',
+    '4190f98659ca3b6d106c076a03d8799e2655cb691d6c7e51c9f07aef169c84d9',
+    '61818a6fbef8257228599b2e7d2d64a7ea2057adc7657ac25097dec4a20e8386',
+    'f10fa5fde5b1fa3c1ffc3c6098262223ea3f00fe704ec7863f19fc33815d4673',
+    'af3cf379111b3bca3dc468713236e7b4bd1d33135aee3276a3a4535f77e783ad',
+    'fcc1f951aa4c004f4338ac7bf67d27c394b92812690bfeb43bc77c5469c42bb6',
+    '10768682d2911c0a79d67e93d9639d18eb6223c101ec2a65786318b0941cdc01',
+    '5dc0ef0d8dd784633d4e2dc25268ba477023a9b40a1753d3221cc0537d0d378b',
+    'c010d0dcb6cb4c9dfc80511f734f5329efa76d5646262d04696630bf7ee66421',
+    '227c63ef009bef691955ea3556e0033182b26c5b30571d168d38d33f454528df',
+    '376ed752c17e328ac0d7314ca6087fe0559889be397ff2343288e46faed6a461',
+    '11e0a695023e0ef3bffeab49524d08c78362a57c1a2c595ea75a621677331cb8',
+    '6da62f138b88fe42c42dfa4a35034aa8ceee9ac3d2d80dabb6162d6e6a3c90e2',
+    '499c5963323e5a73389ff99f50a425853416ed28400ac29ae4422f198d89693b',
+    '79df212cccff0a8bdf229778dfbc8d197ace05b5e7ba084c5924f83f4386a2ae',
+    '67a118d3ae51e54067cd486c85128296c3e03c0bbbbc51de641b074af0087d81',
+    'f34e7b6584116979fba64b57c59bddec388ba3e49356841b6e96419ff891c40f',
+    'f5db75e0464426448f51eb7ef66b2473eabbdb22ad1393b7b2fcbcbdddcc09a4',
+    'edd36036b2192bb8fef696233d74e8cc0f5471b39d22a4e01bce6b4f9766e220',
+    '627526b77bec7deffcde5d562b6f148644df85cd818e87e0eb16278ecb957ef7',
+    'a26c1d092ead6c9ffd7353230faa9e1dddbd7f53925cd013bd7e8ddf239d0d9b',
+    'a9090c6920a25a8f0c85f4d4a837ba66c78006834f63b6781fc7ebf2a6dedec8',
+    'b228f9fd1ce5f5bd588f369524d0980184324d78c65e09f0aecb88a7633b0c74',
+    '1864363a89b18e3415b1a896cdcf5270d2ac44eee32a2934cd727d8531d69a3e',
+    '8922f04adfb073e0c4aae59fdf4f70d40a600c64742b5822f6774510e686ef29',
+    '092f7318c998626806b63050362d20b5d81377408b9c4f6e09e27d8f91858318',
+    '37cd50bae5134bee88aabc828f0143379daca5b0770cf4c2dff424bad7fca66f',
+    'b99dad1d560ab710adfd7a9c98f2a04e59309bf8a3fe3f7af407ad7d3ba8b9b3',
+    '0b378c4f890f52055cb340edf238857d2fc51833ad2cbfd5b0ee14c394fd67d0',
+    'd512c8e3dc08fb2d1e8d22d36e6a162a756a7237cdd1fab6904491f8196d9b17',
+    '3d3ac11b66f8a9e53116bfa7dfcbb4c21d8fffa4c1709df6caa5f0b20526545c',
+    'ce8d28e7c9a6a49c58b0dc074484d1b85516c66c99753ba24e19a32a341638d8',
+    '91beb3262326223ac53c506af824d5c261756f6133463fec4087bdb5b9e3a8d3',
+    '20b0c9927a562718a1d45dfe529fcd223b1fb1e5dc45e4b1e4b3961676c5d467',
+    'b9f0520d80d855b474e806c9d7e362229d66e4f45a75e0fe053ef9767aa7396d',
+    '8848110eebbd2747214e193cf91aac11c05918573c753c4b1ac9d40fc74b5fb0',
+    '6bfe66a791a8b40d2ff2650d553ecc01060f920bdc8a0749b63a5c0df7aefd7c',
+    '8f075116c5fc13c05cf8e91648543ed9630c3ac396ee0667bab2d227c0f1576b',
+    '0cd19803993847d06497b256500a558cd2afed8ae70d40a0e93b2f7c4b0682f9',
+    'ddbb2f55350fce6fcfb4f06e3874952ddbbaa8a2a04af60fe3c289253aaa07aa',
+    '2e0c827843252d195749b4bd1cda2ea8cbc7a8b2ec77d115d790a722730ce395',
+    'fd5d85254fe84121251cc29ba390a6aa6a5a320f42c7d321d7c5e184ed0e6a86',
+    'c0b3402652b12e59ccc06c2b1c25cdead09c6d46aa4e96c2b8077abc858fb1b6',
+    '6532bd55b86fb02cde9815ed74d71c2ad1ccfaa691b5085245f1855857c742db',
+    '3f119e8cb45ea54f68720745a91a7a0b9e6af2f263a6465597fd02b278100793',
+    '6fa2d129d3ae414f966a4e67e89861a9a1ca5435610ae8dd4e939e19af8c8b23',
+    '52257b0f25b749b452638f3a050f1fd81bbe30dd213fe9c4561ebe3634f84fa4',
+    'dd98c00e01154d8ee3d261ec15b10652d903d178ab6d8489356a1421f65b6af5',
+    '769da81d7972b5db471b6ca0096f9b1498eda0db61ad8fed94d182299b03ccbc',
+    '767e9765d998b700523f7ff90d68fcec91b4d5565d9a6b0a08e2131e34875287',
+    '3984d59d88acee019129cab87af30fdf3f34ff6753549535c1204b391b919f71',
+    '66058e0e82789688153b599e340bb6f17cbfccdfb42082f9fd0c0c52bdf6b42c',
+    'a0768ce2c16a7be89d678d385b27428c4fda3260fed334c9d9c2f26a129387bb',
+    '028d1d98ddabc266281208ed50f663247a2f98f9c1e463acf7987834b785b6b5',
+    '00e06c672cf57bedd84988524edfe6db6b6e7169d894234e704aa5f6b4c40071',
+    '701879528743e27b48d2c3d03648d003c93092be8858696bf35971c32731feff',
+    'e7f600e46c18a017dfda7c5378dfe38f5e1b4b6d558dfc0b15c31b03ea820741',
+    'f904debe19d8f0ccfed4c15fd8540f00e98dd5b3cbd9c19ebba7a6a2979dd9e1',
+    '768c697e2884a6af3f256156b391b3c5f3d012162b3216802c497493ae3e0028',
+    'fdf7ccc77047140c98b10cdb9f28310bce0351465a3f9ef216d659684b1510a0',
+    '7e5a87193909356bfb1110077c3223a9decb7ff5115c4cc6c3881a65f337fd76',
+    '381db612040fb1b788f55f484cf1f13cf3606c1643218680d9fca0aa73d65788',
+    '4bfcc4d35d88fbc17a18388d85ad2c6fc407db7c4214b53c306af0f366529b06',
+    '976bddb10035397242c2544a35c8ae22b1f66adfca18cffc9f3eb2a0a1942f15',
+    'e3a68030095d97cdaf1c9a9261a254aa58581278d740f0e647f9d993b8c14114',
+    'bee723c9130a0c234fea3a618a35915129ca900a6d2dc91f1896ca09519e89c7',
+    '90ef8ad8b5fbf71cc405b451f8c5659193d808ac939f3b98107345297f577597',
+    '58d34669398e49ea7e66e8c973c7511ae85dd992924e0ccde2c3b90adee421f8',
+    '48f38a57f16769940e7b588e2efda33cdea51b91a200d0e6adf9b7c4f5177cf5',
+    'aee667d6e9dde885a84a301aa02c4eefa40fdf3f97552f9b721d969b5bd698fd',
+    '83f46d13784d62a4b8eb4e23cf04d013246f8c41ef6bb6a78965997f5708a81d',
+    '6bdfdc159bef4d05dce310e34e352eb8c25be82fef08ef87b50777183bcaba38',
+    'a82fd5e45cf52615931b2ef243850d9f3fa98657a064a2f9801e6b1e3b6a5f9b',
+    '92e818c3723466e9ac10321724bd005dd1b0f3c2758529c0710e1a2ad34bb3c5',
+    'd522b02e723d2449abd34852b4f0b9a51954c8862d3d2464f7dfa91a597094a1',
+    'b3716d3699cac2df44082d42389fa547fdf15ea472b796dc5b9884d1591be03a',
+    '15b90f719d215624df861ea049d666992227ad8c44c11b6d9d555682967a48c5',
+    'd79f3b74a531d92735d7863ad255fe9c506eaaf1e855993739fc79345595af22',
+    '9cceddd24c70d2ed51ce65c9354e067f745a068ca005196803f1d10acd09fa8b',
+    '0e0d08df6565c9b0081e79e4be3aba1da16b74306010864a3aa5e9e90a30e92f',
+    '8f01f0faeacfb7c31edb9292b4a065c2b09b6c58ff137ddde0c1a8ed1ef48fde',
+    '4d3b1696d05ac9acbbf42e59c546f9a13f850e688dc886b2dbe104c3d7eb3b61',
+    '5584163a07c28847c588f6f2a69a8adfaa247bd9a9eeee181bae1fa722c35ba5',
+    '0f81f8a62d009c52249aacea5f5c446dd672957778ae5cfaf6c71d9c62f1f83a',
+    '97d5a00089d188a0db5b6755038ee382aa353aad0d8f4c17a3889ae2d8e02163',
+    '4c20eda6f3fd80aae0ae90b7b896ac637ba5489605490aaf6a44778fae444c09',
+    '194a65350cd9366eb94684dfeb02f028535ce5ebce1b0b804c118c044b173159',
+    'b2fda602eb41bcf0ffca1656342e7fb8b1ef1d68460bfcedba6dfcd33abe242f',
+    'e504e4e21df3c8986f068bda608d9b5b0ba2f395e831624b5263c86e7d54e2f1',
+    '80709f1f6d88443e7008ec2f74d93665d1cb17476957a4aafcb1dd11571d02b0',
+    'e3558718723f3a6355e8ae4d56e4055af4234433209a22c6e0ce6b7f34872927',
+    '49ea29076ba9b1ab3593ed5c688f7eab35415de21c9af5acddc810caacac9b13',
+    '8f704e00f160beec53be29d1c55dc9435e4cbed422bf7e87fafad680d999b1cb',
+    '5be89aab9ea78647cd65068ba170788e4af688dad29f804c5ae4cfce21e6a521',
+    '87a5b0d1257e514ebfc7031a8f4ddbbbf682803f6c8f9246fc2fa3f7629e6b35',
+    '3e367f4316831df568fdf69c656e26adc1e3bab6a7ab2f2292f4bded8c11360c',
+    '016bd1c43b2998d266621662bc7fb255c51a7af39af7ca05c8982358e5c25435',
+    '6c270c2e0fbdc4c2b1d335884619482978ff703660bc2b60cb7e5f230e235448',
+    'a767e1527e3eac9967efd249688083ff5e693b97fcc873bcc94b9d07750463a7',
+    'c7f903d19bc9945e9892aac571c27a36482846141306c883b641e997d0d5d5ee',
+    '0e9882a61277ace9b5fcc1ec9bb3f6c40349b64d593f9d7e819c873456f5de15',
+    'f05a2e077f0a68e100957b6bdb26d5cdeb280662abb2534fd4400cd8d7617e77',
+    '47499f5c2f1d7efa320f3612b2b0e1139ed00aeaaf006caf2c859ec2e22bfa73',
+    'd639a42da5c8111639f04330b006be3f99904f69b09e72280936bb84a37943ac',
+    '7b24bd926ff03ce130687b5e297c2693ad924e18fb7dc88c910b7af23fb3860a',
+    'd2a76979a1ab8b7ff4b01b75804262ebaa5e67de68f21a7d224ed521209dda66',
+    'caad8b5fc20d76bcca5951c27060d3a9cd99a3310931292d9cfd5f72ac751983',
+    '7df0f339f798f0a54fbd5929ef6c4383ac6ff0ffa91e223e83154c4cb66e1aa3',
+    '62898104f0efa2aa6b1a6387b90aff31e573897ad7bc926df42aba566d167011',
+    '67ef8a54b22db2c6e64b1ce7286d37a0e875ea535820df69c16eb955a4a2f3b2',
+    '1eab531ffb85767616a370fbbc078738f98e440e166c5e5cd3d3a99a45ae5c53',
+    '42ee38be9e8632f654dee66999eb553efc39779f6605e8f735fb2f3ed3eeba75',
+    '2ac0955d89028cbd1d237ce70f88f6237285ffe46b5eed20301a3bb69ea0ef3f',
+    'e0d109769ac4170b5ae401940bc134f012508ba1fb6fe6ecfa49fc83ff7772c1',
+    'b022c35e09e2e446093797c6d11c54e22933615f8d3a8680510e68ef985f14bb',
+    'b59d4e93a5381f54d853c6855bd127ece726bf7c833c0f33d24ab9a5b4d4af08',
+    '49456633550617235653d8b8468059ab677f084caf47223cf01db2fa62f61e89',
+    '2deaea1bb3d64586f5fb111e9b4a0ac5dffa96fc04288cde0202a74431a82603',
+    '7a73c197ce4192292b5ba1767bdae8944c18768bfb9877a083289bcf2f03626b',
+    '3a0f50a3c72c059937f12034a0ea3149d697cc95a9ab90ae4d28d0d5931e8c33',
+    'c8eab99aedcf62cd09776832dd0785ca32b2e6b2ae8b2440206707436159b540',
+    '90bc845e23c0977755b7f3c96dfdb34019d350510f21ea9f3e792ea010120e1a',
+    '16de83e973f0c9b15f3ff280a51432f22dd6d7a6d9ceb6401599ebafc7f56bff',
+    '6ac4447f24035c0532c9fd899c5f765ab542e7bc793059072e53e28872fbe432',
+    '99f8e0699f56344cfce1976aa60b6251d5950bed95e478c0850f76a91455f461',
+    '54ac48ac110af5b801a5670f60fbc5edfb493f24ea86e3632898be337df2e19a',
+    '677486ab161663bf16406c30350806435ee98629a2d2b2023ec410aba45ecc79',
+    '6f7854e227042a59546d2d7d713df78e551a38d0e6e7725c078871a4e5839168',
+    'ee199e0d083557886e872eb00601b386bedf4f3903abda801811a6eef2dc5881',
+    '6c8374b42c71f000b5e1f06208b7ac7340c03f845793a2505520a9da23845550',
+    '94b651152758433663453e7f488edc5ff880d65638d1fdb14a3139d32cb96ba4',
+    '8dc1628569ba19282b002a896029fc8ff7119aa6d331c35b60bf40c5cab06816',
+    '03cb065a3254006eedbb392eebc541ccc73120101afe05c88c5980d1b3ca713f',
+    '7dc1169252f789a746b1fdef97ae59b0ce3fc2da36e5efe64b018c2e1c0943d1',
+    'f522e29fcbe341d2fc03480f4d3e75e9a4fdc15a604462222e101eae1449d57c',
+    '798909ca160b23da736574614c1e1f432f2aa03e73d288651f676954b134cfeb',
+    '83398aa6c661f2526b26be7120fd657bf3549f567a53db1978abb0f301b7a9d9',
+    'a2774c1b67c9c168e4e59e99f2632ffc340f2367abfb923b2a107b59791edbb9',
+    'e01f35cb43a72d2391ece17587791df70ae81cbac4e15c6cabfd4c70d63abbe6',
+    'e75ab1bebc574a014548018557b645f6b7255445b57a21bf46a554591b14b568',
+    '0b4c04d63e3d89dcadc89ba70cc8ad74b69aada25f276643aef5e81e6057dbca',
+    '3370dc0685efe3ac85a898f372a32ae6136c0423445da53dba5c0f9cbf909fda',
+    'bbc22dc3135b5cd1aaa983582e209bedb74b3b190b3415f836cff6e7903edc50',
+    'c78d4d7e63ec3ef62ea703ebe498e0452be3725a2270e7bddb83058f86a7119b',
+    '761c7f1f16ef1608464e3d1cea43c9577e2a2be28be9ee40c604cb866c886c42',
+    'af0843f8f55349f98c5e215beef4298da02b963653b748491d0358361222314c',
+    '2368d8eb1694fcad5c3592a8427e1b060549b6d31e566b80bfac1b7468e06912',
+    '006cf29f5da7146bc6bf2f415d23705af2ccd72351ad0ba57d00eb86ab2361f8',
+    '55833e72d54a63b190b39783856c63dd0e2270fe5b15785150e2498c6e225c63',
+    '7c589c5ab3f4192ea7344372a6386ae268fb6caa8a617dad32ce5b72150833b5',
+    '8a5094a3a97cbfce83dfcb57cfc6a2840035dfa812a5943745b2019070ff83a0',
+    '6f0351aa6ec355b225d9bdcf6fcfb16b520bd52ab17566c569a65d388b546182',
+    '2ef50a6bfb3cde5fdd52353236f837c31bdeb9b750ae6c2a76c1a831adabfac0',
+    'acbcec43308cefc7a97e958697c61179b0eb35b44a29cba3e924f9e786304da3',
+    '35fa07d6da6ad68abb0fbbdec6bd1e706d6dd13cf3e09492c822fccb7cb2250e',
+    '02e02ae057096c0a72c68737582a29b79ec2120773b3c9a106809cc864007913',
+    '4ec3ddd74014792e8bc49cc6fbedf853fd2bb2069bfef8e7a7a6b3de2a02cc6d',
+    '7a322d2bf9eacf3c7515f4d325e9587c70ed86a95f15c36e40c0dc62a0b9e11a',
+    '19df1be502e0d12e5a6369dfc2ec3a898d15fddd8681db77cefa1474f3cddcdd',
+    '3107066b8b609bef77fc34fcb6fc5b9202c7e674608fe8d3be3b82267f675ab9',
+    '533876775e550790ccc2ca13d7cd913a2b3d66490e928bf2731cddd9b4382e4d',
+    'fab8756317f550450e71e6a10d254d8bd8af0173bb4265f383461fbd93d86420',
+    '8bad3870b4b4795373b095a784d06e266ea143e03c24d70d313a24f41ae80936',
+    'a7af08717adf8a1784aa415df1756d3f87250d7055d69c98cb53f1a3cb496ad3',
+    'ef915fb218055305aac8c9f1c53c0fb25d8d1dd5674b0eb8ad45fc7c5d96c3e0',
+    'ee071d742f564c626c1d147233a6755ab5c47d4ba4e57431f937d5488ca9f348',
+    'ab119936dce900fcab6c61a4858e143f7bdddaa9fd75ccc5c219e060c4fbc929',
+    'be54c427176bcb6e54d399d650814c183a818edc5a3067c158370880a40ad33d',
+    'f4b052cc0294d692e141d531db8d69a7110dcd4cb7f869eed2fd93902e015a0b',
+    'c0ab55759f73c7d4d20b997bf1fb252ffedf136a24231fe6e9e9d7ff2f9feeb3',
+    '11a39353454155fc1a208a3e58756179a7c6059bc41091233f91245115ff470b',
+    '3a6eb413238c72ded11ca2dd09e5cb2362184b96f98d538260b57f6f11c738e7',
+    '88b2b2c047c6e4fe273764350cb71320f81cb34afb703a8d013246567d12ccfb',
+    '9e2cf76a7cd3bbe71284dab037b49b5d61c46d2136dbd52be3c4d38e317389ff',
+    'dde11129226e2b0b50ffd146b548d1c2cf4c71c194c8bbebd1f4541b67160712',
+    '332acafe4055ae496ce81decaeeaf4d34584ddafb7c45b7b15b5ac5f820b8a04',
+    '48830c9b0d3395845c5c19c35ab1d65451e8bdf6b1b134150e906ab1190bdc2d',
+    '932a52090ad0c307bc247c809f9317e5b6f9b197c8ee85dc18990fc2f30287cc',
+    '0edfdd5470e604a3eb41d9713be4c0e737752aad0439ddf733cb09902d2b8710',
+    '56f518e662629968840d793771bb087ef0a3cd40955ee361493f8ade499ccc44',
+    'b2f0077c08c5bf3fa51070495fce8e7d06eac8a3b71ad38013b1091280254281',
+    '79f034e9e8d48d5000a6f2df837f8432d7ea12016c8e026461ff7b0bf7335136',
+    '37359c51d4c0461a9807078d661102dcd0821fb4f4431f3b365ef667cbad9c1b',
+    'bacbb0126cebfe27065db887ce84ed88161189ea5ab7b51578b1a6eb2d40901a',
+    'e9716cc529aab5c1e7d8b894c38c71ef40a7b9e705877b9cbbe86b054ee772c9',
+    '25648e45eda52cde099b2cf4a151aeb212dd65be56592268f667f15d77a412b0',
+    '931c0070b0adf30478074e4bf31947c1e053840652c30ff706c7ebe9432501c4',
+    'f419b8aa363090fb09afb8971f2a6fb8fbf7f13d865cdaad1109159c975c5aed',
+    '6ca6cb535d1f4783a1af2501bf80c6cf3fcdb1e1ff9f3b77499a8939faf139aa',
+    'b7e690911a2e481f727199f4c1be5e4c7b554e9ba11ee41f5d3a39921b7f54d4',
+    'ae710c8c81974b836a4fd00e22a04637acb06a8ccde35db479f68d13095a7b67',
+    'dd18c08d504ca5b1b8b32123f88a30da6bb4d51cf1d6c99d0a5b59a665cf6f42',
+    '759c94f2dbf4bd5eafb1d69e0f1d2fe8731899afcd23294bf31c26a17a0ce79d',
+    'b5a7be9201b80ff6660ec3ab1a5554c9dded56f0c1e1bf92c09a28a89a96254d',
+    '49d7e742214589f5d39cf0678a2fc219e9e5ac066ff99d846a8c588d63219022',
+    '2c11125611da4f486f487c6811fca7f505451bcbc7492c5c5e38b4d4a5d31661',
+    '22b123758b80cf2d137527058a0aebc3c0a3950f6eaaa90b4e1e221d685953c2',
+    '4cf0e50533229c4f61ad56da6ebb7080e759cb8f608cb5759f23ef15d681b769',
+    'ef0d83d5097fbe47517ee3e2e5810a04cbb75f18575799c7237c81b5c33aba6f',
+    'e650d8567ce5ef1d0e6231cd8d010f7df2bb1956a87360690d6b18ad7c8a5a8e',
+    'b31985d32d443c8e49818132ac87644501ff4ee04a2e267ab256252ec4820f07',
+    'b8624929ee0d67b307085449236eb801212e11302c7ddcace079956e276f3de2',
+    'ece07aca80346695a88c16891d9966dc5ed82f77c4c280b9a6577f6ae920b7f3',
+    '1d762af2ca95511866ca9167ca7e7a61eead8101eed6b0415b7ff60b47ce5431',
+    'ac28d793268012b71a01670eb6a290149c4fa282e8b801edbf3ab3732f8804f8',
+    'eda46cf2c4799ee919e740b48cc7ee037c89e920995a4c61babc07ff54d586e0',
+    '684e97c991e61cc6625e146baa3495e17b60aca7e939bd2ca0f377463019a606',
+    '58e464aae064a2d38b19e5fd784d6126e92993b79b10ac91933b3bc78822b619',
+    '8a154842066f7ff4a8ec23ec1b446595157559929e2a8f691b3a77cfe27f16dd',
+    '54d15fff4d33027dcced4e20d08bf0becc2d9416da7b976516b0b8f26ad23104',
+    '16606645d010ceac0f373f9004385fb55c742d0507a61119ae6de1854a10f0fa',
+    '02584dd00ff8510fae5abc39ca17880a8d8eb99bb5f122da59351f340a8218df',
+    '41c4d47edbcfcb429225fb605a53c46d5778d1e30fbf5a0f894ae24c8026f445',
+    'b674a603da6d43645e6dcd21f881ba36c05df4aa2f6db5d5b383ed65fd48d1fa',
+    '92b671e756dd213408d0f208ed1ecbc14c9808d1508f5ae5482372cec488d064',
+    'f230becea530002a7b1187f4d0bccbbc16cdeb003029ad533759438f0747c8e4',
+    '7bc2d060daadf228d0ed329b8dc736117fd1f0a27489dd07f62d0c9dd7bc0e7c',
+    '74d916e63e687b962fd4a7199e19e4798bef3d66a37d3b35e30f8bfc4da179b8',
+    '0973c8e3185f549d3107e61fa701a13eb899d939f2c19f9381a5bd63c9c77b6b',
+    '67a7ed2a52b56f378cc9d98c29699098b68cfe36bafe280e5bfff1e756039f07',
+    '8b1c4412d74dfc8348a1c90d110a861a78c3c254d04d770f7605ad177b2007c6',
+    'e302f01fc645949ce070c2e17b4d1d7bab208349a8fda3cc5296e2ec0ef628d8',
+    'e7f8d387a5bd4a4953481c30f5804c5617fc1b17acc21c043a346f22218d5b3c',
+    '7894abf2aab805f961525839506e1fba1fe5b7218da0e2868176a86648abab66',
+    '0b9c42f7ad517ae2c30a7a066e56437695c3f97b74409a098737fca92f41f23c',
+    '63f1625019a7321197a7c7d66422ae4ec61ba6e5daf1770f4bf58b9705104a80',
+    '93f21e3557b21b00a9ea06d9a81655b124258a9f3a1bc8a9f501d59cebc0b110',
+    '6028a6b133ee93599f8b580e117fe24c019e5fffbacd9c409fc6d9308de549c1',
+    'f1bf75da7f95e4563b02a7acd49a28e9a2387b277de0f4d6bf3373398a4b5add',
+    '6d6d948e2edc588296fa865f52a810bd3423a345d3284b8f9253b89a678ddcdc',
+    'bde31178c8924a6ad0f33100cf2194e3dbe98e38b48613d9e4a8efbd87ebe00e',
+    '1b1f3fc0cc24058b6ee1575d2ffdbab585cc44df676e8dece65f2a74828e7ad0',
+    '9b71f21506e8bdf216aaa432695831b805debf414c8928ca8cb5a8affc25ba6e',
+    'baee0a73122f6245f30b431980133a39321fb58fbb518a1037545d771894b925',
+    'ca0f3df02b0f0992d0ff182751316da7dca082a350d7b2ccb064ab19eb1b9348',
+    '7092a951c585303f40b2f73c59198933d87108458e775112d1aaa4a321d6b1fa',
+    'c8ee55966eee2c8044aabaa3dae20f164898c48b0dded9707a89f05af68764be',
+    '83be2be27c520c6cbfd7ca6ca7d5301e18387384e8230969149be6a6ccd991ed',
+    '50307af426c38a9a36cb3f344a1f42d9fb765d49e8a6bc001c169eb72908655f',
+    '39b96295adee902b3f03633d43f8cf6c083166b4345a4fadd57f77e7d26ec2c2',
+    '303aef314b37c564654c396a26db3fc485c072a7fdadfd116b4440d9e2f16f08',
+    'a7d65bb4df3cbcdc494e45b83bb517189361267465456ad87f439cf1bab892d1',
+    '83ba1d685862ffdf3188696da9867ff0cd8f58dffa98e009f1d6433fa8c4170c',
+    '9fa01970554af22656b05a52c6959cea2408b169b11b281f46837ce952023d9b',
+    '3f1b341f30a5785156b92f92253641dc4ac288746b1b89199dace53d257a66d0',
+    '725c21713ecba6a435c12957b888f554b246ae12e8e07e8976feabafdb7f64bd',
+    '2f5cec2d513d72c650c23dfb9c50e99ad5f835b050a763c472c3d11b3b634b84',
+    'f507d999dcea3d362f479319171c1d2488eccd24005152be5e424a3dfb31d530',
+    '2b1818d452ca73795aed3f33629f96285a8c9cd60051b0c870e26553d19d092d',
+    '3346affa1348063da85bc9fadae7571db143ad4e864edc4a561b4f4766dcd7ee',
+    '32cd416e11303cf1c9bc5b970dee674dd654281fa3850f48a30c0173d537dbcb',
+    '22e076423a2936bcb91aca880ed982c17791379bb6a96a31088f4166f9955abc',
+    'a1b49fbd4462ce1b0bef63439470051e458fa067d3d06389c34fde9904885343',
+    'bd9c63d417e7bbe7ba83cb0bee2576843e8d666c7f07a464070313815e28dc04',
+    '3906ade98926ffff5d6d8ae25413e0dbf63403e868a14e98a1aaf6fecfaf1e5c',
+    '631193a586778ab4c0037326b1c719fd430d45550444a977ed42a07d3511e977',
+    '1be80f67b90eafcf93d4e407a2af5b552ad8ad203c70561170b99af686b4c0cd',
+    '74a2d78092ad4f500ca339684352c61ab5e3834136dfe649a1f0f498183cbf3d',
+    'd5aa9b6f92b3d99ffdd632a877728e1179f83c547c823edddadd499b9a3ad225',
+    '0876deb7c67480687a3e343515d8d61a687a51bec598a42453728e6af0fbc3b3',
+    '478f9edcea929e2ae5baf5526bc5fdc7629a2bd19cafe1d9e9661d0798a4ddae',
+    '556661e1e16128b3808238db634e50d614230887a50c4c0308a21e253ca65a59',
+    '9c3964d8b50c9b109d99c6851eb615c57b022f7dfa913aa74bac85debb6523d0',
+    'f25b7dd9c8c8757ea6708c937f0731e44523d6d757ab8d25360ce718f9978d6a',
+    '19a2d32d5da5fc3b826f9f686e9e6aae6bede96c9e33d603e1a4ba5d4bd25fc5',
+    'b6c1f893d3f3a0ad93a50eb1f6a52c385ae0a2c41584f611f000393424140499',
+    '6588db00fac72950078154a082ef24a189d582b20d076aa99d7e870117a548fb',
+    '81c562b4448a1e682cf8ae68dfc7df951fa580ff83e19d40bcd7aafea3091b33',
+    '6118c0fbe4284b920d688430e365c772b2939226dfc2d09915016ccd8325290b',
+    '41eec2f29a5bfacc5d6e1e78a369db1190e78de00407b176b41cf97441c25c37',
+    '5d32b625bc391d24055ef714eb097e84ac3acf8d2df012fc156b998066cd4ef5',
+    '6d78d02fbaecd5ffee72b7c7d858f6eb3d5d196e3ddc18be22f049ead8a52d3a',
+    '2e058beb39b9c710e6f064298d570a4c74987987810857fb7c79ed442bf0bf3b',
+    'fd8556dd1605c907ebbf04676738dac0c6fb9a47cc1440e7c1102285109c3ab7',
+    '4d0b0aeebe279e44c5172ebdc93ce231b1865b66d72dafb80895caff129b0435',
+    'adbe3b5e33d1ce62d03f9065991ad1e7ca3167f613e5526afad19e35395a7684',
+    '41e88803cd541008b60381bceee6ddfb536f27c379fb54d5ada0ca68f0d9b834',
+    'cf8ed8bf6eb86a2af56cd8a6c17bca2b8b030b5c0d61a7b37bc77d8c650e6347',
+    'fee810a6eb86a855becd77922819fa9bd9f001c889f8746beea62d70fe0362de',
+    '32a6158862957beeb655be3d3e65189c656b0689b8272e4d596aaf90eb9de1af',
+    'a7db82f21b10a7062ebadf4711bc5b8fb537d34b57d05b6052c2b3f0a7d79e0f',
+    'd659bbabcd7f406f784a6b624efcacaee26375eecdbabf2a58728c700aaab569',
+    '0d9c164898402769dd9fc2caa2b735f654ab271df4956946776e358e89b5f96b',
+    '1099c4663851f498a4f84e942e1ffd4c55fe1cee248d47ebf8692be1c94bdb5d',
+    'c41b25004288641718a72ab523f3f055f25f5399c24ef3dcddf8d04902115441',
+    '9b63a2b860f68f81a3a9b049b58b6f7533f6faeab37fb69fdc6654651181a9dc',
+    '9eb27379068c60194706ad321441a31c6d0a5afe36c8083fabe94a7ca0efa747',
+    '5c0bc55480427a8b195b70e157a88a7bfdbe1e40c7835819719fa08380811e2c',
+    '75dbdacf17447f29f17f1795f167a73bd845a6999a86f71f1d1d2dff6a553b1e',
+    '40c42ec3a239b992ab252581e5c4b6cea5f9d7fa0be7946fc6ce712f33b115b2',
+    'acd562d29d31ad62275b2ebde113c107928b7368d58d3547b97d022b0789d20d',
+    'ec8866bc287d3bcfe2d6f1a0b67ae355d12b0059ebc46e136fefd97740cf2e8b',
+    'a160f07133127796eea2e5e87258f566f3e1f885dc0250cfcf0ec0a072920641',
+    'c35d175ddad166ba2c73e2ab6020a1361fc0b92d3f733af583de9f4a45007330',
+    'da07b06329181de01eedf85cc1773072f4ba3b34e871ce30b6663f3de9dd9bf3',
+    '0065d35bc5d00ad1218013dc05b2d757c5492e57784400af6d14fddec3fb7d75',
+    '74ccff513c3c98a544dfb1f0b5dfe95bd835f2ce3a1e063f94da167bb6bcb27b',
+    '07d295c156630236cc0a580ba4a7a090ab15867d3b2d3ee9412447137f881e3a',
+    'f4092e11a768dc646948d0d7df11b6687ec0fc9c03e9b641e6a1a8b461a19005',
+    '17134aab2bb2f6d5d2eb9d6a8519795173d5f00726bb6de336780797f7306bdd',
+    'bbc288fbb7b18073d9f284f963a8f3b9c1a92aa399e760106488b245e8af45d9',
+    '4ae7cc5cdc9d39c018e415609f51a9ad2e0fd5023e0cc999e3fd300a90b7ec19',
+    'ab7aab7fbdf5394617641697a46fbb06ede8a1a89446ea6a2a53b313f8974171',
+    'da02f3c1b7fce95d8c8fc8cefa60ddb06f81e379c20d04584dea6ce8a059b4f8',
+    '938cad1f08c9744d862c3666ac6c6b01142b421d638dd2cb7e74f97de862970e',
+    '86ae20c8a7bd34dd567051feef22d4b09e29fc32d08463a15a521446d62c27e2',
+    '605f68f487180b0659e1d0c0033bec725e9236bbb07b13e35a69c49c0b594073',
+    'c7de583c12c8d129a7c27531b02dd5594a642221434773197700ed87ccc90cd2',
+    'ced6f96cd7e1da5334fc3d780adf50083556060c95d04ceea32147bce28058de',
+    '71208a0c1dcb0a7af6a86099834beefab6fd95501b7a9163993baac0c2985ba2',
+    'ac8d893d031e86a19ee39aa36bb820b379f00fbf45990e3cd9ce728523bbe897',
+    'f43af84a7ad5ea09722c3b8ef2f4dea28661e91c8b6a833772798e0d15a94ad7',
+    '73acc71d896a67edfb51341361bfdea99a8bf01468f9d45a6bdc6ce953b9b37e',
+    '18a9b3183f0e5915a9331391329a52680a26735b440271d0212fb0e076cf9d0c',
+    '96db62c810dbc764c479e8ab77643310520ac2344456939dcc534a1cfadea11d',
+    '6eda52ff8350e2d8c2dc25ec8fef921ae7fde648af5a161662602bf6bca062e8',
+    '21a1e3e69d5dbb6192981fbfb613e31cb1cde8684c697bdffb2a556124acc72b',
+    '20a0fbe6aabdb2ee8520c8399a26b87f6ff89d202d5312e84a986bcb4c88076e',
+    '3b96ad6680cb02a46513cd6cc7f8b3c7952c2fd28fc44dc8a11128300779ab71',
+    'e7bbb1a8dcc461ad0eefe4cedc875f88bf79630b40425030cb886528dc30fbc7',
+    '4463c1c641bce02317669b0d8ce1c1d754c2c8c7ee5ddffff537107a1e899646',
+    '5beab9f339d9641fd543716d1973afe7f6c2259fc4eb73bb0462c5b2a02dc8b6',
+    '5215f264dd3dd46262b724e57376f4c28d3d07020cb2c161f8723ec0f8002bd5',
+    '76f0a14d329802d2958ecae614d0217939010c686579eb0a3fec4c83c4aba685',
+    '16d74d66baf1e76f82166fbbeb6a7cef3726ff4712299a463587bc3ff567b3a5',
+    '8765a379acffa0ef5692c710aedfcb8e23f5670d05a78c247ad3c26ecc9952f1',
+    'cc61ce1c3a4aa404c113a6fdcfc47323f13a5a12de2eed29b7e64620de881b45',
+    'b83cc9fed4fe282ffc361bc145236c85342a4cdb82ce17feb20485ee4a84a97c',
+    '85ebd3ad03f93b7bc001d9b32ada1528725b36a8e24f632bdfd326ca152744f6'
 ];
 
 async function validateAccess() {
@@ -6114,6 +6419,45 @@ function switchResultTab(tabIndex) {
     document.querySelectorAll('.result-panel').forEach((panel, index) => {
         panel.classList.toggle('active', index === tabIndex);
     });
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// COPY & SHARE REPORT FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function showToast(message) {
+    const toast = document.getElementById('toastNotification');
+    toast.textContent = message;
+    toast.classList.add('visible');
+    setTimeout(() => toast.classList.remove('visible'), 3000);
+}
+
+function copyReportSummary() {
+    const r = calculationResults;
+    const lang = currentLang;
+    const summary = lang === 'zh'
+        ? `【CBAM成本估算报告】\n工厂：${r.factoryName}\n产品：${r.product}\n排放强度(SEE)：${r.emissionIntensity ? r.emissionIntensity.toFixed(2) : 'N/A'} tCO2/t\n年度CBAM成本：€${r.annualCost ? Math.round(r.annualCost).toLocaleString() : 0}\n节省潜力：€${r.savingsPotential ? Math.round(r.savingsPotential).toLocaleString() : 0}\n每吨成本：€${r.costPerTonne ? Math.round(r.costPerTonne) : 0}\n\n由CarbonBridge碳桥生成 — carbonbridge.co`
+        : `[CBAM Cost Estimate Report]\nFactory: ${r.factoryName}\nProduct: ${r.product}\nEmission Intensity (SEE): ${r.emissionIntensity ? r.emissionIntensity.toFixed(2) : 'N/A'} tCO2/t\nAnnual CBAM Cost: €${r.annualCost ? Math.round(r.annualCost).toLocaleString() : 0}\nSavings Potential: €${r.savingsPotential ? Math.round(r.savingsPotential).toLocaleString() : 0}\nCost per Tonne: €${r.costPerTonne ? Math.round(r.costPerTonne) : 0}\n\nGenerated by CarbonBridge — carbonbridge.co`;
+    return summary;
+}
+
+function sendViaEmail() {
+    const summary = copyReportSummary();
+    navigator.clipboard.writeText(summary).catch(() => {});
+    const subject = encodeURIComponent(currentLang === 'zh' ? 'CBAM成本估算报告' : 'CBAM Cost Estimate Report');
+    const body = encodeURIComponent(summary);
+    window.open(`mailto:?subject=${subject}&body=${body}`);
+}
+
+function sendViaWeChat() {
+    const summary = copyReportSummary();
+    if (!summary) return;
+    navigator.clipboard.writeText(summary).then(() => {
+        showToast(currentLang === 'zh' ? '已复制到剪贴板，请粘贴到微信' : 'Copied to clipboard, paste into WeChat');
+    }).catch(() => {
+        showToast(currentLang === 'zh' ? '请手动复制后粘贴到微信' : 'Please copy manually and paste into WeChat');
+    });
+    setTimeout(() => { try { window.open('weixin://'); } catch(e) {} }, 500);
 }
 
 // ═══ PART 6B END ═══
