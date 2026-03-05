@@ -33,6 +33,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+SC:wght@300;400;500;600;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script>
+    // ══════════════════════════════════════════════════════════
+    // FIREBASE CONFIG — Replace with your Firebase project values
+    // Create a project at https://console.firebase.google.com
+    // ══════════════════════════════════════════════════════════
+    const firebaseConfig = {
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_PROJECT.firebaseapp.com",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_PROJECT.appspot.com",
+        messagingSenderId: "YOUR_SENDER_ID",
+        appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const auth = firebase.auth();
+    </script>
+    
     <style>
 /* ═══════════════════════════════════════════════════════════════════════════════
    CSS VARIABLES & RESET
@@ -4056,6 +4078,553 @@ body::before {
     }
 }
 
+@media (max-width: 1024px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   LOGIN & AUTH SYSTEM
+════════════════════════════════════════════════════════════════════════════════ */
+.login-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(6, 10, 8, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.login-overlay.active { display: flex; }
+
+.login-modal {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    max-width: 480px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 40px 36px;
+    position: relative;
+    animation: fadeInUp 0.3s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.login-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    background: none; border: none;
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+    width: 36px; height: 36px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: var(--radius-md);
+    transition: all var(--transition-fast);
+}
+.login-close:hover { background: var(--bg-secondary); color: var(--text-primary); }
+
+.login-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+.login-header .login-logo { font-size: 36px; margin-bottom: 12px; }
+.login-header h3 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+.login-header p { font-size: 14px; color: var(--text-muted); }
+
+.login-tabs {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 28px;
+    gap: 0;
+}
+.login-tab {
+    flex: 1;
+    padding: 12px 8px;
+    background: none; border: none;
+    color: var(--text-muted);
+    font-size: 14px; font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition-fast);
+    text-align: center;
+}
+.login-tab:hover { color: var(--text-secondary); }
+.login-tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.login-tab-content { display: none; }
+.login-tab-content.active { display: block; }
+
+.login-wechat-section { text-align: center; padding: 16px 0; }
+.login-wechat-qr {
+    width: 200px; height: 200px;
+    margin: 0 auto 16px;
+    background: #fff;
+    border-radius: var(--radius-md);
+    display: flex; align-items: center; justify-content: center;
+    padding: 12px;
+}
+.login-wechat-qr img { width: 100%; height: 100%; object-fit: contain; }
+.login-wechat-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 8px;
+}
+
+.login-form { display: flex; flex-direction: column; gap: 16px; }
+.login-field { display: flex; flex-direction: column; gap: 6px; }
+.login-field label {
+    font-size: 13px; font-weight: 600;
+    color: var(--text-secondary);
+}
+.login-field input, .login-field select {
+    padding: 12px 16px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+    transition: border-color var(--transition-fast);
+}
+.login-field input:focus, .login-field select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.login-submit {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+    color: #000;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 15px; font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    font-family: inherit;
+    margin-top: 8px;
+}
+.login-submit:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(52,211,153,0.3); }
+.login-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+.login-divider {
+    display: flex; align-items: center; gap: 16px;
+    margin: 20px 0;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+.login-divider::before, .login-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+.login-toggle {
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 16px;
+}
+.login-toggle a {
+    color: var(--accent);
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+}
+.login-toggle a:hover { text-decoration: underline; }
+
+.login-error {
+    padding: 10px 14px;
+    background: rgba(248, 113, 113, 0.1);
+    border: 1px solid rgba(248, 113, 113, 0.2);
+    border-radius: var(--radius-md);
+    color: var(--danger);
+    font-size: 13px;
+    display: none;
+}
+.login-error.visible { display: block; }
+
+/* User profile in navbar */
+.nav-user {
+    display: flex; align-items: center; gap: 10px;
+    position: relative;
+}
+.nav-user-avatar {
+    width: 34px; height: 34px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+    color: #000;
+    cursor: pointer;
+    transition: box-shadow var(--transition-fast);
+}
+.nav-user-avatar:hover { box-shadow: 0 0 0 3px rgba(52,211,153,0.3); }
+.nav-user-name {
+    font-size: 13px; font-weight: 600;
+    color: var(--text-secondary);
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.nav-user-dropdown {
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    min-width: 200px;
+    padding: 8px;
+    box-shadow: var(--shadow-lg);
+    display: none;
+    z-index: 100;
+}
+.nav-user-dropdown.visible { display: block; }
+.nav-user-dropdown a {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+    border-radius: var(--radius-md);
+    transition: background var(--transition-fast);
+}
+.nav-user-dropdown a:hover { background: var(--bg-secondary); color: var(--text-primary); }
+.nav-user-dropdown .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 4px 0;
+}
+
+/* Request key modal */
+.request-key-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(6, 10, 8, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 9998;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+.request-key-overlay.active { display: flex; }
+
+/* Dashboard tab panels */
+.dash-tab-panel { display: none; }
+.dash-tab-panel.active { display: block; animation: fadeInUp 0.3s ease; }
+
+/* Products management */
+.dash-product-card {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    margin-bottom: 16px;
+    transition: border-color var(--transition-base);
+}
+.dash-product-card:hover { border-color: var(--accent-muted); }
+.dash-product-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.dash-product-card-name {
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.dash-product-card-actions {
+    display: flex;
+    gap: 8px;
+}
+.dash-product-card-actions button {
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all var(--transition-fast);
+}
+.dash-product-card-actions button:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+.dash-product-card-actions button.danger:hover {
+    border-color: var(--danger);
+    color: var(--danger);
+}
+.dash-product-metrics {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+.dash-product-metric {
+    padding: 12px;
+    background: var(--bg-card);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+.dash-product-metric-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+.dash-product-metric-value {
+    font-size: 18px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* Add product form */
+.dash-add-form {
+    background: var(--bg-secondary);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-top: 16px;
+    display: none;
+}
+.dash-add-form.visible { display: block; }
+.dash-add-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* Calendar expanded */
+.dash-calendar-grid {
+    display: grid;
+    gap: 12px;
+}
+.dash-calendar-event {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border-left: 3px solid var(--accent);
+    transition: background var(--transition-fast);
+}
+.dash-calendar-event:hover { background: var(--bg-card-hover); }
+.dash-calendar-event.urgent { border-left-color: var(--warning); }
+.dash-calendar-event.overdue { border-left-color: var(--danger); }
+.dash-calendar-event.done { border-left-color: var(--text-muted); opacity: 0.6; }
+
+/* Alert filter tabs */
+.dash-alert-filters {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+.dash-alert-filter-btn {
+    padding: 6px 16px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all var(--transition-fast);
+}
+.dash-alert-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+.dash-alert-filter-btn.active {
+    background: rgba(52,211,153,0.1);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Settings form */
+.dash-settings-section {
+    margin-bottom: 32px;
+}
+.dash-settings-title {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+}
+.dash-settings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+.dash-settings-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.dash-settings-field label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+.dash-settings-field input,
+.dash-settings-field select {
+    padding: 10px 14px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    font-size: 14px;
+    font-family: inherit;
+}
+.dash-settings-field input:focus,
+.dash-settings-field select:focus {
+    outline: none;
+    border-color: var(--accent);
+}
+
+.dash-toggle-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(52,211,153,0.06);
+}
+.dash-toggle-label { font-size: 14px; }
+.dash-toggle-switch {
+    width: 44px; height: 24px;
+    background: var(--bg-input);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    position: relative;
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+.dash-toggle-switch.on { background: var(--accent); border-color: var(--accent); }
+.dash-toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 18px; height: 18px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform var(--transition-fast);
+}
+.dash-toggle-switch.on::after { transform: translateX(20px); }
+
+/* Carbon price chart */
+.dash-price-display {
+    text-align: center;
+    padding: 32px 0;
+}
+.dash-price-current {
+    font-size: 48px;
+    font-weight: 900;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent);
+}
+.dash-price-change {
+    font-size: 16px;
+    margin-top: 4px;
+}
+.dash-price-change.up { color: var(--accent); }
+.dash-price-change.down { color: var(--danger); }
+.dash-price-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+}
+.dash-price-stat {
+    padding: 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+.dash-price-stat-label {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+}
+.dash-price-stat-value {
+    font-size: 20px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+/* SVG chart area */
+.dash-chart-container {
+    width: 100%;
+    height: 300px;
+    margin: 24px 0;
+    position: relative;
+}
+.dash-chart-svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Plan badge */
+.plan-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+.plan-badge.free { background: rgba(52,211,153,0.1); color: var(--accent); }
+.plan-badge.monitor { background: rgba(96,165,250,0.1); color: #60a5fa; }
+.plan-badge.enterprise { background: rgba(251,191,36,0.1); color: #fbbf24; }
+
+/* Empty state */
+.dash-empty {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-muted);
+}
+.dash-empty-icon { font-size: 48px; margin-bottom: 16px; }
+.dash-empty-text { font-size: 15px; margin-bottom: 20px; }
+
+@media (max-width: 768px) {
+    .login-modal { padding: 28px 20px; }
+    .dash-product-metrics { grid-template-columns: repeat(2, 1fr); }
+    .dash-add-form-grid { grid-template-columns: 1fr; }
+    .dash-price-stats { grid-template-columns: repeat(2, 1fr); }
+    .dash-settings-grid { grid-template-columns: 1fr; }
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════════
    DASHBOARD VIEW
 ════════════════════════════════════════════════════════════════════════════════ */
@@ -4651,7 +5220,19 @@ body.dashboard-active .cookie-banner { display: none !important; }
                 <button class="nav-lang-btn" onclick="setLang('en')">EN</button>
             </div>
             
-            <button class="nav-cta" onclick="scrollToEstimator(); hideDashboard();" data-zh="免费估算" data-en="Free Estimate">免费估算</button>
+            <button class="nav-cta" onclick="scrollToEstimator(); hideDashboard();" data-zh="免费估算*" data-en="Free Estimate*">免费估算*</button>
+            
+            <button class="nav-cta" id="navLoginBtn" onclick="showLoginModal()" style="background:transparent;border:1px solid var(--accent);color:var(--accent);margin-left:-4px" data-zh="登录" data-en="Login">登录</button>
+            
+            <div class="nav-user" id="navUserMenu" style="display:none">
+                <div class="nav-user-avatar" onclick="this.parentElement.classList.toggle('open')">?</div>
+                <span class="nav-user-name" onclick="this.parentElement.classList.toggle('open')"></span>
+                <div class="nav-user-dropdown">
+                    <a onclick="showDashboard(); document.getElementById('navUserMenu').classList.remove('open');" data-zh="📊 仪表盘" data-en="📊 Dashboard">📊 仪表盘</a>
+                    <a onclick="showDashboard(); switchDashTab('settings'); document.getElementById('navUserMenu').classList.remove('open');" data-zh="⚙️ 设置" data-en="⚙️ Settings">⚙️ 设置</a>
+                    <a onclick="logout(); document.getElementById('navUserMenu').classList.remove('open');" data-zh="🚪 退出登录" data-en="🚪 Log Out">🚪 退出登录</a>
+                </div>
+            </div>
         </div>
         
         <button class="nav-mobile-toggle" onclick="toggleMobileMenu()">☰</button>
@@ -4670,7 +5251,7 @@ body.dashboard-active .cookie-banner { display: none !important; }
             <button class="nav-lang-btn" onclick="setLang('en')">EN</button>
         </div>
         
-        <button class="nav-cta" onclick="scrollToEstimator(); toggleMobileMenu(); hideDashboard();" data-zh="免费估算" data-en="Free Estimate">免费估算</button>
+        <button class="nav-cta" onclick="scrollToEstimator(); toggleMobileMenu(); hideDashboard();" data-zh="免费估算*" data-en="Free Estimate*">免费估算*</button>
     </div>
 </nav>
 
@@ -4697,7 +5278,7 @@ body.dashboard-active .cookie-banner { display: none !important; }
                 
                 <div class="hero-actions">
                     <button class="hero-btn-primary" onclick="scrollToEstimator()">
-                        <span data-zh="免费估算CBAM成本" data-en="Free CBAM Cost Estimate">免费估算CBAM成本</span>
+                        <span data-zh="免费估算CBAM成本*" data-en="Free CBAM Cost Estimate*">免费估算CBAM成本*</span>
                         <span>→</span>
                     </button>
                     <button class="hero-btn-secondary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">
@@ -4911,11 +5492,11 @@ body.dashboard-active .cookie-banner { display: none !important; }
         <div class="how-grid">
             <div class="how-card">
                 <div class="how-number">1</div>
-                <h4 class="how-title" data-zh="免费在线估算" data-en="Free Online Estimate">免费在线估算</h4>
-                <p class="how-desc" data-zh="输入基本生产数据，30秒获得CBAM成本估算、敏感性分析和5年预测。完全免费，无需注册。" data-en="Enter basic production data, get CBAM cost estimate, sensitivity analysis and 5-year projection in 30 seconds. Completely free, no registration required.">输入基本生产数据，30秒获得CBAM成本估算、敏感性分析和5年预测。完全免费，无需注册。</p>
+                <h4 class="how-title" data-zh="免费在线估算*" data-en="Free Online Estimate*">免费在线估算*</h4>
+                <p class="how-desc" data-zh="输入基本生产数据，30秒获得CBAM成本估算、敏感性分析和5年预测。每位用户可免费使用一次。" data-en="Enter basic production data, get CBAM cost estimate, sensitivity analysis and 5-year projection in 30 seconds. Free for one-time use per user.">输入基本生产数据，30秒获得CBAM成本估算、敏感性分析和5年预测。每位用户可免费使用一次。</p>
                 <div class="how-time">
                     <span>⚡</span>
-                    <span data-zh="30秒 · 完全免费" data-en="30s · Free">30秒 · 完全免费</span>
+                    <span data-zh="30秒 · 免费一次" data-en="30s · One-time free">30秒 · 免费一次</span>
                 </div>
             </div>
             
@@ -5165,9 +5746,9 @@ body.dashboard-active .cookie-banner { display: none !important; }
                 <div class="pricing-name" data-zh="CBAM估算器" data-en="CBAM Estimator">CBAM估算器</div>
                 <div class="pricing-desc" data-zh="快速了解您的CBAM成本概况，获取基础分析" data-en="Quick CBAM cost overview with basic analysis">快速了解您的CBAM成本概况，获取基础分析</div>
                 <div class="pricing-price">
-                    <span class="free-label" data-zh="免费" data-en="Free">免费</span>
+                    <span class="free-label" data-zh="免费*" data-en="Free*">免费*</span>
                 </div>
-                <div class="pricing-note" data-zh="需要访问密钥" data-en="Access key required">需要访问密钥</div>
+                <div class="pricing-note" data-zh="* 仅限一次使用 · 需要访问密钥" data-en="* One-time use only · Access key required">* 仅限一次使用 · 需要访问密钥</div>
                 <ul class="pricing-features">
                     <li><span class="check">✓</span><span data-zh="6种CBAM产品类别分析" data-en="6 CBAM product categories">6种CBAM产品类别分析</span></li>
                     <li><span class="check">✓</span><span data-zh="排放强度计算 (SEE)" data-en="Emission intensity (SEE) calculation">排放强度计算 (SEE)</span></li>
@@ -5252,6 +5833,10 @@ body.dashboard-active .cookie-banner { display: none !important; }
         
         <div class="pricing-compare" style="margin-top:48px">
             <div class="pricing-subtitle" data-zh="💡 每份CBAM Monitor月报都会提示：「使用行业默认值计算。实际成本可能低15-40% — 联系碳桥获取现场核查。」" data-en="💡 Every CBAM Monitor report notes: 'Using industry defaults. Actual cost may be 15-40% lower — contact CarbonBridge for on-site verification.'">💡 每份CBAM Monitor月报都会提示：「使用行业默认值计算。实际成本可能低15-40% — 联系碳桥获取现场核查。」</div>
+        </div>
+        
+        <div class="pricing-footnote" style="margin-top:32px;text-align:center;padding:20px;border-top:1px solid var(--border)">
+            <p style="font-size:13px;color:var(--text-muted);line-height:1.8" data-zh="* 免费估算仅限首次使用，每位用户可通过碳桥客服微信或在线申请表获取一次性访问密钥。" data-en="* Free estimate is for first-time use only. Get your one-time access key via CarbonBridge WeChat or online request form.">* 免费估算仅限首次使用，每位用户可通过碳桥客服微信或在线申请表获取一次性访问密钥。</p>
         </div>
     </div>
 </section>
@@ -5636,9 +6221,9 @@ body.dashboard-active .cookie-banner { display: none !important; }
 <section class="estimator-section fade-in-section" id="estimator">
     <div class="container-narrow">
         <div class="section-header">
-            <div class="section-overline" data-zh="免费工具" data-en="FREE TOOL">免费工具</div>
+            <div class="section-overline" data-zh="免费工具*" data-en="FREE TOOL*">免费工具*</div>
             <h2 class="section-heading" data-zh="CBAM成本估算器" data-en="CBAM Cost Estimator">CBAM成本估算器</h2>
-            <p class="section-desc" data-zh="30秒了解您的CBAM成本、敏感性分析和5年预测" data-en="Understand your CBAM costs, sensitivity analysis and 5-year projection in 30 seconds">30秒了解您的CBAM成本、敏感性分析和5年预测</p>
+            <p class="section-desc" data-zh="30秒了解您的CBAM成本、敏感性分析和5年预测。每位用户可免费使用一次。" data-en="Understand your CBAM costs, sensitivity and 5-year projection in 30 seconds. Free for one-time use.">30秒了解您的CBAM成本、敏感性分析和5年预测。每位用户可免费使用一次。</p>
         </div>
         
         <div class="estimator-wrapper">
@@ -5649,8 +6234,8 @@ body.dashboard-active .cookie-banner { display: none !important; }
                     <div class="access-gate">
                         <div class="gate-icon">🔐</div>
                         <h3 data-zh="输入访问密钥" data-en="Enter Access Key">输入访问密钥</h3>
-                        <p class="gate-desc" data-zh="此工具需要访问密钥。如果您是碳桥客户或合作伙伴，请输入您收到的密钥。" data-en="This tool requires an access key. If you're a CarbonBridge client or partner, please enter your key.">
-                            此工具需要访问密钥。如果您是碳桥客户或合作伙伴，请输入您收到的密钥。
+                        <p class="gate-desc" data-zh="此工具每位用户可免费使用一次*。请输入您从碳桥客服获取的一次性访问密钥。" data-en="This tool is free for one-time use*. Enter the one-time access key you received from CarbonBridge.">
+                            此工具每位用户可免费使用一次*。请输入您从碳桥客服获取的一次性访问密钥。
                         </p>
                         
                         <div class="gate-input-row">
@@ -5663,11 +6248,18 @@ body.dashboard-active .cookie-banner { display: none !important; }
                         <div class="gate-error" id="gateError" data-zh="密钥无效或已使用" data-en="Invalid or used key">密钥无效或已使用</div>
                         
                         <div class="gate-contact">
-                            <p data-zh="还没有密钥？联系我们获取访问权限。" data-en="Don't have a key? Contact us for access.">还没有密钥？联系我们获取访问权限。</p>
-                            <button class="gate-contact-btn" onclick="contactUs()">
-                                <span>💬</span>
-                                <span data-zh="联系碳桥" data-en="Contact CarbonBridge">联系碳桥</span>
-                            </button>
+                            <p data-zh="还没有密钥？通过以下方式免费获取：" data-en="Don't have a key? Get one free:">还没有密钥？通过以下方式免费获取：</p>
+                            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+                                <button class="gate-contact-btn" onclick="contactUs()">
+                                    <span>💬</span>
+                                    <span data-zh="微信客服获取" data-en="WeChat Customer Service">微信客服获取</span>
+                                </button>
+                                <button class="gate-contact-btn" onclick="showRequestKeyModal()">
+                                    <span>📧</span>
+                                    <span data-zh="提交在线申请" data-en="Submit Online Request">提交在线申请</span>
+                                </button>
+                            </div>
+                            <p style="font-size:12px;color:var(--text-muted);margin-top:12px" data-zh="* 每个访问密钥仅可使用一次。需要持续监控？了解 CBAM Monitor 方案。" data-en="* Each access key is single-use. Need ongoing monitoring? Check out CBAM Monitor.">* 每个访问密钥仅可使用一次。需要持续监控？了解 CBAM Monitor 方案。</p>
                         </div>
                     </div>
                 </div>
@@ -6504,6 +7096,171 @@ body.dashboard-active .cookie-banner { display: none !important; }
 </div>
 
 <!-- ═══ PART 5C END ═══ -->
+
+<!-- ═══ LOGIN MODAL ═══ -->
+<div class="login-overlay" id="loginOverlay">
+    <div class="login-modal">
+        <button class="login-close" onclick="closeLoginModal()">×</button>
+        
+        <div class="login-header">
+            <div class="login-logo">🌿</div>
+            <h3 data-zh="登录 CBAM Monitor" data-en="Login to CBAM Monitor">登录 CBAM Monitor</h3>
+            <p data-zh="持续监控您的CBAM合规状态" data-en="Monitor your CBAM compliance continuously">持续监控您的CBAM合规状态</p>
+        </div>
+        
+        <div id="loginError" class="login-error"></div>
+        
+        <div class="login-tabs">
+            <button class="login-tab active" onclick="switchLoginTab('wechat')" data-zh="微信登录" data-en="WeChat">微信登录</button>
+            <button class="login-tab" onclick="switchLoginTab('email')" data-zh="邮箱登录" data-en="Email">邮箱登录</button>
+            <button class="login-tab" onclick="switchLoginTab('phone')" data-zh="手机登录" data-en="Phone">手机登录</button>
+        </div>
+        
+        <!-- WeChat Login Tab -->
+        <div class="login-tab-content active" id="loginTab-wechat">
+            <div class="login-wechat-section">
+                <div class="login-wechat-qr">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Crect fill='%23f0f0f0' width='200' height='200' rx='8'/%3E%3Ctext x='100' y='85' font-size='36' text-anchor='middle' fill='%2309b83e'%3E%F0%9F%92%AC%3C/text%3E%3Ctext x='100' y='115' font-size='13' text-anchor='middle' fill='%23333' font-weight='600'%3EWeChat QR Code%3C/text%3E%3Ctext x='100' y='135' font-size='11' text-anchor='middle' fill='%23999'%3EScan to login%3C/text%3E%3C/svg%3E" alt="WeChat Login QR">
+                </div>
+                <p class="login-wechat-note" data-zh="使用微信扫描二维码登录" data-en="Scan with WeChat to login">使用微信扫描二维码登录</p>
+                <p style="font-size:12px;color:var(--text-muted);margin-top:12px" data-zh="首次扫描将自动创建账户" data-en="First scan automatically creates your account">首次扫描将自动创建账户</p>
+            </div>
+        </div>
+        
+        <!-- Email Login Tab -->
+        <div class="login-tab-content" id="loginTab-email">
+            <div id="emailLoginForm">
+                <div class="login-form">
+                    <div class="login-field">
+                        <label data-zh="邮箱地址" data-en="Email Address">邮箱地址</label>
+                        <input type="email" id="loginEmail" placeholder="your@company.com">
+                    </div>
+                    <div class="login-field">
+                        <label data-zh="密码" data-en="Password">密码</label>
+                        <input type="password" id="loginPassword" placeholder="••••••••">
+                    </div>
+                    <button class="login-submit" onclick="loginWithEmail()" data-zh="登录" data-en="Sign In">登录</button>
+                </div>
+                <div class="login-toggle">
+                    <span data-zh="还没有账户？" data-en="Don't have an account? ">还没有账户？</span>
+                    <a onclick="toggleRegisterForm()" data-zh="注册新账户" data-en="Register">注册新账户</a>
+                </div>
+            </div>
+            
+            <div id="emailRegisterForm" style="display:none">
+                <div class="login-form">
+                    <div class="login-field">
+                        <label data-zh="公司名称" data-en="Company Name">公司名称</label>
+                        <input type="text" id="regCompany" data-zh="您的公司名" data-en="Your company name">
+                    </div>
+                    <div class="login-field">
+                        <label data-zh="联系人姓名" data-en="Contact Name">联系人姓名</label>
+                        <input type="text" id="regName" data-zh="姓名" data-en="Full name">
+                    </div>
+                    <div class="login-field">
+                        <label data-zh="邮箱地址" data-en="Email Address">邮箱地址</label>
+                        <input type="email" id="regEmail" placeholder="your@company.com">
+                    </div>
+                    <div class="login-field">
+                        <label data-zh="密码" data-en="Password">密码</label>
+                        <input type="password" id="regPassword" placeholder="至少6位 / Min 6 characters">
+                    </div>
+                    <div class="login-field">
+                        <label data-zh="行业" data-en="Industry">行业</label>
+                        <select id="regIndustry">
+                            <option value="" data-zh="选择行业" data-en="Select industry">选择行业</option>
+                            <option value="steel" data-zh="钢铁" data-en="Steel">钢铁</option>
+                            <option value="aluminium" data-zh="铝" data-en="Aluminium">铝</option>
+                            <option value="cement" data-zh="水泥" data-en="Cement">水泥</option>
+                            <option value="fertilizers" data-zh="化肥" data-en="Fertilizers">化肥</option>
+                            <option value="hydrogen" data-zh="氢" data-en="Hydrogen">氢</option>
+                            <option value="electricity" data-zh="电力" data-en="Electricity">电力</option>
+                            <option value="other" data-zh="其他" data-en="Other">其他</option>
+                        </select>
+                    </div>
+                    <div class="login-field">
+                        <label data-zh="微信ID（可选）" data-en="WeChat ID (optional)">微信ID（可选）</label>
+                        <input type="text" id="regWechat" placeholder="WeChat ID">
+                    </div>
+                    <button class="login-submit" onclick="registerWithEmail()" data-zh="创建账户" data-en="Create Account">创建账户</button>
+                </div>
+                <div class="login-toggle">
+                    <span data-zh="已有账户？" data-en="Already have an account? ">已有账户？</span>
+                    <a onclick="toggleRegisterForm()" data-zh="返回登录" data-en="Sign In">返回登录</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Phone Login Tab -->
+        <div class="login-tab-content" id="loginTab-phone">
+            <div class="login-form">
+                <div class="login-field">
+                    <label data-zh="手机号码" data-en="Phone Number">手机号码</label>
+                    <input type="tel" id="loginPhone" placeholder="+86 138 0000 0000">
+                </div>
+                <div id="phoneCodeField" class="login-field" style="display:none">
+                    <label data-zh="验证码" data-en="Verification Code">验证码</label>
+                    <input type="text" id="loginPhoneCode" placeholder="123456" maxlength="6">
+                </div>
+                <button class="login-submit" id="phoneLoginBtn" onclick="loginWithPhone()" data-zh="发送验证码" data-en="Send Code">发送验证码</button>
+                <div id="recaptcha-container"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ REQUEST KEY MODAL ═══ -->
+<div class="request-key-overlay" id="requestKeyOverlay">
+    <div class="login-modal">
+        <button class="login-close" onclick="closeRequestKeyModal()">×</button>
+        
+        <div class="login-header">
+            <div class="login-logo">🔑</div>
+            <h3 data-zh="申请免费访问密钥" data-en="Request Free Access Key">申请免费访问密钥</h3>
+            <p data-zh="填写以下信息，我们将在24小时内通过微信或邮件发送密钥" data-en="Submit your info and we'll send your key via WeChat or email within 24 hours">填写以下信息，我们将在24小时内通过微信或邮件发送密钥</p>
+        </div>
+        
+        <div id="requestKeyError" class="login-error"></div>
+        <div id="requestKeySuccess" class="login-error" style="background:rgba(52,211,153,0.1);border-color:rgba(52,211,153,0.2);color:var(--accent);display:none"></div>
+        
+        <div class="login-form" id="requestKeyForm">
+            <div class="login-field">
+                <label data-zh="姓名 *" data-en="Name *">姓名 *</label>
+                <input type="text" id="reqKeyName" data-zh="您的姓名" data-en="Your name">
+            </div>
+            <div class="login-field">
+                <label data-zh="公司名称 *" data-en="Company *">公司名称 *</label>
+                <input type="text" id="reqKeyCompany" data-zh="公司名称" data-en="Company name">
+            </div>
+            <div class="login-field">
+                <label data-zh="邮箱 *" data-en="Email *">邮箱 *</label>
+                <input type="email" id="reqKeyEmail" placeholder="your@company.com">
+            </div>
+            <div class="login-field">
+                <label data-zh="手机号码" data-en="Phone Number">手机号码</label>
+                <input type="tel" id="reqKeyPhone" placeholder="+86 138 0000 0000">
+            </div>
+            <div class="login-field">
+                <label data-zh="微信ID" data-en="WeChat ID">微信ID</label>
+                <input type="text" id="reqKeyWechat" placeholder="WeChat ID">
+            </div>
+            <div class="login-field">
+                <label data-zh="感兴趣的产品类别" data-en="Product Category of Interest">感兴趣的产品类别</label>
+                <select id="reqKeyProduct">
+                    <option value="" data-zh="选择产品类别" data-en="Select category">选择产品类别</option>
+                    <option value="steel" data-zh="钢铁（热轧/冷轧）" data-en="Steel (Hot/Cold Rolled)">钢铁（热轧/冷轧）</option>
+                    <option value="aluminium" data-zh="铝" data-en="Aluminium">铝</option>
+                    <option value="cement" data-zh="水泥" data-en="Cement">水泥</option>
+                    <option value="fertilizers" data-zh="化肥" data-en="Fertilizers">化肥</option>
+                    <option value="hydrogen" data-zh="氢" data-en="Hydrogen">氢</option>
+                    <option value="electricity" data-zh="电力" data-en="Electricity">电力</option>
+                </select>
+            </div>
+            <button class="login-submit" onclick="submitKeyRequest()" data-zh="提交申请" data-en="Submit Request">提交申请</button>
+        </div>
+    </div>
+</div>
+
 </div><!-- END #landingView -->
 
 <!-- ═══════════════════════════════════════════════════════════════════════════════
@@ -6584,6 +7341,9 @@ body.dashboard-active .cookie-banner { display: none !important; }
                     </button>
                 </div>
             </div>
+            
+            <!-- ═══ TAB: OVERVIEW ═══ -->
+            <div class="dash-tab-panel active" id="dashTab-overview">
             
             <!-- Top Stat Cards -->
             <div class="dash-stats">
@@ -6840,6 +7600,445 @@ body.dashboard-active .cookie-banner { display: none !important; }
                     <span data-zh="预约免费咨询" data-en="Book Free Consultation">预约免费咨询</span>
                 </button>
             </div>
+            
+            </div><!-- END dashTab-overview -->
+            
+            <!-- ═══ TAB: PRODUCTS ═══ -->
+            <div class="dash-tab-panel" id="dashTab-products">
+                <div class="dash-panel-header" style="margin-bottom:20px">
+                    <div class="dash-panel-title" style="font-size:18px" data-zh="🏭 产品监控管理" data-en="🏭 Product Monitor">🏭 产品监控管理</div>
+                    <button class="dash-btn-upgrade" onclick="toggleAddProductForm()" id="addProductBtn" style="font-size:13px">
+                        <span>+</span>
+                        <span data-zh="添加产品" data-en="Add Product">添加产品</span>
+                    </button>
+                </div>
+                
+                <div id="userProductsList">
+                    <!-- Products loaded from Firestore or demo data -->
+                </div>
+                
+                <div id="emptyProductsState" class="dash-empty">
+                    <div class="dash-empty-icon">📦</div>
+                    <div class="dash-empty-text" data-zh="还没有监控产品。添加您的第一个产品开始追踪CBAM成本。" data-en="No products monitored yet. Add your first product to start tracking CBAM costs.">还没有监控产品。添加您的第一个产品开始追踪CBAM成本。</div>
+                    <button class="dash-btn-upgrade" onclick="toggleAddProductForm()">
+                        <span>+</span>
+                        <span data-zh="添加第一个产品" data-en="Add First Product">添加第一个产品</span>
+                    </button>
+                </div>
+                
+                <!-- Add Product Form -->
+                <div class="dash-add-form" id="addProductForm">
+                    <h4 style="margin-bottom:20px;font-weight:700" data-zh="添加新产品" data-en="Add New Product">添加新产品</h4>
+                    <div class="dash-add-form-grid">
+                        <div class="login-field">
+                            <label data-zh="产品名称" data-en="Product Name">产品名称</label>
+                            <input type="text" id="newProdName" data-zh="例如：热轧钢板" data-en="e.g. Hot-Rolled Steel">
+                        </div>
+                        <div class="login-field">
+                            <label data-zh="产品类别" data-en="Product Category">产品类别</label>
+                            <select id="newProdCategory">
+                                <option value="hot_rolled_steel" data-zh="热轧钢" data-en="Hot-Rolled Steel">热轧钢</option>
+                                <option value="cold_rolled_steel" data-zh="冷轧钢" data-en="Cold-Rolled Steel">冷轧钢</option>
+                                <option value="aluminium" data-zh="铝" data-en="Aluminium">铝</option>
+                                <option value="cement" data-zh="水泥" data-en="Cement">水泥</option>
+                                <option value="fertilizers" data-zh="化肥" data-en="Fertilizers">化肥</option>
+                                <option value="hydrogen" data-zh="氢" data-en="Hydrogen">氢</option>
+                            </select>
+                        </div>
+                        <div class="login-field">
+                            <label data-zh="年产量 (吨)" data-en="Annual Volume (tonnes)">年产量 (吨)</label>
+                            <input type="number" id="newProdVolume" placeholder="10000">
+                        </div>
+                        <div class="login-field">
+                            <label data-zh="EU出口比例 (%)" data-en="EU Export Share (%)">EU出口比例 (%)</label>
+                            <input type="number" id="newProdEuShare" placeholder="100" min="1" max="100">
+                        </div>
+                        <div class="login-field">
+                            <label data-zh="年用电量 (MWh)" data-en="Electricity (MWh/yr)">年用电量 (MWh)</label>
+                            <input type="number" id="newProdElec" placeholder="5000">
+                        </div>
+                        <div class="login-field">
+                            <label data-zh="碳价 (€/tCO₂)" data-en="Carbon Price (€/tCO₂)">碳价 (€/tCO₂)</label>
+                            <input type="number" id="newProdPrice" placeholder="68" value="68">
+                        </div>
+                    </div>
+                    <div style="display:flex;gap:12px;justify-content:flex-end">
+                        <button class="pricing-btn secondary" onclick="toggleAddProductForm()" style="padding:10px 24px">
+                            <span data-zh="取消" data-en="Cancel">取消</span>
+                        </button>
+                        <button class="login-submit" onclick="saveNewProduct()" style="width:auto;padding:10px 32px;margin-top:0" data-zh="保存产品" data-en="Save Product">保存产品</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ═══ TAB: CARBON PRICE ═══ -->
+            <div class="dash-tab-panel" id="dashTab-carbonprice">
+                <div class="dash-price-display">
+                    <div class="dash-price-current" id="dashPriceLarge">€68.42</div>
+                    <div class="dash-price-change up" data-zh="↑ +€2.15 (+3.2%) 本周" data-en="↑ +€2.15 (+3.2%) this week">↑ +€2.15 (+3.2%) 本周</div>
+                </div>
+                
+                <div class="dash-panel">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="碳价走势" data-en="Price Trend">碳价走势</div>
+                        <div class="dash-chart-period-btns">
+                            <button class="dash-chart-period-btn" onclick="renderPriceChart(7)" data-zh="1周" data-en="1W">1周</button>
+                            <button class="dash-chart-period-btn active" onclick="renderPriceChart(30)" data-zh="1月" data-en="1M">1月</button>
+                            <button class="dash-chart-period-btn" onclick="renderPriceChart(90)" data-zh="3月" data-en="3M">3月</button>
+                            <button class="dash-chart-period-btn" onclick="renderPriceChart(365)" data-zh="1年" data-en="1Y">1年</button>
+                        </div>
+                    </div>
+                    <div class="dash-chart-container" id="priceChartContainer">
+                        <svg class="dash-chart-svg" id="priceChartSvg" viewBox="0 0 800 300" preserveAspectRatio="none"></svg>
+                    </div>
+                </div>
+                
+                <div class="dash-price-stats">
+                    <div class="dash-price-stat">
+                        <div class="dash-price-stat-label" data-zh="30天均价" data-en="30D AVG">30天均价</div>
+                        <div class="dash-price-stat-value">€67.18</div>
+                    </div>
+                    <div class="dash-price-stat">
+                        <div class="dash-price-stat-label" data-zh="52周最高" data-en="52W HIGH">52周最高</div>
+                        <div class="dash-price-stat-value" style="color:var(--accent)">€78.30</div>
+                    </div>
+                    <div class="dash-price-stat">
+                        <div class="dash-price-stat-label" data-zh="52周最低" data-en="52W LOW">52周最低</div>
+                        <div class="dash-price-stat-value" style="color:var(--danger)">€55.40</div>
+                    </div>
+                    <div class="dash-price-stat">
+                        <div class="dash-price-stat-label" data-zh="年初至今" data-en="YTD CHANGE">年初至今</div>
+                        <div class="dash-price-stat-value" style="color:var(--accent)">+8.4%</div>
+                    </div>
+                </div>
+                
+                <div class="dash-panel" style="margin-top:20px">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="💡 碳价影响测算" data-en="💡 Price Impact Calculator">💡 碳价影响测算</div>
+                    </div>
+                    <div style="padding:20px;text-align:center">
+                        <p style="font-size:14px;color:var(--text-secondary);margin-bottom:16px" data-zh="如果碳价变为：" data-en="If carbon price changes to:">如果碳价变为：</p>
+                        <div style="display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap">
+                            <span style="font-size:15px;font-weight:600">€</span>
+                            <input type="number" id="priceImpactInput" value="80" min="20" max="200" style="width:100px;padding:10px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-md);color:var(--text-primary);font-size:16px;font-family:'JetBrains Mono',monospace;text-align:center">
+                            <span style="font-size:15px;color:var(--text-muted)">/tCO₂</span>
+                            <button class="dash-btn-upgrade" onclick="calculatePriceImpact()" style="font-size:13px" data-zh="计算影响" data-en="Calculate">计算影响</button>
+                        </div>
+                        <div id="priceImpactResult" style="margin-top:20px;font-size:15px;color:var(--text-secondary)"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ═══ TAB: CALENDAR ═══ -->
+            <div class="dash-tab-panel" id="dashTab-calendar">
+                <div class="dash-panel">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="📅 CBAM 合规日历 2026-2034" data-en="📅 CBAM Compliance Calendar 2026-2034">📅 CBAM 合规日历 2026-2034</div>
+                    </div>
+                    
+                    <div class="dash-calendar-grid">
+                        <div class="dash-calendar-event urgent">
+                            <div class="dash-cal-date"><div class="dash-cal-month">APR</div><div class="dash-cal-day">30</div></div>
+                            <div class="dash-cal-info">
+                                <h5 data-zh="Q1 2026 CBAM申报截止" data-en="Q1 2026 CBAM Declaration Due">Q1 2026 CBAM申报截止</h5>
+                                <p data-zh="提交Q1季度CBAM声明，购买并缴纳CBAM证书" data-en="Submit Q1 CBAM declaration, purchase and surrender certificates">提交Q1季度CBAM声明，购买并缴纳CBAM证书</p>
+                            </div>
+                        </div>
+                        <div class="dash-calendar-event">
+                            <div class="dash-cal-date"><div class="dash-cal-month">MAY</div><div class="dash-cal-day">31</div></div>
+                            <div class="dash-cal-info">
+                                <h5 data-zh="2025年度证书对账" data-en="2025 Annual Certificate Reconciliation">2025年度证书对账</h5>
+                                <p data-zh="核对并缴回多余CBAM证书，完成年度结算" data-en="Reconcile excess certificates, complete annual settlement">核对并缴回多余CBAM证书，完成年度结算</p>
+                            </div>
+                        </div>
+                        <div class="dash-calendar-event">
+                            <div class="dash-cal-date"><div class="dash-cal-month">JUL</div><div class="dash-cal-day">31</div></div>
+                            <div class="dash-cal-info">
+                                <h5 data-zh="Q2 2026 CBAM申报截止" data-en="Q2 2026 CBAM Declaration Due">Q2 2026 CBAM申报截止</h5>
+                                <p data-zh="提交Q2季度CBAM声明" data-en="Submit Q2 quarterly CBAM declaration">提交Q2季度CBAM声明</p>
+                            </div>
+                        </div>
+                        <div class="dash-calendar-event">
+                            <div class="dash-cal-date"><div class="dash-cal-month">OCT</div><div class="dash-cal-day">31</div></div>
+                            <div class="dash-cal-info">
+                                <h5 data-zh="Q3 2026 CBAM申报截止" data-en="Q3 2026 CBAM Declaration Due">Q3 2026 CBAM申报截止</h5>
+                                <p data-zh="提交Q3季度CBAM声明" data-en="Submit Q3 quarterly CBAM declaration">提交Q3季度CBAM声明</p>
+                            </div>
+                        </div>
+                        <div class="dash-calendar-event">
+                            <div class="dash-cal-date"><div class="dash-cal-month">JAN</div><div class="dash-cal-day">31</div></div>
+                            <div class="dash-cal-info">
+                                <h5 data-zh="Q4 2026 CBAM申报截止" data-en="Q4 2026 CBAM Declaration Due">Q4 2026 CBAM申报截止</h5>
+                                <p data-zh="提交Q4季度CBAM声明（2027年1月31日截止）" data-en="Submit Q4 declaration (due Jan 31, 2027)">提交Q4季度CBAM声明（2027年1月31日截止）</p>
+                            </div>
+                        </div>
+                        
+                        <div style="margin:16px 0;padding:12px;background:rgba(52,211,153,0.06);border-radius:var(--radius-md);text-align:center">
+                            <strong style="font-size:14px" data-zh="📉 免费配额逐年递减时间表" data-en="📉 Free Allocation Phase-out Schedule">📉 免费配额逐年递减时间表</strong>
+                        </div>
+                        
+                        <div class="dash-calendar-event">
+                            <div class="dash-cal-date"><div class="dash-cal-month">2026</div><div class="dash-cal-day">✓</div></div>
+                            <div class="dash-cal-info">
+                                <h5 data-zh="免费配额 97.5% → CBAM覆盖 2.5%" data-en="Free allocation 97.5% → CBAM covers 2.5%">免费配额 97.5% → CBAM覆盖 2.5%</h5>
+                                <p data-zh="CBAM正式实施首年，最低过渡成本" data-en="First year of CBAM enforcement, minimal transition cost">CBAM正式实施首年，最低过渡成本</p>
+                            </div>
+                        </div>
+                        <div class="dash-calendar-event">
+                            <div class="dash-cal-date"><div class="dash-cal-month">2027</div><div class="dash-cal-day">→</div></div>
+                            <div class="dash-cal-info">
+                                <h5 data-zh="免费配额 95% → CBAM覆盖 5%" data-en="Free allocation 95% → CBAM covers 5%">免费配额 95% → CBAM覆盖 5%</h5>
+                                <p data-zh="CBAM成本翻倍，需提前规划" data-en="CBAM cost doubles, advance planning required">CBAM成本翻倍，需提前规划</p>
+                            </div>
+                        </div>
+                        <div class="dash-calendar-event">
+                            <div class="dash-cal-date"><div class="dash-cal-month">2029</div><div class="dash-cal-day">→</div></div>
+                            <div class="dash-cal-info">
+                                <h5 data-zh="免费配额 75% → CBAM覆盖 25%" data-en="Free allocation 75% → CBAM covers 25%">免费配额 75% → CBAM覆盖 25%</h5>
+                                <p data-zh="成本显著增长，脱碳路线图成为必要" data-en="Significant cost increase, decarbonization roadmap becomes essential">成本显著增长，脱碳路线图成为必要</p>
+                            </div>
+                        </div>
+                        <div class="dash-calendar-event">
+                            <div class="dash-cal-date"><div class="dash-cal-month">2034</div><div class="dash-cal-day">⚠</div></div>
+                            <div class="dash-cal-info">
+                                <h5 data-zh="免费配额 0% → CBAM覆盖 100%" data-en="Free allocation 0% → CBAM covers 100%">免费配额 0% → CBAM覆盖 100%</h5>
+                                <p data-zh="全额CBAM成本，未准备的企业将面临巨大竞争压力" data-en="Full CBAM cost exposure, unprepared companies face severe competitive pressure">全额CBAM成本，未准备的企业将面临巨大竞争压力</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ═══ TAB: ALERTS ═══ -->
+            <div class="dash-tab-panel" id="dashTab-alerts">
+                <div class="dash-alert-filters">
+                    <button class="dash-alert-filter-btn active" onclick="filterAlerts('all')" data-zh="全部" data-en="All">全部</button>
+                    <button class="dash-alert-filter-btn" onclick="filterAlerts('price')" data-zh="价格" data-en="Price">价格</button>
+                    <button class="dash-alert-filter-btn" onclick="filterAlerts('deadline')" data-zh="截止日" data-en="Deadline">截止日</button>
+                    <button class="dash-alert-filter-btn" onclick="filterAlerts('policy')" data-zh="政策" data-en="Policy">政策</button>
+                </div>
+                
+                <div id="alertsList">
+                    <div class="dash-alert warn" data-alert-type="price">
+                        <span class="dash-alert-icon">⚠️</span>
+                        <div style="flex:1">
+                            <strong data-zh="碳价波动预警" data-en="Carbon Price Alert">碳价波动预警</strong>
+                            <div data-zh="EU ETS碳价本周上涨3.2%至€68.42。您的月度CBAM成本增加约€4,500。" data-en="EU ETS price rose 3.2% to €68.42 this week. Monthly CBAM cost increased by ~€4,500.">EU ETS碳价本周上涨3.2%至€68.42。您的月度CBAM成本增加约€4,500。</div>
+                            <small style="color:var(--text-muted)">2026-03-05</small>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-alert danger" data-alert-type="deadline">
+                        <span class="dash-alert-icon">🚨</span>
+                        <div style="flex:1">
+                            <strong data-zh="截止日提醒" data-en="Deadline Alert">截止日提醒</strong>
+                            <div data-zh="Q1 2026 CBAM申报截至4月30日，距今56天。请提前准备申报材料。" data-en="Q1 2026 CBAM declaration due Apr 30 — 56 days away. Prepare materials in advance.">Q1 2026 CBAM申报截至4月30日，距今56天。请提前准备申报材料。</div>
+                            <small style="color:var(--text-muted)">2026-03-04</small>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-alert info" data-alert-type="policy">
+                        <span class="dash-alert-icon">📋</span>
+                        <div style="flex:1">
+                            <strong data-zh="政策更新" data-en="Policy Update">政策更新</strong>
+                            <div data-zh="欧盟委员会发布2026年CBAM实施细则修订草案，涉及默认值计算方法变更。" data-en="EU Commission published draft revision of 2026 CBAM implementing rules — default value methodology changes.">欧盟委员会发布2026年CBAM实施细则修订草案，涉及默认值计算方法变更。</div>
+                            <small style="color:var(--text-muted)">2026-03-01</small>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-alert warn" data-alert-type="price">
+                        <span class="dash-alert-icon">📊</span>
+                        <div style="flex:1">
+                            <strong data-zh="月度CBAM成本更新" data-en="Monthly CBAM Cost Update">月度CBAM成本更新</strong>
+                            <div data-zh="2月CBAM成本较1月下降3.2%，碳价回调至€66.27。建议关注3月碳价走势。" data-en="Feb CBAM cost dropped 3.2% vs Jan as carbon price pulled back to €66.27. Watch March price trend.">2月CBAM成本较1月下降3.2%，碳价回调至€66.27。建议关注3月碳价走势。</div>
+                            <small style="color:var(--text-muted)">2026-02-28</small>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-alert info" data-alert-type="policy">
+                        <span class="dash-alert-icon">🇪🇺</span>
+                        <div style="flex:1">
+                            <strong data-zh="2027配额变更预通知" data-en="2027 Allocation Change Notice">2027配额变更预通知</strong>
+                            <div data-zh="提醒：2027年1月1日起免费配额将从97.5%降至95%。预估您的年度CBAM成本将增加约10%。建议提前联系碳桥评估影响。" data-en="Reminder: Free allocation drops from 97.5% to 95% on Jan 1, 2027. Expected annual CBAM cost increase ~10%. Contact CarbonBridge for impact assessment.">提醒：2027年1月1日起免费配额将从97.5%降至95%。预估您的年度CBAM成本将增加约10%。建议提前联系碳桥评估影响。</div>
+                            <small style="color:var(--text-muted)">2026-02-15</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dash-panel" style="margin-top:24px">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="🔔 提醒设置" data-en="🔔 Alert Settings">🔔 提醒设置</div>
+                    </div>
+                    <div style="padding:8px 0">
+                        <div class="dash-toggle-row">
+                            <span class="dash-toggle-label" data-zh="碳价波动超过5%时通知" data-en="Notify when carbon price changes >5%">碳价波动超过5%时通知</span>
+                            <div class="dash-toggle-switch on" onclick="this.classList.toggle('on')"></div>
+                        </div>
+                        <div class="dash-toggle-row">
+                            <span class="dash-toggle-label" data-zh="截止日前30天提醒" data-en="Remind 30 days before deadlines">截止日前30天提醒</span>
+                            <div class="dash-toggle-switch on" onclick="this.classList.toggle('on')"></div>
+                        </div>
+                        <div class="dash-toggle-row">
+                            <span class="dash-toggle-label" data-zh="截止日前7天提醒" data-en="Remind 7 days before deadlines">截止日前7天提醒</span>
+                            <div class="dash-toggle-switch on" onclick="this.classList.toggle('on')"></div>
+                        </div>
+                        <div class="dash-toggle-row">
+                            <span class="dash-toggle-label" data-zh="政策法规更新推送" data-en="Policy & regulation updates">政策法规更新推送</span>
+                            <div class="dash-toggle-switch on" onclick="this.classList.toggle('on')"></div>
+                        </div>
+                        <div class="dash-toggle-row" style="border:none">
+                            <span class="dash-toggle-label" data-zh="通知方式" data-en="Delivery method">通知方式</span>
+                            <select style="padding:6px 12px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-md);color:var(--text-primary);font-size:13px;font-family:inherit">
+                                <option data-zh="微信 + 邮件" data-en="WeChat + Email">微信 + 邮件</option>
+                                <option data-zh="仅微信" data-en="WeChat only">仅微信</option>
+                                <option data-zh="仅邮件" data-en="Email only">仅邮件</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ═══ TAB: REPORTS ═══ -->
+            <div class="dash-tab-panel" id="dashTab-reports">
+                <div class="dash-panel">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="📄 月度CBAM成本报告" data-en="📄 Monthly CBAM Cost Reports">📄 月度CBAM成本报告</div>
+                        <button class="dash-btn-upgrade" onclick="showToast(currentLang==='zh'?'报告生成中...':'Generating report...')" style="font-size:13px">
+                            <span>📊</span>
+                            <span data-zh="生成当月报告" data-en="Generate Current Report">生成当月报告</span>
+                        </button>
+                    </div>
+                    
+                    <div class="dash-report-row">
+                        <div class="dash-report-icon">📊</div>
+                        <div class="dash-report-info">
+                            <div class="dash-report-name" data-zh="2026年3月 CBAM成本更新" data-en="Mar 2026 CBAM Cost Update">2026年3月 CBAM成本更新</div>
+                            <div class="dash-report-meta" data-zh="生成中..." data-en="Generating...">生成中...</div>
+                        </div>
+                        <button class="dash-report-dl" disabled data-zh="生成中" data-en="Pending">生成中</button>
+                    </div>
+                    
+                    <div class="dash-report-row">
+                        <div class="dash-report-icon">📊</div>
+                        <div class="dash-report-info">
+                            <div class="dash-report-name" data-zh="2026年2月 CBAM成本更新" data-en="Feb 2026 CBAM Cost Update">2026年2月 CBAM成本更新</div>
+                            <div class="dash-report-meta" data-zh="2026-02-28 · 8页 · PDF" data-en="2026-02-28 · 8 pages · PDF">2026-02-28 · 8页 · PDF</div>
+                        </div>
+                        <button class="dash-report-dl" onclick="showToast(currentLang==='zh'?'DEMO模式 — 升级后可下载':'DEMO mode — upgrade to download')" data-zh="下载" data-en="Download">下载</button>
+                    </div>
+                    
+                    <div class="dash-report-row">
+                        <div class="dash-report-icon">📊</div>
+                        <div class="dash-report-info">
+                            <div class="dash-report-name" data-zh="2026年1月 CBAM成本更新" data-en="Jan 2026 CBAM Cost Update">2026年1月 CBAM成本更新</div>
+                            <div class="dash-report-meta" data-zh="2026-01-31 · 8页 · PDF" data-en="2026-01-31 · 8 pages · PDF">2026-01-31 · 8页 · PDF</div>
+                        </div>
+                        <button class="dash-report-dl" onclick="showToast(currentLang==='zh'?'DEMO模式 — 升级后可下载':'DEMO mode — upgrade to download')" data-zh="下载" data-en="Download">下载</button>
+                    </div>
+                </div>
+                
+                <div style="margin-top:24px;padding:24px;background:linear-gradient(135deg, rgba(52,211,153,0.08), rgba(16,185,129,0.04));border:1px solid rgba(52,211,153,0.2);border-radius:var(--radius-xl);text-align:center">
+                    <p style="font-size:14px;color:var(--text-secondary);margin-bottom:12px" data-zh="📌 所有报告使用行业默认排放因子。碳桥现场核查可基于工厂实际数据精确计算。" data-en="📌 All reports use industry average emission factors. CarbonBridge on-site verification provides precise calculations based on actual factory data.">📌 所有报告使用行业默认排放因子。碳桥现场核查可基于工厂实际数据精确计算。</p>
+                    <button class="dash-btn-upgrade" onclick="contactUs()" style="display:inline-flex;font-size:13px">
+                        <span>💼</span>
+                        <span data-zh="升级获取精准报告" data-en="Upgrade for Precise Reports">升级获取精准报告</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- ═══ TAB: BENCHMARK ═══ -->
+            <div class="dash-tab-panel" id="dashTab-benchmark">
+                <div class="dash-panel" style="position:relative;min-height:400px">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="📈 同行对标分析" data-en="📈 Peer Benchmark Analysis">📈 同行对标分析</div>
+                    </div>
+                    <div style="text-align:center;padding:60px 20px;color:var(--text-muted)">
+                        <div style="font-size:64px;margin-bottom:20px">📈</div>
+                        <h4 style="margin-bottom:12px" data-zh="同行业排放对标" data-en="Industry Emission Benchmarking">同行业排放对标</h4>
+                        <p style="font-size:14px;line-height:1.8;max-width:500px;margin:0 auto" data-zh="对比同行业竞争对手的排放强度、CBAM成本和减碳进度。了解您在行业中的竞争定位，发现改进机会。" data-en="Compare emission intensity, CBAM costs and decarbonization progress with industry peers. Understand your competitive position and discover improvement opportunities.">对比同行业竞争对手的排放强度、CBAM成本和减碳进度。了解您在行业中的竞争定位，发现改进机会。</p>
+                    </div>
+                    <div class="dash-lock-overlay" style="opacity:1;pointer-events:auto">
+                        <div class="dash-lock-icon">🔒</div>
+                        <div class="dash-lock-text" data-zh="高级功能 — 需要企业咨询方案" data-en="Premium Feature — Requires Enterprise Plan">高级功能 — 需要企业咨询方案</div>
+                        <button class="dash-lock-btn" onclick="contactUs()" data-zh="联系碳桥了解详情" data-en="Contact CarbonBridge">联系碳桥了解详情</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- ═══ TAB: SETTINGS ═══ -->
+            <div class="dash-tab-panel" id="dashTab-settings">
+                <div class="dash-settings-section">
+                    <div class="dash-settings-title" data-zh="👤 个人资料" data-en="👤 Profile">👤 个人资料</div>
+                    <div class="dash-settings-grid">
+                        <div class="dash-settings-field">
+                            <label data-zh="联系人姓名" data-en="Contact Name">联系人姓名</label>
+                            <input type="text" id="settingsName" data-zh="姓名" data-en="Name">
+                        </div>
+                        <div class="dash-settings-field">
+                            <label data-zh="公司名称" data-en="Company">公司名称</label>
+                            <input type="text" id="settingsCompany" data-zh="公司名" data-en="Company name">
+                        </div>
+                        <div class="dash-settings-field">
+                            <label data-zh="邮箱" data-en="Email">邮箱</label>
+                            <input type="email" id="settingsEmail" readonly style="opacity:0.6">
+                        </div>
+                        <div class="dash-settings-field">
+                            <label data-zh="手机" data-en="Phone">手机</label>
+                            <input type="tel" id="settingsPhone">
+                        </div>
+                        <div class="dash-settings-field">
+                            <label data-zh="微信ID" data-en="WeChat ID">微信ID</label>
+                            <input type="text" id="settingsWechat">
+                        </div>
+                        <div class="dash-settings-field">
+                            <label data-zh="行业" data-en="Industry">行业</label>
+                            <select id="settingsIndustry">
+                                <option value="steel" data-zh="钢铁" data-en="Steel">钢铁</option>
+                                <option value="aluminium" data-zh="铝" data-en="Aluminium">铝</option>
+                                <option value="cement" data-zh="水泥" data-en="Cement">水泥</option>
+                                <option value="fertilizers" data-zh="化肥" data-en="Fertilizers">化肥</option>
+                                <option value="hydrogen" data-zh="氢" data-en="Hydrogen">氢</option>
+                                <option value="electricity" data-zh="电力" data-en="Electricity">电力</option>
+                                <option value="other" data-zh="其他" data-en="Other">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="login-submit" onclick="saveSettings()" style="width:auto;padding:10px 32px;margin-top:16px" data-zh="保存更改" data-en="Save Changes">保存更改</button>
+                </div>
+                
+                <div class="dash-settings-section">
+                    <div class="dash-settings-title" data-zh="🌐 语言偏好" data-en="🌐 Language">🌐 语言偏好</div>
+                    <div class="dash-toggle-row" style="border:none">
+                        <span class="dash-toggle-label" data-zh="界面语言" data-en="Interface language">界面语言</span>
+                        <div style="display:flex;gap:8px">
+                            <button class="dash-alert-filter-btn active" onclick="setLang('zh');this.classList.add('active');this.nextElementSibling.classList.remove('active')">中文</button>
+                            <button class="dash-alert-filter-btn" onclick="setLang('en');this.classList.add('active');this.previousElementSibling.classList.remove('active')">English</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dash-settings-section">
+                    <div class="dash-settings-title" data-zh="📋 当前方案" data-en="📋 Current Plan">📋 当前方案</div>
+                    <div style="display:flex;align-items:center;gap:16px;padding:16px 0">
+                        <span class="plan-badge monitor" id="settingsPlanBadge">CBAM MONITOR</span>
+                        <span style="font-size:14px;color:var(--text-secondary)" id="settingsPlanStatus" data-zh="DEMO模式 — 升级解锁全部功能" data-en="DEMO mode — upgrade to unlock all features">DEMO模式 — 升级解锁全部功能</span>
+                    </div>
+                    <button class="dash-btn-upgrade" onclick="contactUs()" data-zh="联系碳桥升级方案" data-en="Contact CarbonBridge to Upgrade">联系碳桥升级方案</button>
+                </div>
+                
+                <div class="dash-settings-section">
+                    <div class="dash-settings-title" data-zh="⚠️ 数据管理" data-en="⚠️ Data Management">⚠️ 数据管理</div>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap">
+                        <button class="pricing-btn secondary" onclick="showToast(currentLang==='zh'?'数据导出功能即将上线':'Data export coming soon')" style="padding:8px 20px;font-size:13px">
+                            <span data-zh="📥 导出数据 (CSV)" data-en="📥 Export Data (CSV)">📥 导出数据 (CSV)</span>
+                        </button>
+                        <button class="pricing-btn secondary" onclick="if(confirm(currentLang==='zh'?'确定要注销账户吗？此操作不可恢复。':'Are you sure? This cannot be undone.')){logout()}" style="padding:8px 20px;font-size:13px;border-color:var(--danger);color:var(--danger)">
+                            <span data-zh="🗑️ 注销账户" data-en="🗑️ Delete Account">🗑️ 注销账户</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
         </main>
     </div>
 </div><!-- END #dashboardView -->
@@ -7052,8 +8251,16 @@ function toggleFaq(element) {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function showDashboard() {
-    document.body.classList.add('dashboard-active');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    // Check if user is logged in
+    if (typeof auth !== 'undefined' && auth.currentUser) {
+        document.body.classList.add('dashboard-active');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        switchDashTab('overview');
+        refreshDashboard();
+    } else {
+        // Show login modal if not authenticated
+        showLoginModal();
+    }
     
     // Update nav active state
     document.querySelectorAll('.nav-link').forEach(link => {
@@ -7063,6 +8270,13 @@ function showDashboard() {
             link.classList.add('active');
         }
     });
+}
+
+// Allow demo access without login
+function showDashboardDemo() {
+    document.body.classList.add('dashboard-active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    switchDashTab('overview');
 }
 
 function hideDashboard() {
@@ -7081,7 +8295,21 @@ function switchDashTab(tabName) {
     });
     if (event && event.currentTarget) {
         event.currentTarget.classList.add('active');
+    } else {
+        // Programmatic call — find and activate the correct nav item
+        document.querySelectorAll('.dash-nav-item').forEach(item => {
+            if (item.getAttribute('onclick') && item.getAttribute('onclick').includes(tabName)) {
+                item.classList.add('active');
+            }
+        });
     }
+    
+    // Switch tab panels
+    document.querySelectorAll('.dash-tab-panel').forEach(panel => {
+        panel.classList.remove('active');
+    });
+    const targetPanel = document.getElementById('dashTab-' + tabName);
+    if (targetPanel) targetPanel.classList.add('active');
     
     // Update dashboard header title based on tab
     const titles = {
@@ -7102,12 +8330,10 @@ function switchDashTab(tabName) {
         headerH1.textContent = currentLang === 'zh' ? titles[tabName].zh : titles[tabName].en;
     }
     
-    // For demo mode, show a toast for tabs that are locked
-    if (tabName === 'benchmark') {
-        showToast(currentLang === 'zh' ? '同行对标功能需要企业咨询方案' : 'Peer Benchmark requires Enterprise plan');
-    } else if (tabName === 'settings') {
-        showToast(currentLang === 'zh' ? 'DEMO模式 — 设置功能需要升级' : 'DEMO mode — Settings require upgrade');
-    }
+    // Lazy-load tab-specific content
+    if (tabName === 'carbonprice') renderPriceChart(30);
+    if (tabName === 'products') renderProductsList();
+    if (tabName === 'settings') loadSettingsForm();
 }
 
 // ═══ PART 6A END ═══
@@ -8542,6 +9768,551 @@ function fillReadinessDots(containerId, score) {
 // ═══════════════════════════════════════════════════════════════════════════════
 // INITIALIZATION
 // ═══════════════════════════════════════════════════════════════════════════════
+
+// ═══ AUTHENTICATION SYSTEM ═══
+
+function showLoginModal() {
+    document.getElementById('loginOverlay').classList.add('active');
+    switchLoginTab('wechat');
+}
+
+function closeLoginModal() {
+    document.getElementById('loginOverlay').classList.remove('active');
+}
+
+function switchLoginTab(tab) {
+    document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.login-tab-content').forEach(c => c.classList.remove('active'));
+    const clickedTab = document.querySelector('.login-tab[onclick*="' + tab + '"]');
+    if (clickedTab) clickedTab.classList.add('active');
+    const target = document.getElementById('loginTab-' + tab);
+    if (target) target.classList.add('active');
+    // Clear any error
+    const errEl = document.getElementById('loginError');
+    if (errEl) errEl.style.display = 'none';
+}
+
+function toggleRegisterForm() {
+    const form = document.getElementById('registerFormSection');
+    const btn = document.getElementById('toggleRegisterBtn');
+    if (form.style.display === 'none' || !form.style.display) {
+        form.style.display = 'block';
+        if (btn) btn.textContent = currentLang === 'zh' ? '返回登录' : 'Back to Login';
+    } else {
+        form.style.display = 'none';
+        if (btn) btn.textContent = currentLang === 'zh' ? '注册新账户' : 'Create Account';
+    }
+}
+
+function showLoginError(msg) {
+    const el = document.getElementById('loginError');
+    if (el) {
+        el.textContent = msg;
+        el.style.display = 'block';
+    }
+}
+
+async function loginWithEmail() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    if (!email || !password) {
+        showLoginError(currentLang === 'zh' ? '请输入邮箱和密码' : 'Please enter email and password');
+        return;
+    }
+    try {
+        await auth.signInWithEmailAndPassword(email, password);
+        closeLoginModal();
+        showDashboard();
+    } catch (e) {
+        const msgs = {
+            'auth/user-not-found': currentLang === 'zh' ? '账户不存在' : 'Account not found',
+            'auth/wrong-password': currentLang === 'zh' ? '密码错误' : 'Wrong password',
+            'auth/invalid-email': currentLang === 'zh' ? '邮箱格式无效' : 'Invalid email format',
+            'auth/too-many-requests': currentLang === 'zh' ? '登录次数过多，请稍后重试' : 'Too many attempts, try later'
+        };
+        showLoginError(msgs[e.code] || e.message);
+    }
+}
+
+async function registerWithEmail() {
+    const name = document.getElementById('regName').value.trim();
+    const company = document.getElementById('regCompany').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const password = document.getElementById('regPassword').value;
+    const industry = document.getElementById('regIndustry').value;
+    const wechatId = document.getElementById('regWechatId').value.trim();
+
+    if (!name || !company || !email || !password) {
+        showLoginError(currentLang === 'zh' ? '请填写所有必填项' : 'Please fill all required fields');
+        return;
+    }
+    if (password.length < 6) {
+        showLoginError(currentLang === 'zh' ? '密码至少6位' : 'Password must be at least 6 characters');
+        return;
+    }
+    try {
+        const cred = await auth.createUserWithEmailAndPassword(email, password);
+        // Save user profile to Firestore
+        await db.collection('users').doc(cred.user.uid).set({
+            name: name,
+            company: company,
+            email: email,
+            industry: industry,
+            wechatId: wechatId,
+            plan: 'monitor',
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        await cred.user.updateProfile({ displayName: name });
+        closeLoginModal();
+        showToast(currentLang === 'zh' ? '注册成功！欢迎使用碳桥' : 'Registration successful! Welcome to CarbonBridge');
+        showDashboard();
+    } catch (e) {
+        const msgs = {
+            'auth/email-already-in-use': currentLang === 'zh' ? '该邮箱已注册' : 'Email already registered',
+            'auth/invalid-email': currentLang === 'zh' ? '邮箱格式无效' : 'Invalid email',
+            'auth/weak-password': currentLang === 'zh' ? '密码强度不足' : 'Password too weak'
+        };
+        showLoginError(msgs[e.code] || e.message);
+    }
+}
+
+function loginWithWeChat() {
+    // WeChat OAuth requires Open Platform credentials
+    // This is a placeholder — replace YOUR_WECHAT_APPID with actual AppID
+    const appId = 'YOUR_WECHAT_APPID';
+    const redirectUri = encodeURIComponent(window.location.origin + '/auth/wechat/callback');
+    const state = Math.random().toString(36).substring(2, 15);
+    sessionStorage.setItem('wechat_state', state);
+    
+    if (appId === 'YOUR_WECHAT_APPID') {
+        showToast(currentLang === 'zh' ? '微信登录配置中，请先使用邮箱登录' : 'WeChat login being configured — please use email login');
+        switchLoginTab('email');
+        return;
+    }
+    window.location.href = 'https://open.weixin.qq.com/connect/qrconnect?appid=' + appId + '&redirect_uri=' + redirectUri + '&response_type=code&scope=snsapi_login&state=' + state + '#wechat_redirect';
+}
+
+async function loginWithPhone() {
+    const phone = document.getElementById('loginPhone').value.trim();
+    const smsCode = document.getElementById('loginSmsCode').value.trim();
+    
+    if (!phone) {
+        showLoginError(currentLang === 'zh' ? '请输入手机号' : 'Please enter phone number');
+        return;
+    }
+    
+    if (!window.confirmationResult) {
+        // Send SMS
+        try {
+            if (!window.recaptchaVerifier) {
+                window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('sendSmsBtn', { size: 'invisible' });
+            }
+            const phoneNumber = phone.startsWith('+') ? phone : '+86' + phone;
+            window.confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, window.recaptchaVerifier);
+            showToast(currentLang === 'zh' ? '验证码已发送' : 'SMS code sent');
+            document.getElementById('smsCodeGroup').style.display = 'block';
+        } catch (e) {
+            showLoginError(currentLang === 'zh' ? '发送失败: ' + e.message : 'Send failed: ' + e.message);
+        }
+        return;
+    }
+    
+    // Verify code
+    if (!smsCode) {
+        showLoginError(currentLang === 'zh' ? '请输入验证码' : 'Please enter verification code');
+        return;
+    }
+    try {
+        await window.confirmationResult.confirm(smsCode);
+        closeLoginModal();
+        showDashboard();
+    } catch (e) {
+        showLoginError(currentLang === 'zh' ? '验证码错误' : 'Invalid verification code');
+    }
+}
+
+function logout() {
+    auth.signOut().then(() => {
+        hideDashboard();
+        updateNavForAuth(null);
+        showToast(currentLang === 'zh' ? '已退出登录' : 'Logged out');
+    });
+}
+
+function updateNavForAuth(user) {
+    const loginBtn = document.getElementById('navLoginBtn');
+    const userMenu = document.getElementById('navUserMenu');
+    
+    if (!loginBtn || !userMenu) return;
+    
+    if (user) {
+        loginBtn.style.display = 'none';
+        userMenu.style.display = 'flex';
+        const avatar = userMenu.querySelector('.nav-user-avatar');
+        const nameEl = userMenu.querySelector('.nav-user-name');
+        if (avatar) avatar.textContent = (user.displayName || user.email || '?')[0].toUpperCase();
+        if (nameEl) nameEl.textContent = user.displayName || user.email || '';
+    } else {
+        if (loginBtn) loginBtn.style.display = '';
+        if (userMenu) userMenu.style.display = 'none';
+    }
+}
+
+// Firebase auth state listener
+if (typeof auth !== 'undefined') {
+    auth.onAuthStateChanged(user => {
+        updateNavForAuth(user);
+    });
+}
+
+// ═══ DASHBOARD DATA LAYER ═══
+
+// Demo products data
+let userProducts = [
+    { id: 'demo1', name: '热轧钢板 HRC', category: 'hot_rolled_steel', volume: 25000, euShare: 100, elec: 12500, carbonPrice: 68.42, emissions: 1.85, cbamCost: 85125 },
+    { id: 'demo2', name: '冷轧钢板 CRC', category: 'cold_rolled_steel', volume: 15000, euShare: 60, elec: 9000, carbonPrice: 68.42, emissions: 2.1, cbamCost: 38750 }
+];
+
+// Emission factors per product category (tCO₂/tonne)
+const EMISSION_FACTORS = {
+    hot_rolled_steel: 1.85,
+    cold_rolled_steel: 2.10,
+    aluminium: 8.50,
+    cement: 0.65,
+    fertilizers: 2.80,
+    hydrogen: 9.00
+};
+
+const CATEGORY_NAMES = {
+    hot_rolled_steel: { zh: '热轧钢', en: 'Hot-Rolled Steel' },
+    cold_rolled_steel: { zh: '冷轧钢', en: 'Cold-Rolled Steel' },
+    aluminium: { zh: '铝', en: 'Aluminium' },
+    cement: { zh: '水泥', en: 'Cement' },
+    fertilizers: { zh: '化肥', en: 'Fertilizers' },
+    hydrogen: { zh: '氢', en: 'Hydrogen' }
+};
+
+function refreshDashboard() {
+    renderProductsList();
+    updateOverviewStats();
+}
+
+function updateOverviewStats() {
+    const totalCost = userProducts.reduce((s, p) => s + (p.cbamCost || 0), 0);
+    const totalEmissions = userProducts.reduce((s, p) => s + ((p.emissions || 0) * (p.volume || 0) * ((p.euShare || 100) / 100)), 0);
+    
+    // Update stat cards if they exist
+    const statValues = document.querySelectorAll('.stat-value');
+    if (statValues[0]) statValues[0].textContent = '€' + totalCost.toLocaleString();
+    if (statValues[1]) statValues[1].textContent = totalEmissions.toLocaleString() + ' t';
+}
+
+function renderProductsList() {
+    const container = document.getElementById('userProductsList');
+    const empty = document.getElementById('emptyProductsState');
+    if (!container) return;
+    
+    if (userProducts.length === 0) {
+        container.innerHTML = '';
+        if (empty) empty.style.display = 'block';
+        return;
+    }
+    if (empty) empty.style.display = 'none';
+    
+    container.innerHTML = userProducts.map(p => {
+        const catName = CATEGORY_NAMES[p.category] || { zh: p.category, en: p.category };
+        return '<div class="dash-product-card">' +
+            '<div class="dash-product-header">' +
+                '<h4>' + escapeHtml(p.name) + '</h4>' +
+                '<span class="plan-badge monitor">' + (currentLang === 'zh' ? catName.zh : catName.en) + '</span>' +
+            '</div>' +
+            '<div class="dash-product-metrics">' +
+                '<div class="dash-product-metric">' +
+                    '<span class="dash-product-metric-label">' + (currentLang === 'zh' ? '产量' : 'Volume') + '</span>' +
+                    '<span class="dash-product-metric-value">' + (p.volume || 0).toLocaleString() + ' t</span>' +
+                '</div>' +
+                '<div class="dash-product-metric">' +
+                    '<span class="dash-product-metric-label">' + (currentLang === 'zh' ? 'EU出口' : 'EU Export') + '</span>' +
+                    '<span class="dash-product-metric-value">' + (p.euShare || 0) + '%</span>' +
+                '</div>' +
+                '<div class="dash-product-metric">' +
+                    '<span class="dash-product-metric-label">' + (currentLang === 'zh' ? '排放因子' : 'EF') + '</span>' +
+                    '<span class="dash-product-metric-value">' + (p.emissions || 0) + ' tCO₂/t</span>' +
+                '</div>' +
+                '<div class="dash-product-metric">' +
+                    '<span class="dash-product-metric-label">' + (currentLang === 'zh' ? '月CBAM成本' : 'Monthly CBAM') + '</span>' +
+                    '<span class="dash-product-metric-value" style="color:var(--accent)">€' + Math.round((p.cbamCost || 0) / 12).toLocaleString() + '</span>' +
+                '</div>' +
+            '</div>' +
+            '<div style="display:flex;gap:8px;justify-content:flex-end">' +
+                '<button class="pricing-btn secondary" style="padding:6px 16px;font-size:12px" onclick="deleteProduct(\'' + p.id + '\')">' +
+                    (currentLang === 'zh' ? '删除' : 'Delete') +
+                '</button>' +
+            '</div>' +
+        '</div>';
+    }).join('');
+}
+
+function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+}
+
+function toggleAddProductForm() {
+    const form = document.getElementById('addProductForm');
+    if (form) form.style.display = form.style.display === 'block' ? 'none' : 'block';
+}
+
+function saveNewProduct() {
+    const name = document.getElementById('newProdName').value.trim();
+    const category = document.getElementById('newProdCategory').value;
+    const volume = parseInt(document.getElementById('newProdVolume').value) || 0;
+    const euShare = parseInt(document.getElementById('newProdEuShare').value) || 100;
+    const elec = parseInt(document.getElementById('newProdElec').value) || 0;
+    const carbonPrice = parseFloat(document.getElementById('newProdPrice').value) || 68;
+    
+    if (!name || !volume) {
+        showToast(currentLang === 'zh' ? '请填写产品名称和产量' : 'Please fill product name and volume');
+        return;
+    }
+    
+    const ef = EMISSION_FACTORS[category] || 1.85;
+    const euVolume = volume * (euShare / 100);
+    const cbamCost = Math.round(euVolume * ef * carbonPrice * 0.025); // 2.5% CBAM in 2026
+    
+    const newProd = {
+        id: 'prod_' + Date.now(),
+        name: name,
+        category: category,
+        volume: volume,
+        euShare: euShare,
+        elec: elec,
+        carbonPrice: carbonPrice,
+        emissions: ef,
+        cbamCost: cbamCost
+    };
+    
+    userProducts.push(newProd);
+    
+    // Save to Firestore if authenticated
+    if (typeof auth !== 'undefined' && auth.currentUser) {
+        db.collection('users').doc(auth.currentUser.uid).collection('products').doc(newProd.id).set(newProd);
+    }
+    
+    toggleAddProductForm();
+    renderProductsList();
+    updateOverviewStats();
+    
+    // Clear form
+    document.getElementById('newProdName').value = '';
+    document.getElementById('newProdVolume').value = '';
+    document.getElementById('newProdEuShare').value = '';
+    document.getElementById('newProdElec').value = '';
+    
+    showToast(currentLang === 'zh' ? '产品已添加' : 'Product added');
+}
+
+function deleteProduct(id) {
+    if (!confirm(currentLang === 'zh' ? '确定删除此产品？' : 'Delete this product?')) return;
+    userProducts = userProducts.filter(p => p.id !== id);
+    
+    if (typeof auth !== 'undefined' && auth.currentUser) {
+        db.collection('users').doc(auth.currentUser.uid).collection('products').doc(id).delete();
+    }
+    
+    renderProductsList();
+    updateOverviewStats();
+    showToast(currentLang === 'zh' ? '产品已删除' : 'Product deleted');
+}
+
+// ═══ CARBON PRICE CHART ═══
+
+function generatePriceHistory(days) {
+    const data = [];
+    let price = 68.42;
+    const now = Date.now();
+    for (let i = days; i >= 0; i--) {
+        const change = (Math.random() - 0.48) * 1.5;
+        price = Math.max(50, Math.min(85, price + change));
+        data.push({ date: new Date(now - i * 86400000), price: Math.round(price * 100) / 100 });
+    }
+    // Ensure last point matches current price
+    data[data.length - 1].price = 68.42;
+    return data;
+}
+
+function renderPriceChart(days) {
+    const svg = document.getElementById('priceChartSvg');
+    if (!svg) return;
+    
+    const data = generatePriceHistory(days);
+    const W = 800, H = 300, PAD = 40;
+    const prices = data.map(d => d.price);
+    const minP = Math.floor(Math.min(...prices) - 2);
+    const maxP = Math.ceil(Math.max(...prices) + 2);
+    const xScale = (W - PAD * 2) / (data.length - 1);
+    const yScale = (H - PAD * 2) / (maxP - minP);
+    
+    let pathD = '';
+    let areaD = '';
+    const points = data.map((d, i) => {
+        const x = PAD + i * xScale;
+        const y = H - PAD - (d.price - minP) * yScale;
+        if (i === 0) {
+            pathD += 'M' + x + ',' + y;
+            areaD += 'M' + x + ',' + (H - PAD) + ' L' + x + ',' + y;
+        } else {
+            pathD += ' L' + x + ',' + y;
+            areaD += ' L' + x + ',' + y;
+        }
+        return { x, y, price: d.price, date: d.date };
+    });
+    areaD += ' L' + (PAD + (data.length - 1) * xScale) + ',' + (H - PAD) + ' Z';
+    
+    // Y-axis labels
+    let gridHtml = '';
+    const steps = 5;
+    for (let i = 0; i <= steps; i++) {
+        const val = minP + (maxP - minP) * (i / steps);
+        const y = H - PAD - (val - minP) * yScale;
+        gridHtml += '<line x1="' + PAD + '" y1="' + y + '" x2="' + (W - PAD) + '" y2="' + y + '" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>';
+        gridHtml += '<text x="' + (PAD - 8) + '" y="' + (y + 4) + '" text-anchor="end" fill="rgba(255,255,255,0.4)" font-size="11" font-family="JetBrains Mono,monospace">€' + Math.round(val) + '</text>';
+    }
+    
+    // Last point highlight
+    const last = points[points.length - 1];
+    
+    svg.innerHTML = gridHtml +
+        '<defs><linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">' +
+        '<stop offset="0%" stop-color="#34d399" stop-opacity="0.3"/>' +
+        '<stop offset="100%" stop-color="#34d399" stop-opacity="0.02"/>' +
+        '</linearGradient></defs>' +
+        '<path d="' + areaD + '" fill="url(#chartGrad)"/>' +
+        '<path d="' + pathD + '" fill="none" stroke="#34d399" stroke-width="2" stroke-linejoin="round"/>' +
+        '<circle cx="' + last.x + '" cy="' + last.y + '" r="5" fill="#34d399" stroke="#0a0f0d" stroke-width="2"/>' +
+        '<text x="' + (last.x - 5) + '" y="' + (last.y - 12) + '" fill="#34d399" font-size="13" font-weight="700" font-family="JetBrains Mono,monospace">€' + last.price + '</text>';
+    
+    // Update period button active state
+    document.querySelectorAll('.dash-chart-period-btn').forEach(btn => btn.classList.remove('active'));
+    const dayMap = { 7: 0, 30: 1, 90: 2, 365: 3 };
+    const btns = document.querySelectorAll('.dash-chart-period-btn');
+    if (btns[dayMap[days]]) btns[dayMap[days]].classList.add('active');
+}
+
+function calculatePriceImpact() {
+    const newPrice = parseFloat(document.getElementById('priceImpactInput').value) || 80;
+    const currentPrice = 68.42;
+    const diff = newPrice - currentPrice;
+    const pctChange = ((diff / currentPrice) * 100).toFixed(1);
+    
+    const totalVolume = userProducts.reduce((s, p) => s + (p.volume || 0) * ((p.euShare || 100) / 100), 0);
+    const avgEF = userProducts.length > 0 ? userProducts.reduce((s, p) => s + (p.emissions || 1.85), 0) / userProducts.length : 1.85;
+    const costDiff = Math.round(totalVolume * avgEF * diff * 0.025);
+    
+    const result = document.getElementById('priceImpactResult');
+    if (result) {
+        const sign = diff >= 0 ? '+' : '';
+        const color = diff >= 0 ? 'var(--danger)' : 'var(--accent)';
+        result.innerHTML = '<div style="color:' + color + ';font-size:20px;font-weight:700;margin-bottom:8px">' + sign + '€' + Math.abs(costDiff).toLocaleString() + ' / ' + (currentLang === 'zh' ? '年' : 'yr') + '</div>' +
+            '<div style="font-size:13px">' + (currentLang === 'zh' ? '碳价变动' : 'Price change') + ': ' + sign + pctChange + '% (€' + currentPrice + ' → €' + newPrice + ')</div>';
+    }
+}
+
+// ═══ ALERTS FILTER ═══
+
+function filterAlerts(type) {
+    document.querySelectorAll('.dash-alert-filter-btn').forEach(b => b.classList.remove('active'));
+    if (event && event.currentTarget) event.currentTarget.classList.add('active');
+    
+    document.querySelectorAll('#alertsList .dash-alert').forEach(alert => {
+        if (type === 'all' || alert.getAttribute('data-alert-type') === type) {
+            alert.style.display = '';
+        } else {
+            alert.style.display = 'none';
+        }
+    });
+}
+
+// ═══ SETTINGS ═══
+
+function loadSettingsForm() {
+    if (typeof auth !== 'undefined' && auth.currentUser) {
+        const user = auth.currentUser;
+        const emailEl = document.getElementById('settingsEmail');
+        if (emailEl) emailEl.value = user.email || '';
+        
+        db.collection('users').doc(user.uid).get().then(doc => {
+            if (doc.exists) {
+                const d = doc.data();
+                const nameEl = document.getElementById('settingsName');
+                const compEl = document.getElementById('settingsCompany');
+                const phoneEl = document.getElementById('settingsPhone');
+                const wcEl = document.getElementById('settingsWechat');
+                const indEl = document.getElementById('settingsIndustry');
+                if (nameEl && d.name) nameEl.value = d.name;
+                if (compEl && d.company) compEl.value = d.company;
+                if (phoneEl && d.phone) phoneEl.value = d.phone;
+                if (wcEl && d.wechatId) wcEl.value = d.wechatId;
+                if (indEl && d.industry) indEl.value = d.industry;
+            }
+        });
+    }
+}
+
+function saveSettings() {
+    if (typeof auth === 'undefined' || !auth.currentUser) {
+        showToast(currentLang === 'zh' ? '请先登录' : 'Please log in first');
+        return;
+    }
+    const data = {
+        name: document.getElementById('settingsName').value.trim(),
+        company: document.getElementById('settingsCompany').value.trim(),
+        phone: document.getElementById('settingsPhone').value.trim(),
+        wechatId: document.getElementById('settingsWechat').value.trim(),
+        industry: document.getElementById('settingsIndustry').value
+    };
+    db.collection('users').doc(auth.currentUser.uid).update(data).then(() => {
+        showToast(currentLang === 'zh' ? '设置已保存' : 'Settings saved');
+        auth.currentUser.updateProfile({ displayName: data.name });
+    });
+}
+
+// ═══ REQUEST KEY MODAL ═══
+
+function showRequestKeyModal() {
+    document.getElementById('requestKeyOverlay').classList.add('active');
+}
+
+function closeRequestKeyModal() {
+    document.getElementById('requestKeyOverlay').classList.remove('active');
+}
+
+function submitKeyRequest() {
+    const name = document.getElementById('reqKeyName').value.trim();
+    const company = document.getElementById('reqKeyCompany').value.trim();
+    const email = document.getElementById('reqKeyEmail').value.trim();
+    const phone = document.getElementById('reqKeyPhone').value.trim();
+    const wechat = document.getElementById('reqKeyWechat').value.trim();
+    const category = document.getElementById('reqKeyCategory').value;
+    
+    if (!name || !company || !email) {
+        showToast(currentLang === 'zh' ? '请填写姓名、公司和邮箱' : 'Please fill name, company, and email');
+        return;
+    }
+    
+    // Save request to Firestore
+    if (typeof db !== 'undefined') {
+        db.collection('keyRequests').add({
+            name, company, email, phone, wechat, category,
+            status: 'pending',
+            requestedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+    }
+    
+    closeRequestKeyModal();
+    showToast(currentLang === 'zh' ? '申请已提交！我们将在24小时内通过邮件发送您的访问密钥。' : 'Request submitted! We will send your access key via email within 24 hours.');
+}
 
 // Initialize on page load
 window.addEventListener('load', () => {
