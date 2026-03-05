@@ -3838,6 +3838,790 @@ body::before {
     }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════════
+   PRICING SECTION
+════════════════════════════════════════════════════════════════════════════════ */
+.pricing-section {
+    padding: 120px 0;
+    background: var(--bg-primary);
+}
+
+.pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.pricing-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 40px 32px;
+    position: relative;
+    transition: all var(--transition-slow);
+    display: flex;
+    flex-direction: column;
+}
+
+.pricing-card:hover {
+    border-color: var(--border-focus);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 40px rgba(52, 211, 153, 0.08);
+}
+
+.pricing-card.featured {
+    border-color: var(--accent);
+    background: linear-gradient(180deg, rgba(52, 211, 153, 0.06) 0%, var(--bg-card) 40%);
+    box-shadow: 0 0 60px rgba(52, 211, 153, 0.08);
+}
+
+.pricing-badge {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+    color: #000;
+    padding: 6px 20px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.pricing-tier {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+}
+
+.pricing-name {
+    font-size: 24px;
+    font-weight: 800;
+    margin-bottom: 8px;
+}
+
+.pricing-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 24px;
+}
+
+.pricing-price {
+    margin-bottom: 8px;
+}
+
+.pricing-price .amount {
+    font-size: 42px;
+    font-weight: 900;
+    font-family: 'JetBrains Mono', monospace;
+    background: linear-gradient(135deg, var(--accent), #6ee7b7);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.pricing-price .period {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-left: 4px;
+}
+
+.pricing-price .free-label {
+    font-size: 42px;
+    font-weight: 900;
+    color: var(--accent);
+}
+
+.pricing-note {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+    min-height: 20px;
+}
+
+.pricing-features {
+    list-style: none;
+    margin-bottom: 32px;
+    flex-grow: 1;
+}
+
+.pricing-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.pricing-features li:last-child {
+    border-bottom: none;
+}
+
+.pricing-features .check {
+    color: var(--accent);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.pricing-features .lock {
+    color: var(--text-dim);
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.pricing-features .locked {
+    color: var(--text-dim);
+}
+
+.pricing-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 14px 24px;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-decoration: none;
+}
+
+.pricing-btn.primary {
+    background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+    color: #000;
+}
+
+.pricing-btn.primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(52, 211, 153, 0.3);
+}
+
+.pricing-btn.secondary {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-primary);
+}
+
+.pricing-btn.secondary:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+.pricing-compare {
+    margin-top: 64px;
+    text-align: center;
+}
+
+.pricing-compare p {
+    color: var(--text-secondary);
+    font-size: 14px;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.pricing-subtitle {
+    text-align: center;
+    margin-top: 16px;
+    padding: 12px 24px;
+    background: var(--accent-glow);
+    border: 1px solid rgba(52, 211, 153, 0.15);
+    border-radius: var(--radius-md);
+    display: inline-block;
+    font-size: 14px;
+    color: var(--accent);
+    font-weight: 600;
+}
+
+@media (max-width: 1024px) {
+    .pricing-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   DASHBOARD VIEW
+════════════════════════════════════════════════════════════════════════════════ */
+#landingView { display: block; }
+#dashboardView { display: none; }
+
+body.dashboard-active #landingView { display: none !important; }
+body.dashboard-active #dashboardView { display: block !important; }
+body.dashboard-active .navbar { background: var(--bg-overlay); box-shadow: var(--shadow-lg); }
+body.dashboard-active .footer,
+body.dashboard-active .float-wechat,
+body.dashboard-active .cookie-banner { display: none !important; }
+
+.dash {
+    padding-top: 80px;
+    min-height: 100vh;
+    display: flex;
+}
+
+.dash-sidebar {
+    width: 260px;
+    background: var(--bg-secondary);
+    border-right: 1px solid var(--border);
+    padding: 24px 0;
+    position: fixed;
+    top: 80px;
+    bottom: 0;
+    overflow-y: auto;
+    z-index: 10;
+    transition: transform var(--transition-slow);
+}
+
+.dash-sidebar-header {
+    padding: 0 20px 20px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+}
+
+.dash-sidebar-title {
+    font-size: 18px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.dash-sidebar-sub {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.dash-demo-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    background: var(--warning-bg);
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--warning);
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+}
+
+.dash-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border-left: 3px solid transparent;
+    text-decoration: none;
+}
+
+.dash-nav-item:hover {
+    color: var(--text-primary);
+    background: var(--bg-card);
+}
+
+.dash-nav-item.active {
+    color: var(--accent);
+    background: var(--accent-glow);
+    border-left-color: var(--accent);
+    font-weight: 600;
+}
+
+.dash-nav-item .nav-icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
+
+.dash-nav-item .nav-lock {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text-dim);
+}
+
+.dash-nav-section {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 16px 20px 8px;
+}
+
+.dash-main {
+    flex: 1;
+    margin-left: 260px;
+    padding: 32px;
+    max-width: calc(100% - 260px);
+}
+
+.dash-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+}
+
+.dash-header h1 {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.dash-header-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.dash-btn-upgrade {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+    color: #000;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-decoration: none;
+}
+
+.dash-btn-upgrade:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(52, 211, 153, 0.3);
+}
+
+/* Dashboard stat cards */
+.dash-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+}
+
+.dash-stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    transition: all var(--transition-base);
+}
+
+.dash-stat-card:hover {
+    border-color: var(--accent);
+    box-shadow: 0 4px 20px rgba(52, 211, 153, 0.06);
+}
+
+.dash-stat-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.dash-stat-value {
+    font-size: 28px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.dash-stat-value.green { color: var(--accent); }
+.dash-stat-value.red { color: var(--danger); }
+.dash-stat-value.blue { color: var(--blue); }
+
+.dash-stat-change {
+    font-size: 12px;
+    margin-top: 6px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.dash-stat-change.up { color: var(--danger); }
+.dash-stat-change.down { color: var(--accent); }
+
+/* Dashboard grid panels */
+.dash-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+.dash-panel {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    position: relative;
+}
+
+.dash-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.dash-panel-title {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.dash-panel-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.dash-panel-badge.live {
+    background: rgba(52, 211, 153, 0.12);
+    color: var(--accent);
+}
+
+/* Product monitoring rows */
+.dash-product-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    border-radius: var(--radius-md);
+    background: var(--bg-secondary);
+    margin-bottom: 12px;
+    transition: all var(--transition-fast);
+}
+
+.dash-product-row:hover {
+    background: var(--bg-card-hover);
+}
+
+.dash-product-icon {
+    font-size: 24px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-card);
+    border-radius: var(--radius-sm);
+    flex-shrink: 0;
+}
+
+.dash-product-info {
+    flex: 1;
+}
+
+.dash-product-name {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.dash-product-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.dash-product-cost {
+    text-align: right;
+}
+
+.dash-product-cost-val {
+    font-size: 18px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--danger);
+}
+
+.dash-product-cost-unit {
+    font-size: 11px;
+    color: var(--text-muted);
+}
+
+/* Compliance calendar */
+.dash-calendar-item {
+    display: flex;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border-subtle);
+}
+
+.dash-calendar-item:last-child {
+    border-bottom: none;
+}
+
+.dash-cal-date {
+    text-align: center;
+    min-width: 48px;
+}
+
+.dash-cal-month {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+}
+
+.dash-cal-day {
+    font-size: 20px;
+    font-weight: 800;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.dash-cal-info h5 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.dash-cal-info p {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* Alerts panel */
+.dash-alert {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.dash-alert.warn {
+    background: var(--warning-bg);
+    border: 1px solid rgba(251, 191, 36, 0.15);
+    color: var(--warning);
+}
+
+.dash-alert.danger {
+    background: var(--danger-bg);
+    border: 1px solid var(--danger-border);
+    color: var(--danger);
+}
+
+.dash-alert.info {
+    background: rgba(96, 165, 250, 0.06);
+    border: 1px solid rgba(96, 165, 250, 0.15);
+    color: var(--blue);
+}
+
+.dash-alert-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+/* Carbon price chart placeholder */
+.dash-chart-placeholder {
+    height: 200px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 14px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dash-chart-placeholder::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(180deg,
+        transparent 0%,
+        rgba(52, 211, 153, 0.03) 50%,
+        rgba(52, 211, 153, 0.08) 100%
+    );
+    clip-path: polygon(0% 70%, 8% 65%, 16% 58%, 24% 62%, 32% 50%, 40% 55%, 48% 45%, 56% 48%, 64% 38%, 72% 42%, 80% 35%, 88% 30%, 96% 33%, 100% 28%, 100% 100%, 0% 100%);
+}
+
+.dash-chart-period-btns {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.dash-chart-period-btn {
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.dash-chart-period-btn.active,
+.dash-chart-period-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+}
+
+/* Lock overlay for premium features */
+.dash-lock-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(6, 10, 8, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    z-index: 5;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transition-slow);
+}
+
+.dash-panel:hover .dash-lock-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.dash-lock-icon {
+    font-size: 32px;
+}
+
+.dash-lock-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.dash-lock-btn {
+    padding: 8px 20px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-dim));
+    color: #000;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.dash-lock-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(52, 211, 153, 0.3);
+}
+
+/* Monthly report panel */
+.dash-report-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 16px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+}
+
+.dash-report-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.dash-report-info { flex: 1; }
+
+.dash-report-name {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.dash-report-meta {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.dash-report-dl {
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-secondary);
+    font-size: 12px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.dash-report-dl:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* Dashboard responsive */
+@media (max-width: 1024px) {
+    .dash-sidebar {
+        transform: translateX(-100%);
+        z-index: 100;
+    }
+    .dash-sidebar.open {
+        transform: translateX(0);
+    }
+    .dash-main {
+        margin-left: 0;
+        max-width: 100%;
+        padding: 24px 20px;
+    }
+    .dash-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .dash-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .dash-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media print {
+    .pricing-section,
+    #dashboardView {
+        display: none !important;
+    }
+}
+
     </style>
 </head>
 
@@ -3856,18 +4640,18 @@ body::before {
         </a>
         
         <div class="nav-links">
-            <a href="#how" class="nav-link" data-zh="工作流程" data-en="How it works">工作流程</a>
-            <a href="#services" class="nav-link" data-zh="服务" data-en="Services">服务</a>
-            <a href="#estimator" class="nav-link" data-zh="估算器" data-en="Estimator">估算器</a>
-            <a href="#resources" class="nav-link" data-zh="资源" data-en="Resources">资源</a>
-            <a href="#faq" class="nav-link" data-zh="常见问题" data-en="FAQ">常见问题</a>
+            <a href="#how" class="nav-link" data-zh="工作流程" data-en="How it works" onclick="hideDashboard()">工作流程</a>
+            <a href="#services" class="nav-link" data-zh="服务" data-en="Services" onclick="hideDashboard()">服务</a>
+            <a href="#estimator" class="nav-link" data-zh="估算器" data-en="Estimator" onclick="hideDashboard()">估算器</a>
+            <a href="#pricing" class="nav-link" data-zh="定价" data-en="Pricing" onclick="hideDashboard()">定价</a>
+            <a href="javascript:void(0)" class="nav-link" data-zh="CBAM Monitor" data-en="Dashboard" onclick="showDashboard()">CBAM Monitor</a>
             
             <div class="nav-lang">
                 <button class="nav-lang-btn active" onclick="setLang('zh')">中文</button>
                 <button class="nav-lang-btn" onclick="setLang('en')">EN</button>
             </div>
             
-            <button class="nav-cta" onclick="scrollToEstimator()" data-zh="免费估算" data-en="Free Estimate">免费估算</button>
+            <button class="nav-cta" onclick="scrollToEstimator(); hideDashboard();" data-zh="免费估算" data-en="Free Estimate">免费估算</button>
         </div>
         
         <button class="nav-mobile-toggle" onclick="toggleMobileMenu()">☰</button>
@@ -3875,22 +4659,23 @@ body::before {
     
     <!-- Mobile menu -->
     <div class="nav-mobile-menu" id="navMobileMenu">
-        <a href="#how" class="nav-link" onclick="toggleMobileMenu()" data-zh="工作流程" data-en="How it works">工作流程</a>
-        <a href="#services" class="nav-link" onclick="toggleMobileMenu()" data-zh="服务" data-en="Services">服务</a>
-        <a href="#estimator" class="nav-link" onclick="toggleMobileMenu()" data-zh="估算器" data-en="Estimator">估算器</a>
-        <a href="#resources" class="nav-link" onclick="toggleMobileMenu()" data-zh="资源" data-en="Resources">资源</a>
-        <a href="#faq" class="nav-link" onclick="toggleMobileMenu()" data-zh="常见问题" data-en="FAQ">常见问题</a>
+        <a href="#how" class="nav-link" onclick="toggleMobileMenu(); hideDashboard()" data-zh="工作流程" data-en="How it works">工作流程</a>
+        <a href="#services" class="nav-link" onclick="toggleMobileMenu(); hideDashboard()" data-zh="服务" data-en="Services">服务</a>
+        <a href="#estimator" class="nav-link" onclick="toggleMobileMenu(); hideDashboard()" data-zh="估算器" data-en="Estimator">估算器</a>
+        <a href="#pricing" class="nav-link" onclick="toggleMobileMenu(); hideDashboard()" data-zh="定价" data-en="Pricing">定价</a>
+        <a href="javascript:void(0)" class="nav-link" onclick="toggleMobileMenu(); showDashboard()" data-zh="CBAM Monitor" data-en="Dashboard">CBAM Monitor</a>
         
         <div class="nav-lang">
             <button class="nav-lang-btn active" onclick="setLang('zh')">中文</button>
             <button class="nav-lang-btn" onclick="setLang('en')">EN</button>
         </div>
         
-        <button class="nav-cta" onclick="scrollToEstimator(); toggleMobileMenu();" data-zh="免费估算" data-en="Free Estimate">免费估算</button>
+        <button class="nav-cta" onclick="scrollToEstimator(); toggleMobileMenu(); hideDashboard();" data-zh="免费估算" data-en="Free Estimate">免费估算</button>
     </div>
 </nav>
 
 <!-- ═══ HERO SECTION ═══ -->
+<div id="landingView">
 <section class="hero fade-in-section" id="top">
     <div class="container">
         <div class="hero-grid">
@@ -4363,6 +5148,114 @@ body::before {
 </section>
 
 <!-- ═══ PART 4B END ═══ -->
+
+<!-- ═══ PRICING SECTION ═══ -->
+<section class="pricing-section fade-in-section" id="pricing">
+    <div class="container">
+        <div class="section-header">
+            <div class="section-overline" data-zh="定价方案" data-en="PRICING">定价方案</div>
+            <h2 class="section-heading" data-zh="选择适合您的方案" data-en="Choose the right plan for you">选择适合您的方案</h2>
+            <p class="section-desc" data-zh="从免费估算到全面CBAM合规监控，碳桥提供灵活的解决方案" data-en="From free estimation to full CBAM compliance monitoring — flexible solutions from CarbonBridge">从免费估算到全面CBAM合规监控，碳桥提供灵活的解决方案</p>
+        </div>
+        
+        <div class="pricing-grid">
+            <!-- FREE TIER -->
+            <div class="pricing-card">
+                <div class="pricing-tier" data-zh="免费" data-en="FREE">免费</div>
+                <div class="pricing-name" data-zh="CBAM估算器" data-en="CBAM Estimator">CBAM估算器</div>
+                <div class="pricing-desc" data-zh="快速了解您的CBAM成本概况，获取基础分析" data-en="Quick CBAM cost overview with basic analysis">快速了解您的CBAM成本概况，获取基础分析</div>
+                <div class="pricing-price">
+                    <span class="free-label" data-zh="免费" data-en="Free">免费</span>
+                </div>
+                <div class="pricing-note" data-zh="需要访问密钥" data-en="Access key required">需要访问密钥</div>
+                <ul class="pricing-features">
+                    <li><span class="check">✓</span><span data-zh="6种CBAM产品类别分析" data-en="6 CBAM product categories">6种CBAM产品类别分析</span></li>
+                    <li><span class="check">✓</span><span data-zh="排放强度计算 (SEE)" data-en="Emission intensity (SEE) calculation">排放强度计算 (SEE)</span></li>
+                    <li><span class="check">✓</span><span data-zh="年度CBAM成本估算" data-en="Annual CBAM cost estimation">年度CBAM成本估算</span></li>
+                    <li><span class="check">✓</span><span data-zh="EU基准对比" data-en="EU benchmark comparison">EU基准对比</span></li>
+                    <li><span class="check">✓</span><span data-zh="5种碳价敏感性分析" data-en="5-scenario sensitivity analysis">5种碳价敏感性分析</span></li>
+                    <li><span class="check">✓</span><span data-zh="5年成本预测" data-en="5-year cost projection">5年成本预测</span></li>
+                    <li><span class="check">✓</span><span data-zh="优化方案建议" data-en="Optimization scenario suggestions">优化方案建议</span></li>
+                    <li><span class="check">✓</span><span data-zh="CBAM准备度评分" data-en="CBAM readiness scorecard">CBAM准备度评分</span></li>
+                    <li><span class="lock">🔒</span><span class="locked" data-zh="实时碳价追踪" data-en="Live carbon price tracking">实时碳价追踪</span></li>
+                    <li><span class="lock">🔒</span><span class="locked" data-zh="合规日历与提醒" data-en="Compliance calendar & alerts">合规日历与提醒</span></li>
+                    <li><span class="lock">🔒</span><span class="locked" data-zh="月度智能报告" data-en="Monthly smart reports">月度智能报告</span></li>
+                    <li><span class="lock">🔒</span><span class="locked" data-zh="多产品监控" data-en="Multi-product monitoring">多产品监控</span></li>
+                </ul>
+                <button class="pricing-btn secondary" onclick="scrollToEstimator()">
+                    <span data-zh="开始免费估算" data-en="Start Free Estimate">开始免费估算</span>
+                    <span>→</span>
+                </button>
+            </div>
+            
+            <!-- CBAM MONITOR TIER -->
+            <div class="pricing-card featured">
+                <div class="pricing-badge" data-zh="最受欢迎" data-en="MOST POPULAR">最受欢迎</div>
+                <div class="pricing-tier" data-zh="专业级" data-en="PROFESSIONAL">专业级</div>
+                <div class="pricing-name" data-zh="CBAM Monitor" data-en="CBAM Monitor">CBAM Monitor</div>
+                <div class="pricing-desc" data-zh="持续监控您的CBAM成本，智能提醒，月度报告，多产品管理" data-en="Continuous CBAM cost monitoring, smart alerts, monthly reports, multi-product management">持续监控您的CBAM成本，智能提醒，月度报告，多产品管理</div>
+                <div class="pricing-price">
+                    <span class="amount">¥2,500</span>
+                    <span class="period" data-zh="/月" data-en="/mo">/月</span>
+                </div>
+                <div class="pricing-note" data-zh="按年付费 ¥24,000/年（节省20%）" data-en="Annual billing ¥24,000/yr (save 20%)">按年付费 ¥24,000/年（节省20%）</div>
+                <ul class="pricing-features">
+                    <li><span class="check">✓</span><span data-zh="全部免费版功能" data-en="All Free features included">全部免费版功能</span></li>
+                    <li><span class="check">✓</span><span data-zh="实时EU ETS碳价追踪" data-en="Real-time EU ETS carbon price tracking">实时EU ETS碳价追踪</span></li>
+                    <li><span class="check">✓</span><span data-zh="多产品同时监控（最多10个）" data-en="Multi-product monitoring (up to 10)">多产品同时监控（最多10个）</span></li>
+                    <li><span class="check">✓</span><span data-zh="合规日历与截止日期提醒" data-en="Compliance calendar & deadline alerts">合规日历与截止日期提醒</span></li>
+                    <li><span class="check">✓</span><span data-zh="碳价波动智能预警" data-en="Carbon price volatility smart alerts">碳价波动智能预警</span></li>
+                    <li><span class="check">✓</span><span data-zh="月度CBAM成本更新报告" data-en="Monthly CBAM cost update reports">月度CBAM成本更新报告</span></li>
+                    <li><span class="check">✓</span><span data-zh="成本趋势图表与历史数据" data-en="Cost trend charts & historical data">成本趋势图表与历史数据</span></li>
+                    <li><span class="check">✓</span><span data-zh="PDF报告导出" data-en="PDF report export">PDF报告导出</span></li>
+                    <li><span class="check">✓</span><span data-zh="政策法规更新推送" data-en="Policy & regulation update push">政策法规更新推送</span></li>
+                    <li><span class="check">✓</span><span data-zh="中英文双语报告" data-en="Bilingual (CN/EN) reports">中英文双语报告</span></li>
+                    <li><span class="check">✓</span><span data-zh="同行基准对标分析" data-en="Peer benchmark comparison">同行基准对标分析</span></li>
+                    <li><span class="check">✓</span><span data-zh="优先邮件支持" data-en="Priority email support">优先邮件支持</span></li>
+                </ul>
+                <button class="pricing-btn primary" onclick="showDashboard()">
+                    <span data-zh="预览CBAM Monitor" data-en="Preview CBAM Monitor">预览CBAM Monitor</span>
+                    <span>→</span>
+                </button>
+            </div>
+            
+            <!-- ENTERPRISE TIER -->
+            <div class="pricing-card">
+                <div class="pricing-tier" data-zh="企业级" data-en="ENTERPRISE">企业级</div>
+                <div class="pricing-name" data-zh="专业咨询" data-en="Expert Consulting">专业咨询</div>
+                <div class="pricing-desc" data-zh="定制CBAM准备性报告，现场核查，脱碳路线图，买家对接" data-en="Custom CBAM report, on-site verification, decarbonization roadmap, buyer matching">定制CBAM准备性报告，现场核查，脱碳路线图，买家对接</div>
+                <div class="pricing-price">
+                    <span class="amount">¥55K</span>
+                    <span class="period" data-zh="起" data-en="+">起</span>
+                </div>
+                <div class="pricing-note" data-zh="根据工厂规模及需求定制报价" data-en="Custom quote based on factory size & needs">根据工厂规模及需求定制报价</div>
+                <ul class="pricing-features">
+                    <li><span class="check">✓</span><span data-zh="全部CBAM Monitor功能" data-en="All CBAM Monitor features">全部CBAM Monitor功能</span></li>
+                    <li><span class="check">✓</span><span data-zh="工厂现场数据核查 + 拍照存档" data-en="On-site data verification + photo docs">工厂现场数据核查 + 拍照存档</span></li>
+                    <li><span class="check">✓</span><span data-zh="20-25页专业PDF报告" data-en="20-25 page professional PDF report">20-25页专业PDF报告</span></li>
+                    <li><span class="check">✓</span><span data-zh="精确排放计算（误差<5%）" data-en="Precise emissions (error <5%)">精确排放计算（误差<5%）</span></li>
+                    <li><span class="check">✓</span><span data-zh="4阶段脱碳路线图 + ROI分析" data-en="4-phase decarbonization roadmap + ROI">4阶段脱碳路线图 + ROI分析</span></li>
+                    <li><span class="check">✓</span><span data-zh="绿电PPA供应商对接" data-en="Green PPA supplier matching">绿电PPA供应商对接</span></li>
+                    <li><span class="check">✓</span><span data-zh="欧盟买家匹配与对接" data-en="EU buyer matching & introduction">欧盟买家匹配与对接</span></li>
+                    <li><span class="check">✓</span><span data-zh="TÜV/SGS认证准备" data-en="TÜV/SGS certification prep">TÜV/SGS认证准备</span></li>
+                    <li><span class="check">✓</span><span data-zh="竞争对手基准对标" data-en="Competitor benchmarking">竞争对手基准对标</span></li>
+                    <li><span class="check">✓</span><span data-zh="季度咨询电话（1小时/次）" data-en="Quarterly consultation calls (1hr)">季度咨询电话（1小时/次）</span></li>
+                    <li><span class="check">✓</span><span data-zh="2028 CBAM扩展风险评估" data-en="2028 CBAM expansion risk assessment">2028 CBAM扩展风险评估</span></li>
+                    <li><span class="check">✓</span><span data-zh="专属客户经理" data-en="Dedicated account manager">专属客户经理</span></li>
+                </ul>
+                <button class="pricing-btn secondary" onclick="contactUs()">
+                    <span data-zh="联系我们获取报价" data-en="Contact for Quote">联系我们获取报价</span>
+                    <span>→</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="pricing-compare" style="margin-top:48px">
+            <div class="pricing-subtitle" data-zh="💡 每份CBAM Monitor月报都会提示：「使用行业默认值计算。实际成本可能低15-40% — 联系碳桥获取现场核查。」" data-en="💡 Every CBAM Monitor report notes: 'Using industry defaults. Actual cost may be 15-40% lower — contact CarbonBridge for on-site verification.'">💡 每份CBAM Monitor月报都会提示：「使用行业默认值计算。实际成本可能低15-40% — 联系碳桥获取现场核查。」</div>
+        </div>
+    </div>
+</section>
+
 <!-- ═══════════════════════════════════════════════════════════════════════════════
      CARBONBRIDGE CBAM PLATFORM - PART 4C
      
@@ -5611,6 +6504,346 @@ body::before {
 </div>
 
 <!-- ═══ PART 5C END ═══ -->
+</div><!-- END #landingView -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════════════
+     CBAM MONITOR DASHBOARD VIEW
+     Shows when user clicks "CBAM Monitor" / "Dashboard" nav link
+════════════════════════════════════════════════════════════════════════════════ -->
+<div id="dashboardView">
+    <div class="dash">
+        <!-- Sidebar -->
+        <aside class="dash-sidebar" id="dashSidebar">
+            <div class="dash-sidebar-header">
+                <div class="dash-sidebar-title">CBAM Monitor</div>
+                <div class="dash-sidebar-sub" data-zh="碳桥智能监控平台" data-en="CarbonBridge Intelligence">碳桥智能监控平台</div>
+                <div class="dash-demo-badge">DEMO</div>
+            </div>
+            
+            <div class="dash-nav-section" data-zh="监控" data-en="MONITORING">监控</div>
+            <a class="dash-nav-item active" onclick="switchDashTab('overview')">
+                <span class="nav-icon">📊</span>
+                <span data-zh="总览" data-en="Overview">总览</span>
+            </a>
+            <a class="dash-nav-item" onclick="switchDashTab('products')">
+                <span class="nav-icon">🏭</span>
+                <span data-zh="产品监控" data-en="Products">产品监控</span>
+            </a>
+            <a class="dash-nav-item" onclick="switchDashTab('carbonprice')">
+                <span class="nav-icon">💰</span>
+                <span data-zh="碳价追踪" data-en="Carbon Price">碳价追踪</span>
+            </a>
+            
+            <div class="dash-nav-section" data-zh="合规" data-en="COMPLIANCE">合规</div>
+            <a class="dash-nav-item" onclick="switchDashTab('calendar')">
+                <span class="nav-icon">📅</span>
+                <span data-zh="合规日历" data-en="Calendar">合规日历</span>
+            </a>
+            <a class="dash-nav-item" onclick="switchDashTab('alerts')">
+                <span class="nav-icon">🔔</span>
+                <span data-zh="智能提醒" data-en="Alerts">智能提醒</span>
+                <span class="nav-lock">3</span>
+            </a>
+            
+            <div class="dash-nav-section" data-zh="报告" data-en="REPORTS">报告</div>
+            <a class="dash-nav-item" onclick="switchDashTab('reports')">
+                <span class="nav-icon">📄</span>
+                <span data-zh="月度报告" data-en="Monthly">月度报告</span>
+            </a>
+            <a class="dash-nav-item" onclick="switchDashTab('benchmark')">
+                <span class="nav-icon">📈</span>
+                <span data-zh="同行对标" data-en="Benchmark">同行对标</span>
+                <span class="nav-lock">🔒</span>
+            </a>
+            
+            <div class="dash-nav-section" data-zh="设置" data-en="SETTINGS">设置</div>
+            <a class="dash-nav-item" onclick="switchDashTab('settings')">
+                <span class="nav-icon">⚙️</span>
+                <span data-zh="平台设置" data-en="Settings">平台设置</span>
+            </a>
+            
+            <div style="padding:20px;margin-top:auto">
+                <button class="dash-btn-upgrade" onclick="contactUs()" style="width:100%;justify-content:center">
+                    <span>🚀</span>
+                    <span data-zh="升级解锁全部功能" data-en="Upgrade to Unlock All">升级解锁全部功能</span>
+                </button>
+            </div>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="dash-main">
+            <div class="dash-header">
+                <div>
+                    <h1 data-zh="CBAM Monitor 总览" data-en="CBAM Monitor Overview">CBAM Monitor 总览</h1>
+                    <p style="color:var(--text-muted);font-size:14px;margin-top:4px" data-zh="实时追踪您的CBAM合规状态" data-en="Track your CBAM compliance status in real-time">实时追踪您的CBAM合规状态</p>
+                </div>
+                <div class="dash-header-actions">
+                    <button class="dash-btn-upgrade" onclick="contactUs()">
+                        <span>🚀</span>
+                        <span data-zh="升级至完整版" data-en="Upgrade to Full">升级至完整版</span>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Top Stat Cards -->
+            <div class="dash-stats">
+                <div class="dash-stat-card">
+                    <div class="dash-stat-label" data-zh="EU ETS 碳价" data-en="EU ETS CARBON PRICE">EU ETS 碳价</div>
+                    <div class="dash-stat-value green" id="dashCarbonPrice">€68.42</div>
+                    <div class="dash-stat-change up">
+                        <span>↑</span>
+                        <span data-zh="+€2.15 本周" data-en="+€2.15 this week">+€2.15 本周</span>
+                    </div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="dash-stat-label" data-zh="监控产品数" data-en="MONITORED PRODUCTS">监控产品数</div>
+                    <div class="dash-stat-value blue">2</div>
+                    <div class="dash-stat-change" style="color:var(--text-muted)">
+                        <span data-zh="最多10个产品" data-en="Up to 10 products">最多10个产品</span>
+                    </div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="dash-stat-label" data-zh="预估月CBAM成本" data-en="EST. MONTHLY CBAM COST">预估月CBAM成本</div>
+                    <div class="dash-stat-value red">€142K</div>
+                    <div class="dash-stat-change down">
+                        <span>↓</span>
+                        <span data-zh="-3.2% 较上月" data-en="-3.2% vs last month">-3.2% 较上月</span>
+                    </div>
+                </div>
+                <div class="dash-stat-card">
+                    <div class="dash-stat-label" data-zh="下一截止日" data-en="NEXT DEADLINE">下一截止日</div>
+                    <div class="dash-stat-value" style="font-size:22px;color:var(--warning)">2026-04-30</div>
+                    <div class="dash-stat-change" style="color:var(--warning)">
+                        <span data-zh="Q1 CBAM申报" data-en="Q1 CBAM Declaration">Q1 CBAM申报</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Grid: Products + Calendar -->
+            <div class="dash-grid">
+                <!-- Product Monitoring Panel -->
+                <div class="dash-panel">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="📦 产品监控" data-en="📦 Product Monitoring">📦 产品监控</div>
+                        <div class="dash-panel-badge live" data-zh="实时" data-en="LIVE">实时</div>
+                    </div>
+                    
+                    <div class="dash-product-row">
+                        <div class="dash-product-icon">🔩</div>
+                        <div class="dash-product-info">
+                            <div class="dash-product-name" data-zh="热轧钢 (HRC)" data-en="Hot-Rolled Steel (HRC)">热轧钢 (HRC)</div>
+                            <div class="dash-product-meta">SEE: 2.10 tCO₂/t · 10,000 t/yr · EU 100%</div>
+                        </div>
+                        <div class="dash-product-cost">
+                            <div class="dash-product-cost-val">€1.43M</div>
+                            <div class="dash-product-cost-unit" data-zh="年CBAM" data-en="annual">年CBAM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-product-row">
+                        <div class="dash-product-icon">⚙️</div>
+                        <div class="dash-product-info">
+                            <div class="dash-product-name" data-zh="冷轧钢板 (CRC)" data-en="Cold-Rolled Steel (CRC)">冷轧钢板 (CRC)</div>
+                            <div class="dash-product-meta">SEE: 2.45 tCO₂/t · 5,000 t/yr · EU 60%</div>
+                        </div>
+                        <div class="dash-product-cost">
+                            <div class="dash-product-cost-val">€502K</div>
+                            <div class="dash-product-cost-unit" data-zh="年CBAM" data-en="annual">年CBAM</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align:center;margin-top:16px">
+                        <button class="pricing-btn secondary" onclick="scrollToEstimator(); hideDashboard();" style="max-width:280px;margin:0 auto">
+                            <span data-zh="+ 添加新产品" data-en="+ Add New Product">+ 添加新产品</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Compliance Calendar Panel -->
+                <div class="dash-panel">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="📅 合规日历" data-en="📅 Compliance Calendar">📅 合规日历</div>
+                    </div>
+                    
+                    <div class="dash-calendar-item">
+                        <div class="dash-cal-date">
+                            <div class="dash-cal-month">APR</div>
+                            <div class="dash-cal-day">30</div>
+                        </div>
+                        <div class="dash-cal-info">
+                            <h5 data-zh="Q1 2026 CBAM申报截止" data-en="Q1 2026 CBAM Declaration Due">Q1 2026 CBAM申报截止</h5>
+                            <p data-zh="提交CBAM声明，购买证书" data-en="Submit CBAM declaration, purchase certificates">提交CBAM声明，购买证书</p>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-calendar-item">
+                        <div class="dash-cal-date">
+                            <div class="dash-cal-month">MAY</div>
+                            <div class="dash-cal-day">31</div>
+                        </div>
+                        <div class="dash-cal-info">
+                            <h5 data-zh="年度证书对账" data-en="Annual Certificate Reconciliation">年度证书对账</h5>
+                            <p data-zh="核对并缴回多余CBAM证书" data-en="Reconcile excessive CBAM certificates">核对并缴回多余CBAM证书</p>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-calendar-item">
+                        <div class="dash-cal-date">
+                            <div class="dash-cal-month">JUL</div>
+                            <div class="dash-cal-day">31</div>
+                        </div>
+                        <div class="dash-cal-info">
+                            <h5 data-zh="Q2 2026 CBAM申报截止" data-en="Q2 2026 CBAM Declaration Due">Q2 2026 CBAM申报截止</h5>
+                            <p data-zh="提交Q2季度CBAM声明" data-en="Submit Q2 quarterly CBAM declaration">提交Q2季度CBAM声明</p>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-calendar-item">
+                        <div class="dash-cal-date">
+                            <div class="dash-cal-month">JAN</div>
+                            <div class="dash-cal-day">01</div>
+                        </div>
+                        <div class="dash-cal-info">
+                            <h5 data-zh="2027年CBAM免费配额降至95%" data-en="2027 Free Allocation Drops to 95%">2027年CBAM免费配额降至95%</h5>
+                            <p data-zh="关注CBAM成本增长10%+" data-en="Expect CBAM cost increase 10%+">关注CBAM成本增长10%+</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Second Row: Carbon Price Chart + Alerts -->
+            <div class="dash-grid">
+                <!-- Carbon Price Trend -->
+                <div class="dash-panel" style="position:relative">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="💰 EU ETS 碳价趋势" data-en="💰 EU ETS Carbon Price Trend">💰 EU ETS 碳价趋势</div>
+                        <div class="dash-chart-period-btns">
+                            <button class="dash-chart-period-btn" data-zh="1周" data-en="1W">1周</button>
+                            <button class="dash-chart-period-btn active" data-zh="1月" data-en="1M">1月</button>
+                            <button class="dash-chart-period-btn" data-zh="3月" data-en="3M">3月</button>
+                            <button class="dash-chart-period-btn" data-zh="1年" data-en="1Y">1年</button>
+                        </div>
+                    </div>
+                    <div class="dash-chart-placeholder">
+                        <div style="position:relative;z-index:1;text-align:center">
+                            <div style="font-size:32px;font-weight:900;font-family:'JetBrains Mono',monospace;color:var(--accent)">€68.42</div>
+                            <div style="font-size:13px;color:var(--text-muted);margin-top:4px" data-zh="2026年3月5日 · 30天趋势" data-en="Mar 5, 2026 · 30-day trend">2026年3月5日 · 30天趋势</div>
+                        </div>
+                    </div>
+                    <div class="dash-lock-overlay">
+                        <div class="dash-lock-icon">🔒</div>
+                        <div class="dash-lock-text" data-zh="升级查看完整历史数据" data-en="Upgrade for full historical data">升级查看完整历史数据</div>
+                        <button class="dash-lock-btn" onclick="contactUs()" data-zh="升级 CBAM Monitor" data-en="Upgrade CBAM Monitor">升级 CBAM Monitor</button>
+                    </div>
+                </div>
+                
+                <!-- Smart Alerts -->
+                <div class="dash-panel">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="🔔 智能提醒" data-en="🔔 Smart Alerts">🔔 智能提醒</div>
+                        <div class="dash-panel-badge live" style="background:rgba(248,113,113,0.12);color:var(--danger)">3</div>
+                    </div>
+                    
+                    <div class="dash-alert warn">
+                        <span class="dash-alert-icon">⚠️</span>
+                        <div>
+                            <strong data-zh="碳价波动预警" data-en="Carbon Price Alert">碳价波动预警</strong>
+                            <div data-zh="EU ETS碳价本周上涨3.2%至€68.42。您的月度CBAM成本增加约€4,500。" data-en="EU ETS price rose 3.2% to €68.42 this week. Your monthly CBAM cost increased by ~€4,500.">EU ETS碳价本周上涨3.2%至€68.42。您的月度CBAM成本增加约€4,500。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-alert danger">
+                        <span class="dash-alert-icon">🚨</span>
+                        <div>
+                            <strong data-zh="截止日提醒" data-en="Deadline Alert">截止日提醒</strong>
+                            <div data-zh="Q1 2026 CBAM申报截至4月30日，距今56天。请提前准备申报材料。" data-en="Q1 2026 CBAM declaration due Apr 30 — 56 days away. Prepare materials in advance.">Q1 2026 CBAM申报截至4月30日，距今56天。请提前准备申报材料。</div>
+                        </div>
+                    </div>
+                    
+                    <div class="dash-alert info">
+                        <span class="dash-alert-icon">📋</span>
+                        <div>
+                            <strong data-zh="政策更新" data-en="Policy Update">政策更新</strong>
+                            <div data-zh="欧盟委员会发布2026年CBAM实施细则修订草案，涉及默认值计算方法变更。" data-en="EU Commission published draft revision of 2026 CBAM implementing rules — default value methodology changes.">欧盟委员会发布2026年CBAM实施细则修订草案，涉及默认值计算方法变更。</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Third Row: Monthly Reports -->
+            <div class="dash-grid" style="grid-template-columns: 1fr 1fr">
+                <!-- Monthly Reports -->
+                <div class="dash-panel" style="position:relative">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="📄 月度报告" data-en="📄 Monthly Reports">📄 月度报告</div>
+                    </div>
+                    
+                    <div class="dash-report-row">
+                        <div class="dash-report-icon">📊</div>
+                        <div class="dash-report-info">
+                            <div class="dash-report-name" data-zh="2026年3月 CBAM成本更新" data-en="Mar 2026 CBAM Cost Update">2026年3月 CBAM成本更新</div>
+                            <div class="dash-report-meta" data-zh="生成中..." data-en="Generating...">生成中...</div>
+                        </div>
+                        <button class="dash-report-dl" disabled data-zh="生成中" data-en="Pending">生成中</button>
+                    </div>
+                    
+                    <div class="dash-report-row">
+                        <div class="dash-report-icon">📊</div>
+                        <div class="dash-report-info">
+                            <div class="dash-report-name" data-zh="2026年2月 CBAM成本更新" data-en="Feb 2026 CBAM Cost Update">2026年2月 CBAM成本更新</div>
+                            <div class="dash-report-meta" data-zh="2026-02-28 · 8页 · PDF" data-en="2026-02-28 · 8 pages · PDF">2026-02-28 · 8页 · PDF</div>
+                        </div>
+                        <button class="dash-report-dl" onclick="showToast(currentLang==='zh'?'DEMO模式 — 升级后可下载':'DEMO mode — upgrade to download')" data-zh="下载" data-en="Download">下载</button>
+                    </div>
+                    
+                    <div class="dash-report-row">
+                        <div class="dash-report-icon">📊</div>
+                        <div class="dash-report-info">
+                            <div class="dash-report-name" data-zh="2026年1月 CBAM成本更新" data-en="Jan 2026 CBAM Cost Update">2026年1月 CBAM成本更新</div>
+                            <div class="dash-report-meta" data-zh="2026-01-31 · 8页 · PDF" data-en="2026-01-31 · 8 pages · PDF">2026-01-31 · 8页 · PDF</div>
+                        </div>
+                        <button class="dash-report-dl" onclick="showToast(currentLang==='zh'?'DEMO模式 — 升级后可下载':'DEMO mode — upgrade to download')" data-zh="下载" data-en="Download">下载</button>
+                    </div>
+                    
+                    <div class="dash-lock-overlay">
+                        <div class="dash-lock-icon">🔒</div>
+                        <div class="dash-lock-text" data-zh="升级查看完整月度报告" data-en="Upgrade for full monthly reports">升级查看完整月度报告</div>
+                        <button class="dash-lock-btn" onclick="contactUs()" data-zh="升级 CBAM Monitor" data-en="Upgrade CBAM Monitor">升级 CBAM Monitor</button>
+                    </div>
+                </div>
+                
+                <!-- Peer Benchmark -->
+                <div class="dash-panel" style="position:relative">
+                    <div class="dash-panel-header">
+                        <div class="dash-panel-title" data-zh="📈 同行对标分析" data-en="📈 Peer Benchmark">📈 同行对标分析</div>
+                    </div>
+                    
+                    <div style="text-align:center;padding:40px 20px;color:var(--text-muted)">
+                        <div style="font-size:48px;margin-bottom:16px">📈</div>
+                        <p style="font-size:14px;line-height:1.6" data-zh="对比同行业竞争对手的排放强度、CBAM成本和减碳进度。了解您在行业中的竞争定位。" data-en="Compare emission intensity, CBAM costs and decarbonization progress with industry peers. Understand your competitive position.">对比同行业竞争对手的排放强度、CBAM成本和减碳进度。了解您在行业中的竞争定位。</p>
+                    </div>
+                    
+                    <div class="dash-lock-overlay" style="opacity:1;pointer-events:auto">
+                        <div class="dash-lock-icon">🔒</div>
+                        <div class="dash-lock-text" data-zh="高级功能 — 需要企业咨询方案" data-en="Premium Feature — Requires Enterprise Plan">高级功能 — 需要企业咨询方案</div>
+                        <button class="dash-lock-btn" onclick="contactUs()" data-zh="联系碳桥了解详情" data-en="Contact CarbonBridge">联系碳桥了解详情</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Consulting Upsell Banner -->
+            <div style="margin-top:32px;padding:32px;background:linear-gradient(135deg, rgba(52,211,153,0.08), rgba(16,185,129,0.04));border:1px solid rgba(52,211,153,0.2);border-radius:var(--radius-xl);text-align:center">
+                <div style="font-size:20px;font-weight:800;margin-bottom:8px" data-zh="⚡ 使用行业默认值计算，实际成本可能低15-40%" data-en="⚡ Using industry defaults — actual cost may be 15-40% lower">⚡ 使用行业默认值计算，实际成本可能低15-40%</div>
+                <p style="color:var(--text-secondary);font-size:14px;margin-bottom:20px;max-width:600px;margin-left:auto;margin-right:auto" data-zh="CBAM Monitor使用行业平均排放因子。碳桥现场核查可基于工厂实际数据精确计算，帮您节省大量成本。" data-en="CBAM Monitor uses industry average emission factors. CarbonBridge on-site verification uses actual factory data for precise calculations, saving you significant costs.">CBAM Monitor使用行业平均排放因子。碳桥现场核查可基于工厂实际数据精确计算，帮您节省大量成本。</p>
+                <button class="dash-btn-upgrade" onclick="contactUs()" style="display:inline-flex">
+                    <span>💼</span>
+                    <span data-zh="预约免费咨询" data-en="Book Free Consultation">预约免费咨询</span>
+                </button>
+            </div>
+        </main>
+    </div>
+</div><!-- END #dashboardView -->
+
 <!-- ═══════════════════════════════════════════════════════════════════════════════
      CARBONBRIDGE CBAM PLATFORM - PART 6A
      
@@ -5811,6 +7044,69 @@ function toggleFaq(element) {
     // Open clicked FAQ if it wasn't open
     if (!isOpen) {
         element.classList.add('open');
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// DASHBOARD VIEW TOGGLE
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function showDashboard() {
+    document.body.classList.add('dashboard-active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    // Update nav active state
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+        const text = link.getAttribute('data-en') || link.textContent;
+        if (text === 'Dashboard' || text.includes('CBAM Monitor')) {
+            link.classList.add('active');
+        }
+    });
+}
+
+function hideDashboard() {
+    document.body.classList.remove('dashboard-active');
+    
+    // Remove dashboard active state from nav
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+    });
+}
+
+function switchDashTab(tabName) {
+    // Update sidebar nav items
+    document.querySelectorAll('.dash-nav-item').forEach(item => {
+        item.classList.remove('active');
+    });
+    if (event && event.currentTarget) {
+        event.currentTarget.classList.add('active');
+    }
+    
+    // Update dashboard header title based on tab
+    const titles = {
+        overview:    { zh: 'CBAM Monitor 总览', en: 'CBAM Monitor Overview' },
+        products:    { zh: '产品监控', en: 'Product Monitoring' },
+        carbonprice: { zh: 'EU ETS 碳价追踪', en: 'EU ETS Carbon Price' },
+        calendar:    { zh: '合规日历', en: 'Compliance Calendar' },
+        alerts:      { zh: '智能提醒', en: 'Smart Alerts' },
+        reports:     { zh: '月度报告', en: 'Monthly Reports' },
+        benchmark:   { zh: '同行对标分析', en: 'Peer Benchmark' },
+        settings:    { zh: '平台设置', en: 'Platform Settings' }
+    };
+    
+    const headerH1 = document.querySelector('.dash-header h1');
+    if (headerH1 && titles[tabName]) {
+        headerH1.setAttribute('data-zh', titles[tabName].zh);
+        headerH1.setAttribute('data-en', titles[tabName].en);
+        headerH1.textContent = currentLang === 'zh' ? titles[tabName].zh : titles[tabName].en;
+    }
+    
+    // For demo mode, show a toast for tabs that are locked
+    if (tabName === 'benchmark') {
+        showToast(currentLang === 'zh' ? '同行对标功能需要企业咨询方案' : 'Peer Benchmark requires Enterprise plan');
+    } else if (tabName === 'settings') {
+        showToast(currentLang === 'zh' ? 'DEMO模式 — 设置功能需要升级' : 'DEMO mode — Settings require upgrade');
     }
 }
 
