@@ -5159,6 +5159,13 @@ body::before {
                         <div class="product-label" id="resultProduct">产品类别</div>
                     </div>
                     
+                    <!-- Calculation error message (shown only when JS throws) -->
+                    <div id="calcErrorMsg" style="display:none;margin-bottom:16px;padding:14px 18px;border-radius:10px;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.4);color:#f87171;font-size:14px;line-height:1.5">
+                        <strong data-zh="⚠ 计算错误" data-en="⚠ Calculation Error">⚠ 计算错误</strong>&nbsp;
+                        <span id="calcErrorText"></span>
+                        <button onclick="goToStep(3)" style="margin-left:12px;padding:4px 10px;border-radius:6px;border:1px solid #f87171;background:transparent;color:#f87171;cursor:pointer;font-size:13px" data-zh="重新填写" data-en="Try Again">重新填写</button>
+                    </div>
+                    
                     <!-- Result Tabs -->
                     <div class="result-tabs">
                         <button class="result-tab active" onclick="switchResultTab(0)" data-zh="概览" data-en="Overview">概览</button>
@@ -5179,15 +5186,15 @@ body::before {
                             </div>
                             
                             <div class="kpi-card">
-                                <div class="kpi-label" data-zh="总排放强度" data-en="TOTAL EMISSION INTENSITY">总排放强度</div>
+                                <div class="kpi-label" data-zh="排放强度(SEE)" data-en="EMISSION INTENSITY (SEE)">排放强度(SEE)</div>
                                 <div class="kpi-value accent" id="kpiIntensity">0</div>
-                                <div class="kpi-sub">t CO₂ / t product</div>
+                                <div class="kpi-sub" data-zh="tCO₂ / t产品" data-en="tCO₂ / t product">tCO₂ / t产品</div>
                             </div>
                             
                             <div class="kpi-card">
                                 <div class="kpi-label" data-zh="节省潜力" data-en="SAVINGS POTENTIAL">节省潜力</div>
                                 <div class="kpi-value accent" id="kpiSavings">€0</div>
-                                <div class="kpi-sub" id="kpiSavingsPercent">0%</div>
+                                <div class="kpi-sub" id="kpiSavingsPercent" data-zh="可节省比例" data-en="potential reduction">0%</div>
                             </div>
                             
                             <div class="kpi-card" id="kpiExportImpactCard" style="display:none">
@@ -5199,7 +5206,7 @@ body::before {
                         
                         <div class="emissions-bar-container">
                             <div class="emissions-bar-label">
-                                <span data-zh="排放结构" data-en="Emission Structure">排放结构</span>
+                                <span data-zh="EU排放归因结构" data-en="EU-Attributed Emission Structure">EU排放归因结构</span>
                                 <span id="totalEmissions">0 t CO₂</span>
                             </div>
                             <div class="emissions-bar">
@@ -6584,7 +6591,8 @@ function calculateResults() {
     if (!validateStep3()) return;
     
     // Show loading
-    document.getElementById('loadingOverlay').classList.add('active');
+    const overlay = document.getElementById('loadingOverlay');
+    if (overlay) overlay.classList.add('active');
     
     // Simulate calculation delay
     setTimeout(() => {
@@ -6592,10 +6600,23 @@ function calculateResults() {
             performCalculations();
             renderResults();
             goToStep(4);
+            // Hide any previous error message
+            const errEl = document.getElementById('calcErrorMsg');
+            if (errEl) errEl.style.display = 'none';
         } catch(e) {
             console.error('CBAM calculation error:', e);
+            // Show user-friendly error and go to results step so it's visible
+            goToStep(4);
+            const errEl = document.getElementById('calcErrorMsg');
+            const errText = document.getElementById('calcErrorText');
+            if (errEl && errText) {
+                errText.textContent = (e && e.message ? e.message : String(e));
+                errEl.style.display = 'block';
+            }
         } finally {
-            document.getElementById('loadingOverlay').classList.remove('active');
+            // Always dismiss the spinner
+            const ov = document.getElementById('loadingOverlay');
+            if (ov) ov.classList.remove('active');
         }
     }, 1500);
 }
@@ -6610,7 +6631,8 @@ function performCalculations() {
     const gas = parseFloat(document.getElementById('gas').value) || 0;
     const processEmissions = parseFloat(document.getElementById('processEmissions').value) || 0;
     const chinaEts = document.getElementById('chinaEtsToggle').classList.contains('active');
-    const euShare = parseFloat(document.getElementById('euShare').value) || 100;
+    const euShareRaw = parseFloat(document.getElementById('euShare').value);
+    const euShare = isNaN(euShareRaw) ? 100 : euShareRaw;  // default 100% if not provided
     const euExportValueInput = parseFloat(document.getElementById('euExportValue').value) || 0;
     const sellingPrice = parseFloat(document.getElementById('sellingPrice').value) || 0;
     const carbonPriceInput = parseFloat(document.getElementById('carbonPrice').value) || 95;
@@ -6629,16 +6651,25 @@ function performCalculations() {
     const directEmissions = coalEmissions + gasEmissions + processEmissions;
     const totalEmissions = directEmissions + indirectEmissions;
     
-    // Emission intensity (per tonne of product)
-    const emissionIntensity = exportVolume > 0 ? totalEmissions / exportVolume : 0;
+    // Emission intensity (SEE = Specific Embedded Emissions, per tonne of EU-exported product)
+    // exportVolume = EU export volume; euShare = % of total production going to EU
+    // totalProduction = exportVolume / (euShare/100); SEE = totalEmissions / totalProduction
+    //   = totalEmissions × (euShare/100) / exportVolume
+    const euShareFraction = Math.min(100, Math.max(0, euShare)) / 100;
+    const emissionIntensity = exportVolume > 0 ? totalEmissions * euShareFraction / exportVolume : 0;
     
-    // CBAM cost calculation
+    // CBAM cost calculation — only EU-exported goods are subject to CBAM
     const carbonPrice = carbonPriceInput;
     const chinaEtsPrice = 12; // EUR/t CO2 (approximate)
     const effectivePrice = chinaEts ? Math.max(0, carbonPrice - chinaEtsPrice) : carbonPrice;
     
-    const annualCost = totalEmissions * effectivePrice;
+    // EU-attributed embedded emissions (proportional to EU export share)
+    const euEmbeddedEmissions = totalEmissions * euShareFraction;
+    const annualCost = euEmbeddedEmissions * effectivePrice;
     const costPerTonne = exportVolume > 0 ? annualCost / exportVolume : 0;
+    
+    // China ETS deduction (already in effectivePrice, but store for display)
+    const chinaEtsDeduction = chinaEts ? Math.min(chinaEtsPrice, carbonPrice) * euEmbeddedEmissions : 0;
     
     // EU export value — use input if provided, otherwise derive from selling price
     const euExportValue = euExportValueInput > 0
@@ -6646,9 +6677,12 @@ function performCalculations() {
         : (sellingPrice > 0 ? exportVolume * sellingPrice : 0);
     const costAsPercentOfExports = euExportValue > 0 ? (annualCost / euExportValue * 100) : 0;
     
-    // Optimization potential
-    const potentialGreenElec = electricity * 0.5 * emissionFactors.electricity * effectivePrice;
-    const totalSavingsPotential = potentialGreenElec + (annualCost * 0.15); // 15% process optimization
+    // Savings potential: green electricity PPA (50% of remaining grid) + process opt (15%)
+    const potentialGreenElec = electricity * 0.5 * emissionFactors.electricity * euShareFraction * effectivePrice;
+    const greenSavings = potentialGreenElec;
+    const processSavings = annualCost * 0.15;
+    const combinedSavings = greenSavings + processSavings;
+    const totalSavingsPotential = combinedSavings;
     
     // Store results
     calculationResults = {
@@ -6662,7 +6696,9 @@ function performCalculations() {
         gas,
         processEmissions,
         chinaEts,
+        chinaEtsDeduction,
         euShare,
+        euShareFraction,
         euExportValue,
         sellingPrice,
         carbonPrice,
@@ -6671,11 +6707,15 @@ function performCalculations() {
         directEmissions,
         indirectEmissions,
         totalEmissions,
+        euEmbeddedEmissions,
         emissionIntensity,
         effectivePrice,
         annualCost,
         costPerTonne,
         costAsPercentOfExports,
+        greenSavings,
+        processSavings,
+        combinedSavings,
         savingsPotential: totalSavingsPotential,
         benchmark: emissionFactors.benchmarks[selectedProduct] || 1.5
     };
@@ -6703,10 +6743,10 @@ function renderResults() {
     // Panel 1: Overview
     document.getElementById('kpiAnnualCost').textContent = `€${formatNumber(r.annualCost)}`;
     document.getElementById('kpiCostPerTonne').textContent = `€${formatNumber(r.costPerTonne)} ${currentLang === 'zh' ? '每吨产品' : 'per tonne'}`;
-    document.getElementById('kpiIntensity').textContent = r.emissionIntensity.toFixed(2);
+    document.getElementById('kpiIntensity').textContent = (r.emissionIntensity || 0).toFixed(2);
     document.getElementById('kpiSavings').textContent = `€${formatNumber(r.savingsPotential)}`;
     const savingsPercent = r.annualCost > 0 ? Math.round(r.savingsPotential / r.annualCost * 100) : 0;
-    document.getElementById('kpiSavingsPercent').textContent = `${savingsPercent}%`;
+    document.getElementById('kpiSavingsPercent').textContent = `${savingsPercent}% ${currentLang === 'zh' ? '可节省' : 'reduction'}`;
     
     // EU export value KPI card (show only when export value is known)
     const exportImpactCard = document.getElementById('kpiExportImpactCard');
@@ -6717,10 +6757,13 @@ function renderResults() {
         exportImpactCard.style.display = 'none';
     }
     
-    // Emissions bar
-    const directPercent = r.totalEmissions > 0 ? Math.round(r.directEmissions / r.totalEmissions * 100) : 0;
-    const indirectPercent = r.totalEmissions > 0 ? Math.round(r.indirectEmissions / r.totalEmissions * 100) : 0;
-    document.getElementById('totalEmissions').textContent = `${formatNumber(r.totalEmissions)} t CO₂`;
+    // Emissions bar — show EU-attributed emissions (totalEmissions × euShare%)
+    const euEmissions = r.euEmbeddedEmissions || r.totalEmissions;
+    const directEuEmissions = r.directEmissions * (r.euShareFraction || 1);
+    const indirectEuEmissions = r.indirectEmissions * (r.euShareFraction || 1);
+    const directPercent = euEmissions > 0 ? Math.round(directEuEmissions / euEmissions * 100) : 0;
+    const indirectPercent = euEmissions > 0 ? Math.round(indirectEuEmissions / euEmissions * 100) : 0;
+    document.getElementById('totalEmissions').textContent = `${formatNumber(euEmissions)} t CO₂`;
     document.getElementById('directBar').style.width = `${directPercent}%`;
     document.getElementById('indirectBar').style.width = `${indirectPercent}%`;
     document.getElementById('directPercent').textContent = `${directPercent}%`;
@@ -6732,13 +6775,26 @@ function renderResults() {
     const diffClass = benchmarkDiff > 0 ? 'danger-row' : 'highlight-row';
     const benchmarkCost = r.benchmark * r.exportVolume * r.carbonPrice;
     const costDiff = benchmarkCost > 0 ? Math.round((r.annualCost / benchmarkCost - 1) * 100) : 0;
-    const greenGap = Math.round(r.effectiveGreenElec - 50);
+    const greenGap = Math.round((r.effectiveGreenElec || 0) - 50);
+    const chinaEtsRow = r.chinaEts && r.chinaEtsDeduction > 0 ? `
+        <tr>
+            <td>${currentLang === 'zh' ? '中国ETS抵扣' : 'China ETS Deduction'}</td>
+            <td class="value-col highlight-row">-€${formatNumber(r.chinaEtsDeduction)}</td>
+            <td class="value-col">—</td>
+            <td class="value-col highlight-row">${currentLang === 'zh' ? '已抵扣' : 'Applied'}</td>
+        </tr>` : '';
     overviewTable.innerHTML = `
         <tr>
-            <td>${currentLang === 'zh' ? '排放强度 (tCO₂/t)' : 'Emission Intensity (tCO₂/t)'}</td>
-            <td class="value-col">${r.emissionIntensity.toFixed(2)}</td>
-            <td class="value-col">${r.benchmark.toFixed(2)}</td>
+            <td>${currentLang === 'zh' ? '排放强度SEE (tCO₂/t)' : 'Emission Intensity SEE (tCO₂/t)'}</td>
+            <td class="value-col">${(r.emissionIntensity || 0).toFixed(2)}</td>
+            <td class="value-col">${(r.benchmark || 0).toFixed(2)}</td>
             <td class="value-col ${diffClass}">${benchmarkDiff > 0 ? '+' : ''}${benchmarkDiff}%</td>
+        </tr>
+        <tr>
+            <td>${currentLang === 'zh' ? 'EU归因排放 (tCO₂)' : 'EU-Attributed Emissions (tCO₂)'}</td>
+            <td class="value-col">${formatNumber(euEmissions)}</td>
+            <td class="value-col">${formatNumber(r.benchmark * r.exportVolume)}</td>
+            <td class="value-col">—</td>
         </tr>
         <tr>
             <td>${currentLang === 'zh' ? '年CBAM成本' : 'Annual CBAM Cost'}</td>
@@ -6747,11 +6803,18 @@ function renderResults() {
             <td class="value-col">${costDiff > 0 ? '+' : ''}${costDiff}%</td>
         </tr>
         <tr>
+            <td>${currentLang === 'zh' ? '每吨成本 (€/t)' : 'Cost per Tonne (€/t)'}</td>
+            <td class="value-col">€${(r.costPerTonne || 0).toFixed(0)}</td>
+            <td class="value-col">€${(r.benchmark * r.carbonPrice).toFixed(0)}</td>
+            <td class="value-col">—</td>
+        </tr>
+        <tr>
             <td>${currentLang === 'zh' ? '有效绿电比例' : 'Effective Green Electricity %'}</td>
-            <td class="value-col">${r.effectiveGreenElec.toFixed(0)}%</td>
+            <td class="value-col">${(r.effectiveGreenElec || 0).toFixed(0)}%</td>
             <td class="value-col">50%</td>
             <td class="value-col ${greenGap >= 0 ? 'highlight-row' : 'danger-row'}">${greenGap >= 0 ? '+' : ''}${greenGap}%</td>
         </tr>
+        ${chinaEtsRow}
         ${r.euExportValue > 0 ? `<tr>
             <td>${currentLang === 'zh' ? 'CBAM占EU出口额' : 'CBAM as % of EU exports'}</td>
             <td class="value-col">${r.costAsPercentOfExports.toFixed(2)}%</td>
@@ -6888,13 +6951,12 @@ function renderProductAdvice() {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function formatNumber(num) {
-    if (num >= 1000000) {
-        return (num / 1000000).toFixed(2) + 'M';
-    } else if (num >= 1000) {
-        return (num / 1000).toFixed(0) + 'K';
-    } else {
-        return num.toFixed(0);
-    }
+    if (num === null || num === undefined || isNaN(num) || !isFinite(num)) return '0';
+    const sign = num < 0 ? '-' : '';
+    const abs = Math.abs(num);
+    if (abs >= 1000000) return sign + (abs / 1000000).toFixed(1) + 'M';
+    if (abs >= 1000) return sign + (abs / 1000).toFixed(1) + 'K';
+    return sign + abs.toFixed(0);
 }
 
 // ═══ PART 6C END ═══
@@ -6918,6 +6980,8 @@ function formatNumber(num) {
 function renderSensitivityAnalysis() {
     const r = calculationResults;
     const basePrice = r.carbonPrice || 95;
+    // Use EU-attributed emissions for accurate CBAM cost sensitivity
+    const euEmissions = r.euEmbeddedEmissions || r.totalEmissions;
     
     // Build 5 scenarios centered on the user's carbon price
     const offsets = [-35, -15, 0, 15, 35];
@@ -6932,10 +6996,10 @@ function renderSensitivityAnalysis() {
     }));
     
     const chart = document.getElementById('sensitivityChart');
-    const maxCost = r.totalEmissions * scenarios[scenarios.length - 1].price;
+    const maxCost = euEmissions * scenarios[scenarios.length - 1].price;
     
     chart.innerHTML = scenarios.map(s => {
-        const cost = r.totalEmissions * s.price;
+        const cost = euEmissions * s.price;
         const widthPct = maxCost > 0 ? (cost / maxCost * 100).toFixed(1) : 0;
         return `
             <div class="bar-row">
@@ -6956,7 +7020,7 @@ function renderSensitivityAnalysis() {
     
     const table = document.getElementById('sensitivityTable');
     table.innerHTML = scenarios.map((s, i) => {
-        const cost = r.totalEmissions * s.price;
+        const cost = euEmissions * s.price;
         const costPerTonne = r.exportVolume > 0 ? cost / r.exportVolume : 0;
         const vsCurrentPercent = r.annualCost > 0 ? Math.round((cost / r.annualCost - 1) * 100) : 0;
         const exportPct = showExportCol && r.euExportValue > 0 ? (cost / r.euExportValue * 100).toFixed(2) + '%' : '';
@@ -6980,8 +7044,11 @@ function renderSensitivityAnalysis() {
 
 function renderProjection() {
     const r = calculationResults;
+    // Use EU-attributed emissions for accurate CBAM cost projection
+    const euEmissions = r.euEmbeddedEmissions || r.totalEmissions;
     
     // Use user's carbon price as base for projection, scale to 2030
+    // CBAM free allocation phase-in schedule per EU Regulation
     const basePrice = r.carbonPrice || 95;
     const years = [
         { year: 2026, price: Math.round(basePrice * 1.0), freeAlloc: 97.5 },
@@ -6993,7 +7060,9 @@ function renderProjection() {
     
     let cumulative = 0;
     const projectionData = years.map(y => {
-        const cost = r.totalEmissions * y.price * (y.freeAlloc / 100);
+        // CBAM cost = euEmbeddedEmissions × carbonPrice × (1 - freeAlloc/100)
+        // freeAlloc is a percentage 0-100; when freeAlloc=97.5 only 2.5% is charged
+        const cost = euEmissions * y.price * (1 - y.freeAlloc / 100);
         cumulative += cost;
         return { ...y, cost, cumulative };
     });
@@ -7040,9 +7109,11 @@ function renderOptimization() {
     const r = calculationResults;
     
     const baseline = r.annualCost;
-    const greenElecSavings = r.electricity * 0.5 * emissionFactors.electricity * r.effectivePrice;
-    const processOptSavings = baseline * 0.15;
-    const optimized = baseline - greenElecSavings - processOptSavings;
+    // Use pre-calculated savings from performCalculations()
+    const greenElecSavings = r.greenSavings || (r.electricity * 0.5 * emissionFactors.electricity * (r.euShareFraction || 1) * (r.effectivePrice || r.carbonPrice));
+    const processOptSavings = r.processSavings || (baseline * 0.15);
+    const energyEffSavings = baseline * 0.08;
+    const optimized = Math.max(0, baseline - greenElecSavings - processOptSavings);
     
     document.getElementById('scenarioBaseline').textContent = `€${formatNumber(baseline)}`;
     document.getElementById('scenarioOptimized').textContent = `€${formatNumber(optimized)}`;
@@ -7052,7 +7123,7 @@ function renderOptimization() {
     const measures = [
         { name: currentLang === 'zh' ? '50%绿电PPA' : '50% Green PPA', savings: greenElecSavings, color: 'green' },
         { name: currentLang === 'zh' ? '工艺优化' : 'Process Optimization', savings: processOptSavings, color: 'blue' },
-        { name: currentLang === 'zh' ? '能效提升' : 'Energy Efficiency', savings: baseline * 0.08, color: 'emerald' }
+        { name: currentLang === 'zh' ? '能效提升' : 'Energy Efficiency', savings: energyEffSavings, color: 'emerald' }
     ];
     
     const chart = document.getElementById('optimizationChart');
@@ -7090,7 +7161,7 @@ function renderOptimization() {
             measure: currentLang === 'zh' ? '能效设备升级' : 'Energy Efficiency Upgrade',
             difficulty: currentLang === 'zh' ? '高' : 'High',
             timeframe: currentLang === 'zh' ? '12-18个月' : '12-18 months',
-            savings: baseline * 0.08,
+            savings: energyEffSavings,
             roi: currentLang === 'zh' ? '3-5年' : '3-5 years'
         }
     ];
